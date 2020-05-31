@@ -1,0 +1,53 @@
+{% extends 'user/base.html' %}
+{% load static %}
+{% block body_block %}
+<div class="layout-main">
+    <div class="layer">
+        <h1>Please Register</h1>
+        <div class="header-main">
+            <div class="main-icon">
+                <span class="fa fa-eercast"></span>
+            </div>
+            <div class="header-bottom">
+                <form enctype="mutipart/form-data" method="POST">
+                {% csrf_token %}
+                {{ user_form.non_field_errors }}
+                    <p class="invalid-text">{{ user_form.username.errors }}<p>
+                <div class="icon1">
+                    <span class="fa fa-user"></span>
+                    {{ user_form.username }}
+                </div>
+                    <p class="invalid-text">{{ user_form.email.errors }}</p>
+                <div class="icon1">
+                    <span class="fa fa-envelope"></span>
+                    {{ user_form.email }}
+                </div>
+                <p class="invalid-text">{{ user_form.password.errors }}</p>
+                <div class="icon1">
+                    <span class="fa fa-lock"></span>
+                    {{ user_form.password }}
+                </div>
+                <div class="icon1">
+                    <span class="fa fa-lock"></span>
+                    {{ user_form.password1 }}
+                </div>
+                {{ profile_form.non_field_errors }}
+                <div class="upload-btn-wrapper">
+                    <button class="btn">Upload a file</button>
+                    {{ profile_form.picture }}
+                </div>
+                    <div class="bottom">
+                        <input class="btn" type="submit" value="Sign In" name="Register">
+                    </div>
+                    <div class="links">
+                        <p class="right">
+                            <a href="{% url 'login:user_login' %}">Already User? LogIn</a>
+                        </p>
+                        <div class="clear"></div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock  %}

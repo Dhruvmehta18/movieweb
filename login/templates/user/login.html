@@ -1,0 +1,54 @@
+{% extends 'user/base.html' %}
+{% load static %}
+{% block body_block %}
+<div class="layout-main">
+    <div class="layer">
+        <h1>Please login</h1>
+        <div class="header-main">
+            <div class="main-icon">
+                <span class="fa fa-eercast"></span>
+            </div>
+            <div class="header-bottom">
+                <form action="{% url 'login:user_login' %}" method="post">
+                    {% csrf_token %}
+                    {% if invalidlen %}
+                        <p class="invalid-text">{{ invalidlen }}</p>
+                    {% elif notuser %}
+                        <p class="invalid-text">{{ notuser }}</p>
+                    {% endif %}
+                    <div class="icon1 {% if invalidlen or notuser %}invalid-input{% endif %}">
+                        <span class="fa fa-user"></span>
+                        <input type="text" name="username" placeholder="Enter username" required/>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="icon1 {% if invalidlen or notuser %}invalid-input{% endif %}">
+                        <span class="fa fa-lock"></span>
+                        <input type="password" name="password" placeholder="Enter password" required/>
+                    </div>
+                    <div class="login-check">
+                        <label class="checkbox">
+                            <input type="checkbox" name="checkbox" />
+                            <i></i>
+                            "Keep me logged in"
+                        </label>
+                    </div>
+                    <div class="bottom">
+                        <input class="btn" type="submit" value="Log In" name="logIn">
+                    </div>
+                    <div class="links">
+                        <p>
+                            <a href="#">Forgot Password?</a>
+                        </p>
+                        <p class="right">
+                            <a href="{% url 'login:register' %}">New User? Register</a>
+                        </p>
+                        <div class="clear"></div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock  %}
