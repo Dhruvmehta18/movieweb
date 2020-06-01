@@ -1,0 +1,34 @@
+{% extends 'movie/base.html' %}
+{% load static %}
+{% block body_block %}
+<div class="card-deck ">
+    {% for movie in movies_list %}
+    <div class="card bg-dark text-white ">
+        <img src={{movie.card_photo}} class="card-img-top" alt={{movie.title}}>
+        <div class="card-img-overlay p-1">
+        <div class="d-flex flex-column h-100">
+        <div class="card-header bg-transparent ">
+        
+        </div>
+         <div class="card-body">
+        </div>
+        <div class="card-footer bg-transparent ">
+        <div class="">
+        <h2 class="card-title mb-0">{{movie.title}}</h2>
+            {% for genre in movie.genre %}
+            <span><small>{{genre}}</small><span>
+            <span>&bull;</span>
+            {% endfor %}
+            <span><small>{{movie.duration}} m</small><span>
+        </div>
+            
+        </div>
+        </div>
+        
+       
+        
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
