@@ -181,4 +181,10 @@ class Movie(object):
 
     def get_formatted_movie_date(self):
         return utility.format_day_month_year(self.release_date)
+
+    def get_description_start(self):
+        return self.description[:230]
+
+    def get_description_end(self):
+        return self.description[231:]
 # [END custom_class_def]

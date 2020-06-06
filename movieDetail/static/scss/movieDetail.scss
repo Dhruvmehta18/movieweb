@@ -1,0 +1,79 @@
+@import "scss/theme";
+
+:root {
+    --primary: #515bf2;
+}
+
+.material-icons-round.yellow {
+    color: var(--yellow);
+}
+
+.rating-icon {
+    vertical-align: sub;
+}
+
+.movie-title {
+    letter-spacing: 0.2rem;
+}
+
+.ls-normal {
+    letter-spacing: normal;
+}
+
+.ls-spread {
+    letter-spacing: 0.2rem;
+}
+
+.star-icon {
+    position: relative;
+    top: -1px;
+    left: 6px;
+}
+
+.icon {
+    position: relative;
+}
+
+.pipe-icon {
+    font-weight: 700;
+    color: $secondary;
+}
+
+@keyframes slowzoom {
+    from {
+        transform: scale(1);
+    }
+    to {
+        transform: scale(1.1);
+    }
+}
+
+.movie-detail-container {
+    background-attachment: fixed;
+    display: inline-block;
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+    z-index: 1;
+}
+
+.movie-detail-row {
+    background: linear-gradient(60deg, black 40%, transparent 68%);
+}
+
+.cover-photo {
+    pointer-events: none;
+    position: absolute;
+    min-width: 100%;
+    height: inherit;
+    z-index: -1;
+    animation-name: slowzoom;
+    animation-duration: 10s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+    animation-timing-function: linear;
+}
+
+.youtube-thumbnails {
+    cursor: pointer;
+}
