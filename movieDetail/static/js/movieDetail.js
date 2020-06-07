@@ -90,6 +90,7 @@ $(document).ready(function () {
     })
 
     const moreButton = document.getElementById("moreButton");
+    const favorite = document.getElementById("favorite");
 
     function moreButtonClicked() {
         const dots = document.getElementById("dots");
@@ -106,5 +107,18 @@ $(document).ready(function () {
         }
     }
 
+    function favoriteClicked() {
+        if (favorite.getAttribute("data-state") === "0") {
+            favorite.childNodes[1].classList.remove("fa-heart-o");
+            favorite.childNodes[1].classList.add("fa-heart");
+            favorite.setAttribute("data-state", "1")
+        } else {
+            favorite.childNodes[1].classList.remove("fa-heart");
+            favorite.childNodes[1].classList.add("fa-heart-o");
+            favorite.setAttribute("data-state", "0")
+        }
+    }
+
     moreButton.addEventListener('click', moreButtonClicked)
+    favorite.addEventListener('click', favoriteClicked)
 })
