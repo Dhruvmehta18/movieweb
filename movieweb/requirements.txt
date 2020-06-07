@@ -1,4 +1,0 @@
-Django==2.2.12
-django-environ==0.4.5
-pytz==2020.1
-sqlparse==0.3.1
