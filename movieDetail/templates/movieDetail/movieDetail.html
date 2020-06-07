@@ -29,29 +29,29 @@
                             <span><small>{{ movie.duration }} m</small><span>
                         </p>
                         <div class="d-flex flex-row btn-group-sm" role="group" aria-label="Detail button group">
-                            <button type="button" id="watch-trailer" class="btn btn-lg mr-3 d-inline-flex flex-column
+                            <button type="button" id="like" class="btn btn-lg mr-3 d-inline-flex flex-column
                 text-white-50 align-items-center"
-                                    aria-label="Like">
+                                    aria-label="Like" data-state="0">
                   <span class="material-icons-round">
                       thumb_up
                   </span>
-                                <span>
+                                <span class="text-white-50">
                         0
                     </span>
                             </button>
-                            <button type="button" id="watch-trailer" class="btn btn-lg mr-3 d-inline-flex flex-column
+                            <button type="button" id="dislike" class="btn btn-lg mr-3 d-inline-flex flex-column
                 text-white-50 align-items-center"
-                                    aria-label="Like">
+                                    aria-label="dislike" data-state="0">
                   <span class="material-icons-round">
                       thumb_down
                   </span>
-                                <span>
+                                <span class="text-white-50">
                         0
                     </span>
                             </button>
                             <button type="button"
                                     class="btn btn-lg mr-3 d-inline-flex flex-column
-                text-white-50 align-items-center">
+                text-white-50 align-items-center" id="watch-later" data-state="0">
                   <span class="material-icons-round px-2">
                       watch_later
                   </span>

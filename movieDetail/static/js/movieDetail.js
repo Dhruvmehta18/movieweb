@@ -91,6 +91,9 @@ $(document).ready(function () {
 
     const moreButton = document.getElementById("moreButton");
     const favorite = document.getElementById("favorite");
+    const like = document.getElementById("like");
+    const dislike = document.getElementById("dislike");
+    const watchLater = document.getElementById("watch-later");
 
     function moreButtonClicked() {
         const dots = document.getElementById("dots");
@@ -107,18 +110,78 @@ $(document).ready(function () {
         }
     }
 
+    function toggleButtonClicked(element, whenOffState, whenOnState, afterChangeState) {
+        if (element.getAttribute("data-state") === "0") {
+            if (whenOffState !== undefined) {
+                whenOffState()
+            }
+        } else {
+            if (whenOnState !== undefined) {
+                whenOnState()
+            }
+        }
+        if (afterChangeState !== undefined) {
+            afterChangeState()
+        }
+    }
+
     function favoriteClicked() {
-        if (favorite.getAttribute("data-state") === "0") {
+        const whenOffState = () => {
             favorite.childNodes[1].classList.remove("fa-heart-o");
             favorite.childNodes[1].classList.add("fa-heart");
             favorite.setAttribute("data-state", "1")
-        } else {
+        }
+        const whenOnState = () => {
             favorite.childNodes[1].classList.remove("fa-heart");
             favorite.childNodes[1].classList.add("fa-heart-o");
             favorite.setAttribute("data-state", "0")
         }
+        toggleButtonClicked(this, whenOffState, whenOnState);
     }
 
-    moreButton.addEventListener('click', moreButtonClicked)
-    favorite.addEventListener('click', favoriteClicked)
+    function likeClicked() {
+        const whenOffState = () => {
+            like.children[0].classList.add("text-primary");
+            dislike.children[0].classList.remove("text-primary");
+            like.setAttribute("data-state", "1");
+            dislike.setAttribute("data-state", "0");
+        }
+        const whenOnState = () => {
+            like.children[0].classList.remove("text-primary");
+            like.setAttribute("data-state", "0");
+        }
+        toggleButtonClicked(this, whenOffState, whenOnState);
+    }
+
+    function disLikeClicked() {
+        const whenOffState = () => {
+            dislike.children[0].classList.add("text-primary");
+            like.children[0].classList.remove("text-primary");
+            dislike.setAttribute("data-state", "1");
+            like.setAttribute("data-state", "0");
+        }
+        const whenOnState = () => {
+            dislike.children[0].classList.remove("text-primary");
+            dislike.setAttribute("data-state", "0");
+        }
+        toggleButtonClicked(this, whenOffState, whenOnState);
+    }
+
+    function watchLaterClicked() {
+        const whenOffState = () => {
+            this.children[0].classList.add("text-primary");
+            this.setAttribute("data-state", "1")
+        }
+        const whenOnState = () => {
+            this.children[0].classList.remove("text-primary");
+            this.setAttribute("data-state", "0")
+        }
+        toggleButtonClicked(this, whenOffState, whenOnState);
+    }
+
+    moreButton.addEventListener('click', moreButtonClicked);
+    favorite.addEventListener('click', favoriteClicked);
+    like.addEventListener("click", likeClicked);
+    dislike.addEventListener("click", disLikeClicked);
+    watchLater.addEventListener("click", watchLaterClicked)
 })
