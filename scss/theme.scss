@@ -1,0 +1,13 @@
+// Custom.scss
+// Option A: Include all of Bootstrap
+$primary: #515bf2;
+$secondary: #cf292c;
+@import "../node_modules/bootstrap/scss/bootstrap";
+
+button.btn {
+  cursor: pointer;
+
+  &:focus {
+    box-shadow: none;
+  }
+}

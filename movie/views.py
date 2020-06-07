@@ -1,15 +1,12 @@
 from django.shortcuts import render
-from django.views.generic.base import TemplateView
-from django.http import HttpResponse
-from django.template import loader
-from firebaseOperations.firestoreOperations.movieFirestore import getMoviesAll
+
+from firebaseOperations.firestoreOperations.movieFirestore import get_movies_all
 
 
 # Create your views here
 def index(request):
-    docs=getMoviesAll()
-    print(docs)
-    
+    docs = get_movies_all()
+
     context = {
         'movies_list': docs,
     }
