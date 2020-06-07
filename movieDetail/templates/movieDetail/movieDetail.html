@@ -8,8 +8,8 @@
              src="{{ movie.get_card_photos }}"
              alt="cover"
              data-setbg={{ movie.get_cover_photos }}/>
-        <div class="row movie-detail-row">
-            <div class="col col-lg-6 h-100">
+        <div class="row movie-detail-row h-100">
+            <div class="col col-lg-6 " style="height: inherit;">
                 <div class="container d-flex flex-column">
                     <div class="jumbotron bg-transparent">
                         <h4>
@@ -86,16 +86,23 @@
                 </div>
 
             </div>
-            <div class="col col-lg-6 h-100">
-                <button type="button"
-                        class="btn btn-lg btn-primary mr-3 px-0 d-inline-flex align-items-center
-                      justify-content-between">
-                  <span class="material-icons-round icon px-2">
-                      play_arrow
-                  </span>
-                    <span class="px-2">Play</span>
-                </button>
+            <div class="col col-lg-6 d-flex flex-column justify-content-end" style="height: inherit;">
+                <div class="text-center m-4 mb-5 pb-4 d-flex justify-content-center align-items-center">
+                    <div class="sonar-wrapper mb-5 mx-2">
+                        <button type="button"
+                                class="btn btn-lg btn-secondary p-0 d-inline-flex align-items-center
+                              justify-content-between rounded-circle shadow-lg  sonar-emitter">
+                          <span class="material-icons-round icon p-3">
+                              play_arrow
+                          </span>
+                        </button>
+                        <div class="sonar-wave"></div>
+                    </div>
+                    <span class="text-white mx-3 mb-5 p-0 ">Watch Movie</span>
+
+                </div>
             </div>
         </div>
+    </div>
     </div>
 {% endblock %}
