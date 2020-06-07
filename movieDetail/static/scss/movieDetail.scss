@@ -78,6 +78,11 @@
   cursor: pointer;
 }
 
+.vertical-text {
+  writing-mode: vertical-lr;
+  transform: rotate(180deg);
+}
+
 /* Prevent scrollbars to appear when waves go out of bound */
 .sonar-wrapper {
   position: relative;
