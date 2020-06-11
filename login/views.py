@@ -3,20 +3,24 @@ from login.forms import UserForm, UserProfileInfo
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse
-from django.contrib.auth import authenticate,login,logout
+from django.contrib.auth import authenticate, login, logout
+
 
 # Create your views here.
 def index(request):
     return HttpResponseRedirect(reverse('shop:product_list'))
+
 
 @login_required
 def user_logout(request):
     logout(request)
     return HttpResponseRedirect(reverse('shop:product_list'))
 
+
 @login_required
 def special(request):
     return HttpResponse("You are logged in")
+
 
 def register(request):
     if request.method == "POST":
@@ -30,7 +34,7 @@ def register(request):
             user.save()
             profile = profile_form.save(commit=False)
             profile.user = user
-            
+
             if 'profile_pic' in request.FILES:
                 profile.profile_pic = request.FILES['profile_pic']
             profile.save()
@@ -41,16 +45,17 @@ def register(request):
         print("1")
         user_form = UserForm()
         profile_form = UserProfileInfo()
-    return render(request, 'user/registration.html',{
-                 'user_form': user_form,
-                 'profile_form': profile_form,
-            })
+    return render(request, 'user/registration.html', {
+        'user_form': user_form,
+        'profile_form': profile_form,
+    })
+
 
 def user_login(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
-        if len(username)>3 and len(password)>3:
+        if len(username) > 3 and len(password) > 3:
             user = authenticate(username=username, password=password)
             if user:
                 if user.is_active:
@@ -61,8 +66,9 @@ def user_login(request):
             else:
                 print("SOME TRY LOGIN")
                 print("Username:{} and password {}".format(username, password))
-                return render(request, 'user/login.html', {'notuser': "Invalid username or password",})
+                return render(request, 'user/login.html', {'notuser': "Invalid username or password", })
         else:
-            return render(request, 'user/login.html', {'invalidlen':"username and password should be greater than three",})
+            return render(request, 'user/login.html',
+                          {'invalidlen': "username and password should be greater than three", })
     else:
         return render(request, 'user/login.html', {})
