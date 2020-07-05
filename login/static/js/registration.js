@@ -96,6 +96,8 @@ document.onload = function () {
             // [START_EXCLUDE]
             alert('Email Verification Sent!');
             // [END_EXCLUDE]
+        }).catch(function (error) {
+            console.log(error)
         });
         // [END sendemailverification]
     }
