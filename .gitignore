@@ -10,3 +10,5 @@ migrations
 .env
 node_modules
 bootstrap
+*.css
+*.css.map
