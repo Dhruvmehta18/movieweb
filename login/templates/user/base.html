@@ -5,32 +5,17 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+      <script src="https://www.gstatic.com/firebasejs/7.15.0/firebase-app.js"></script>
+      <script src="https://www.gstatic.com/firebasejs/7.15.0/firebase-auth.js"></script>
+      <script type="text/javascript" src={% static 'js/firebaseConfig.js' %}></script>
+      <script src={% static 'js/authStateChangeListener.js' %}></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto"/>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat"/>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Raleway:wght@600&display=swap">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Round" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'css/user.css' %}" />
-      <script src="https://www.gstatic.com/firebasejs/7.15.0/firebase-app.js"></script>
-      <!-- Add Firebase products that you want to use -->
-      <script src="https://www.gstatic.com/firebasejs/7.15.0/firebase-auth.js"></script>
-    <script type="text/javascript">
-      // Your web app's Firebase configuration
-      var firebaseConfig = {
-        apiKey: "AIzaSyAsieOADWnl7Ba1VR8nylPcFZwSbcJzPOY",
-        authDomain: "movieweb-ec15f.firebaseapp.com",
-        databaseURL: "https://movieweb-ec15f.firebaseio.com",
-        projectId: "movieweb-ec15f",
-        storageBucket: "movieweb-ec15f.appspot.com",
-        messagingSenderId: "68862869745",
-        appId: "1:68862869745:web:e16854ffe1b748f620a950",
-        measurementId: "G-Z2KL29GF5N"
-      };
-      // Initialize Firebase
-      firebase.initializeApp(firebaseConfig);
-      firebase.auth();
-    </script>
-    <title>Document</title>
+    <title>MovieWeb | {{ title }}</title>
   </head>
   <body>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
@@ -38,6 +23,12 @@
         crossorigin="anonymous"></script>
     {% block body_block %} {% endblock %}
 
+      <!-- Add Firebase products that you want to use -->
+      {% if title == 'Log In' %}
+          <script src={% static 'js/login.js' %}></script>
+      {% else %}
+          <script src={% static 'js/registration.js' %}></script>
+      {% endif %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
         integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
         crossorigin="anonymous"></script>
