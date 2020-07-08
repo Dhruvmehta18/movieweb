@@ -7,9 +7,8 @@ from firebase_admin import firestore
 from firebaseOperations.Schema.Movie import Movie
 
 cred = credentials.Certificate(os.environ.get('GOOGLE_APPLICATION_CREDENTIALS'))
-firebase_admin.initialize_app(cred)
+firebase_app = firebase_admin.initialize_app(cred)
 db = firestore.client()
-
 collection_name = u'movies'
 
 __all__ = ['get_movies_all', 'get_movie_by_id']

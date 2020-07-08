@@ -1,54 +1,56 @@
 {% extends 'user/base.html' %}
 {% load static %}
 {% block body_block %}
-<div class="layout-main">
-    <div class="layer">
-        <h1>Please login</h1>
-        <div class="header-main">
-            <div class="main-icon">
-                <span class="fa fa-eercast"></span>
-            </div>
-            <div class="header-bottom">
-                <form action="{% url 'login:user_login' %}" method="post">
-                    {% csrf_token %}
-                    {% if invalidlen %}
-                        <p class="invalid-text">{{ invalidlen }}</p>
-                    {% elif notuser %}
-                        <p class="invalid-text">{{ notuser }}</p>
-                    {% endif %}
-                    <div class="icon1 {% if invalidlen or notuser %}invalid-input{% endif %}">
-                        <span class="fa fa-user"></span>
-                        <input type="text" name="username" placeholder="Enter username" required/>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="icon1 {% if invalidlen or notuser %}invalid-input{% endif %}">
-                        <span class="fa fa-lock"></span>
-                        <input type="password" name="password" placeholder="Enter password" required/>
-                    </div>
-                    <div class="login-check">
-                        <label class="checkbox">
-                            <input type="checkbox" name="checkbox" />
-                            <i></i>
-                            "Keep me logged in"
+    <div class="login login-container d-flex  justify-content-center align-items-center">
+        <div class="login-box d-flex p-3 p-sm-5 flex-column">
+            <h2 class="text-center">Login</h2>
+            <form class="d-inline-flex m-auto flex-column  form-detail" method="post" id="login-form">
+                <div class="form-row py-2 d-flex flex-column">
+                    <div class="position-relative">
+                        <input type="text" placeholder="Email" id="email" class="input-text" name="email"
+                               autocomplete="email" autofocus required pattern=".*\S.*"/>
+                        <span class="highlight"></span>
+                        <label for="email">
+                            Email
                         </label>
                     </div>
-                    <div class="bottom">
-                        <input class="btn" type="submit" value="Log In" name="logIn">
+                </div>
+                <div class="form-row py-2 d-flex flex-column">
+                    <div  class="position-relative">
+                         <input type="password" placeholder="Password" id="password"  name="password"
+                                autocomplete="current-password"
+                                 required pattern=".*\S.*"/>
+                        <span class="highlight"></span>
+                        <label for="password">
+                            Password
+                        </label>
                     </div>
-                    <div class="links">
-                        <p>
-                            <a href="#">Forgot Password?</a>
-                        </p>
-                        <p class="right">
-                            <a href="{% url 'login:register' %}">New User? Register</a>
-                        </p>
-                        <div class="clear"></div>
-                    </div>
-                </form>
+                    <a href="/" class="btn-link"><small>Forgot Password ?</small></a>
+                </div>
+                <div class="form-row-last py-2">
+                    <input type="submit" class="btn btn-primary w-100" name="submit" id="submit"/>
+                </div>
+            </form>
+            <div class="d-flex flex-column">
+                <p class="text-center text-muted pt-4 pb-2">Or login with</p>
+                <div class="d-flex">
+                    <button class="btn-fb mb-3" id="facebook-login">
+                        <i class="fa fa-facebook-official"></i>
+                        Facebook
+                    </button>
+                    <button class="btn-google mb-3" id="google-login">
+                        <img src="{% static 'img/icon-google.png' %}" alt="google icon">
+                        Google
+                    </button>
+                </div>
+            </div>
+            <div>
+                <p class="text-center" style="font-family: 'Raleway', sans-serif">
+                    Not a member?
+                    <a href="{% url 'login:register' %}">Sign Up Now</a>
+                </p>
             </div>
         </div>
     </div>
-</div>
-
+    <script src="{% static 'js/login.js' %}" ></script>
 {% endblock  %}
