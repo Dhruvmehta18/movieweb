@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "scss:movieDetail": "node-sass movieDetail/static/scss/movieDetail.scss movieDetail/static/css/movieDetail.css -w",
     "scss:theme": "node-sass scss/theme.scss css/theme.css -w",
-    "scss:login": "node-sass login/static/scss/user.scss  login/static/css/user.css -w"
+    "scss:login": "node-sass login/static/scss/user.scss  login/static/css/user.css -w",
+    "scss:admin": "node-sass admin/static/scss/admin.scss  admin/static/scss/admin.css -w"
   },
   "repository": {
     "type": "git",

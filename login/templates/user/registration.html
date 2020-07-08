@@ -1,10 +1,10 @@
 {% extends 'user/base.html' %}
 {% load static %}
 {% block body_block %}
- <div class="registration login-container d-flex  justify-content-center align-items-center">
+    <div class="registration login-container d-flex  justify-content-center align-items-center">
         <div class="login-box d-flex p-3 p-sm-5 flex-column">
             <h2 class="text-center">Sign Up</h2>
-            <form class="d-inline-flex m-auto flex-column  form-detail" method="post" id="signupform" >
+            <form class="d-inline-flex m-auto flex-column  form-detail" method="post" id="signupform">
                 {% csrf_token %}
                 <div class="form-row py-2 d-flex flex-column">
                     <div class="position-relative input-container">
@@ -27,10 +27,10 @@
                     </div>
                 </div>
                 <div class="form-row py-2 d-flex flex-column">
-                    <div  class="position-relative input-container">
-                         <input type="password" placeholder="Password" id="password"  name="password"
-                                autocomplete="new-password" minlength="1" maxlength="16"
-                                  required/>
+                    <div class="position-relative input-container">
+                        <input type="password" placeholder="Password" id="password" name="password"
+                               autocomplete="new-password" minlength="1" maxlength="16"
+                               required/>
                         <span class="highlight"></span>
                         <label for="password">
                             Password
@@ -38,9 +38,9 @@
                     </div>
                 </div>
                 <div class="form-row py-2 d-flex flex-column">
-                    <div  class="position-relative input-container">
-                         <input type="password" placeholder="Confirm Password" id="confirm-password"
-                                name="confirm_password" required autocomplete="off"/>
+                    <div class="position-relative input-container">
+                        <input type="password" placeholder="Confirm Password" id="confirm-password"
+                               name="confirm_password" required autocomplete="off"/>
                         <span class="highlight"></span>
                         <label for="confirm-password">
                             Confirm Password
@@ -48,12 +48,12 @@
                     </div>
                 </div>
                 <div class="form-row py-2 d-flex flex-row form-check">
-                        <input type="checkbox" name="check_terms_cond" id="check-terms-cond"
-                               class="form-check-input" required/>
-                        <label for="check-terms-cond" class="form-check-label d-flex flex-wrap">
-                            <span class="mx-1">By signing up, you agree to the</span>
-                            <span class="mx-1"><a href="#">Play Term of Service</a></span>
-                        </label>
+                    <input type="checkbox" name="check_terms_cond" id="check-terms-cond"
+                           class="form-check-input" required/>
+                    <label for="check-terms-cond" class="form-check-label d-flex flex-wrap">
+                        <span class="mx-1">By signing up, you agree to the</span>
+                        <span class="mx-1"><a href="#">Play Term of Service</a></span>
+                    </label>
                 </div>
                 <div class="form-row-last py-2">
                     <input type="submit" class="btn btn-primary w-100" name="Sign Up" value="Sign Up" id="submit"/>
@@ -80,5 +80,5 @@
             </div>
         </div>
     </div>
-    <script src="{% static 'js/registration.js' %}" ></script>
-{% endblock  %}
+    <script src="{% static 'js/registration.js' %}"></script>
+{% endblock %}

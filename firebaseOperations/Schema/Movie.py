@@ -37,7 +37,6 @@ class Movie(object):
     @staticmethod
     def from_dict(source, doc_id=""):
         # [START_EXCLUDE]
-        print("id=", source)
 
         movie = Movie(doc_id, source[u'title'], source[u'description'], source[u'duration'], source[u'rating'],
                       source[u'release_date'],
@@ -92,6 +91,7 @@ class Movie(object):
     def to_dict(self):
         # [START_EXCLUDE]
         dest = {
+            u'id': self.id,
             u'title': self.title,
             u'description': self.description,
             u'duration': self.duration,
@@ -106,6 +106,9 @@ class Movie(object):
             u'cover_photos': self.cover_photos,
             u'trailer_id': self.trailer_id
         }
+
+        if self.id:
+            dest[u'id'] = self.id
 
         if self.title:
             dest[u'title'] = self.title
@@ -187,4 +190,11 @@ class Movie(object):
 
     def get_description_end(self):
         return self.description[231:]
+
+    @staticmethod
+    def get_keys():
+        return [
+            'id', 'title', 'description', 'duration', 'rating', 'release_date', 'year', 'country', 'language',
+            'total_reviews', 'genre', 'card_photo', 'cover_photos', 'trailer_id'
+        ]
 # [END custom_class_def]

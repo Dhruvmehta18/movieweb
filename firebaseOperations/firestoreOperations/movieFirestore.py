@@ -11,7 +11,7 @@ firebase_app = firebase_admin.initialize_app(cred)
 db = firestore.client()
 collection_name = u'movies'
 
-__all__ = ['get_movies_all', 'get_movie_by_id']
+__all__ = ['get_movies_all', 'get_movie_by_id', 'add_movie_db']
 
 
 def get_movies_all():
@@ -29,3 +29,10 @@ def get_movie_by_id(document_id):
     movie = Movie.from_dict(doc.to_dict(), document_id)
     print(movie)
     return movie
+
+
+def add_movie_db(movie):
+    if isinstance(movie, Movie):
+        db.collection(u'movies').add(movie.to_dict())
+    else:
+        return 'movie is of type Movie class'

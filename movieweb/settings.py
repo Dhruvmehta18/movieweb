@@ -16,7 +16,9 @@ import environ
 
 env = environ.Env(
     # set casting, default value
-    DEBUG=(bool, False)
+    DEBUG=(bool, False),
+    COMPRESS_ENABLED=(bool, True),
+    COMPRESS_OFFLINE=(bool, False)
 )
 
 environ.Env.read_env()
@@ -41,21 +43,26 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'whitenoise.runserver_nostatic',
     'django.contrib.staticfiles',
+    'compressor',
     'login.apps.LoginConfig',
     'movie.apps.MovieConfig',
     'movieDetail.apps.MoviedetailConfig',
-    'admin.apps.AdminConfig'
+    'admin.apps.AdminConfig',
+    'admin.templatetags.utility'
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "compression_middleware.middleware.CompressionMiddleware",
 ]
 
 ROOT_URLCONF = 'movieweb.urls'
@@ -106,6 +113,14 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+COMPRESS_FILTERS = {
+    "css": [
+        "compressor.filters.css_default.CssAbsoluteFilter",
+        "compressor.filters.cssmin.rCSSMinFilter",
+    ],
+    "js": ["compressor.filters.jsmin.JSMinFilter"],
+}
+
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
@@ -122,6 +137,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     'css',
@@ -132,3 +149,15 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'movieweb/static')
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 MEDIA_URL = '/media/'
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'compressor.finders.CompressorFinder',  # note the trailing comma here
+)
+
+COMPRESS_STORAGE = "compressor.storage.GzipCompressorFileStorage"
+COMPRESS_ROOT = os.path.abspath(STATIC_ROOT)
+COMPRESS_URL = STATIC_URL
+
+COMPRESS_ENABLED = env("COMPRESS_ENABLED")
+COMPRESS_OFFLINE = env("COMPRESS_OFFLINE")
