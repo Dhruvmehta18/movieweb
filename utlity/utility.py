@@ -1,6 +1,6 @@
 from datetime import datetime
 
-__all__ = ['get_list', 'format_day_month_year', 'get_country_list', 'get_language_list']
+__all__ = ['get_list', 'format_day_month_year', 'get_country_list', 'get_language_list', 'get_genres_list']
 
 
 def get_list(item_dict):
@@ -277,3 +277,33 @@ def get_language_list():
         'Ukrainian', 'Urdu', 'Uzbek', 'Vietnamese', 'Welsh', 'Xhosa'
     ]
     return languages
+
+
+def get_genres_list():
+    genres = [
+        'whimsical',
+        'Action',
+        'Adventure',
+        'Comedy',
+        'Crime',
+        'Drama',
+        'Fantasy',
+        'Historical',
+        'Historical fiction',
+        'Horror',
+        'Magical realism',
+        'Mystery',
+        'Paranoid fiction',
+        'Philosophical',
+        'Political',
+        'Romance',
+        'Saga',
+        'Satire',
+        'Science fiction',
+        'Social',
+        'Speculative',
+        'Thriller',
+        'Urban',
+        'Western',
+    ]
+    return genres;

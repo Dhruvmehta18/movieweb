@@ -2,6 +2,8 @@
 // Option A: Include all of Bootstrap
 $primary: #515bf2;
 $secondary: #cf292c;
+$enable-responsive-font-sizes: true;
+
 @import "../node_modules/bootstrap/scss/bootstrap";
 
 button.btn {

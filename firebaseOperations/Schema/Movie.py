@@ -18,7 +18,11 @@ from utlity import utility
 
 class Movie(object):
     def __init__(self, id='', title='', description='', duration=0, rating=0, release_date='', year=0, country='',
-                 language='', total_reviews='', genre=[], card_photo="", cover_photos=[], trailer_id=""):
+                 language='', total_reviews='', genre=None, card_photo="", cover_photos=None, trailer_id=""):
+        if cover_photos is None:
+            cover_photos = []
+        if genre is None:
+            genre = []
         self.id = id
         self.title = title
         self.description = description
@@ -37,11 +41,21 @@ class Movie(object):
     @staticmethod
     def from_dict(source, doc_id=""):
         # [START_EXCLUDE]
-
-        movie = Movie(doc_id, source[u'title'], source[u'description'], source[u'duration'], source[u'rating'],
+        print(source, doc_id)
+        movie = Movie(doc_id,
+                      source[u'title'],
+                      source[u'description'],
+                      source[u'duration'],
+                      source[u'rating'],
                       source[u'release_date'],
-                      source[u'year'], source[u'country'], source[u'language'], source[u'total_reviews'],
-                      source[u'genre'], source[u'card_photo'], source[u'cover_photos'], source[u'trailer_id'])
+                      source[u'year'],
+                      source[u'country'],
+                      source[u'language'],
+                      source[u'total_reviews'],
+                      source[u'genre'],
+                      source[u'card_photo'],
+                      source[u'cover_photos'],
+                      source[u'trailer_id'])
 
         if doc_id:
             movie.id = doc_id
@@ -90,6 +104,11 @@ class Movie(object):
 
     def to_dict(self):
         # [START_EXCLUDE]
+        if self.cover_photos is None:
+            self.cover_photos = []
+        if self.genre is None:
+            self.genre = []
+        print("self=", self)
         dest = {
             u'id': self.id,
             u'title': self.title,
@@ -152,23 +171,12 @@ class Movie(object):
         # [END_EXCLUDE]
 
     def __repr__(self):
-        return (
-            u'Movie(id={}, title={}, description={}, duration={}, rating={}, release_date={}, year={}, country={}, '
-            u'language={}, total_reviews={}, genre={}, card_photo={}, cover_photos={},trailer_id={})'
-                .format(self.id,
-                        self.title,
-                        self.description,
-                        self.rating,
-                        self.release_date,
-                        self.year,
-                        self.country,
-                        self.language,
-                        self.total_reviews,
-                        *self.genre,
-                        self.card_photo,
-                        *self.cover_photos,
-                        self.trailer_id
-                        ))
+        string_repr = f'Movie(id={self.id}, title={self.title}, description={self.description}, duration=' \
+                      + f'{self.duration},rating={self.rating}, release_date={self.release_date}, year={self.year}, ' \
+                      + f'country={self.country}, language={self.language}, total_reviews={self.total_reviews}, ' \
+                      + f'genre={self.genre}, card_photo={self.card_photo}, cover_photos={self.cover_photos},' \
+                      + f'trailer_id={self.trailer_id}) '
+        return string_repr
 
     def get_absolute_url(self):
         return reverse("movie_detail:movie_detail", kwargs={"movie_id": self.id})

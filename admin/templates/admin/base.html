@@ -60,6 +60,9 @@
 <body>
 {% block body_block %} {% endblock %}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript">
+    const movie_detail_data_url = "{% url 'movie_detail:movie_detail_data' %}"
+</script>
 <script src="{% static 'js/admin.js' %}"></script>
 <script defer rel=preconnect src="https://apis.google.com/js/api.js?onload=handleClientLoad">
 </script>
