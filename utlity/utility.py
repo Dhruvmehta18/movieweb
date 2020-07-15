@@ -1,6 +1,19 @@
+import datetime
 from datetime import datetime
 
-__all__ = ['get_list', 'format_day_month_year', 'get_country_list', 'get_language_list', 'get_genres_list']
+__all__ = ['get_list',
+           'format_day_month_year',
+           'get_country_list',
+           'get_language_list',
+           'get_genres_list',
+           'unix_time_millis'
+           ]
+
+epoch = datetime.datetime.utcfromtimestamp(0)
+
+
+def unix_time_millis(dt):
+    return int((dt - epoch).total_seconds() * 1000)
 
 
 def get_list(item_dict):
@@ -306,4 +319,4 @@ def get_genres_list():
         'Urban',
         'Western',
     ]
-    return genres;
+    return genres

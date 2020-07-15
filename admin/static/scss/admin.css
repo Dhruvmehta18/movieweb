@@ -7285,12 +7285,14 @@ img {
   max-height: 100%;
   width: 100%; }
 
-.cover-photos-container > div {
-  flex-basis: 33%;
-  margin: 12px 16px;
-  padding: 0; }
-  .cover-photos-container > div > img {
-    width: 100%; }
+.cover-photos-container {
+  transition: width 0.25s ease-in-out; }
+  .cover-photos-container > div {
+    flex-basis: 33%;
+    margin: 12px 16px;
+    padding: 0; }
+    .cover-photos-container > div > img {
+      width: 100%; }
 
 .img-wrap {
   position: relative;

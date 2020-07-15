@@ -1,8 +1,7 @@
 import os
 
 import firebase_admin
-from firebase_admin import credentials
-from firebase_admin import firestore
+from firebase_admin import credentials, firestore
 
 from firebaseOperations.Schema.Movie import Movie
 

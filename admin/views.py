@@ -1,12 +1,21 @@
-from django.http import JsonResponse
+import datetime
+import json
+
+from django.core.exceptions import ValidationError
+from django.core.validators import URLValidator
+from django.http import JsonResponse, Http404
 from django.shortcuts import render
 
 from firebaseOperations.Schema.Movie import Movie
+from firebaseOperations.firestoreOperations.movieFireStorage import *
 from firebaseOperations.firestoreOperations.movieFirestore import *
 from utlity.utility import *
 
+validate = URLValidator()
+
 
 # Create your views here
+
 
 def admin_index(request):
     movie_object_list = get_movies_all()
@@ -43,7 +52,8 @@ def add_movie(request):
         card_photo = request.POST.get('card_photo')
         cover_photos = request.POST.get('cover_photos')
         trailer_id = request.POST.get('trailer_id')
-
+        print(f'_id={_id}')
+        print(f'cover_photos={cover_photos}')
         movie_dict = {
             'id': _id,
             'title': title,
@@ -57,7 +67,7 @@ def add_movie(request):
             'total_reviews': total_reviews,
             'genre': genre,
             'card_photo': card_photo,
-            'cover_photos': cover_photos.split(','),
+            'cover_photos': json.loads(cover_photos),
             'trailer_id': trailer_id
         }
         movie = Movie.from_dict(movie_dict, _id)
@@ -86,3 +96,27 @@ def delete_movie(request):
     else:
         data['error'] = 'POST METHOD IS ONLY VALID'
         return JsonResponse(data)
+
+
+def url_upload(request):
+    upload_url = request.GET.get('cover_photo')
+    movie_id = request.GET.get('movie_id')
+    data = {}
+    if movie_id:
+        try:
+            validate(upload_url)
+            folder_name = movie_id + str(unix_time_millis(datetime.datetime.utcnow()))
+            download_url = upload_blob_by_url(upload_url, folder_name, movie_id)
+            result = {
+                'message': 'Uploaded',
+                'download_url': download_url
+            }
+            data['result'] = result
+            data['status'] = 'OK'
+        except ValidationError as exception:
+            data['error'] = f'{exception}'
+        return JsonResponse(data)
+    else:
+        data['error'] = 'movie_id not found'
+        data['status'] = '404'
+        raise Http404(data)

@@ -1,4 +1,42 @@
 $(document).ready(function () {
+    $(document).ajaxSend(function (event, xhr, settings) {
+        function getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = jQuery.trim(cookies[i]);
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        function sameOrigin(url) {
+            // url could be relative or scheme relative or absolute
+            var host = document.location.host; // host + port
+            var protocol = document.location.protocol;
+            var sr_origin = '//' + host;
+            var origin = protocol + sr_origin;
+            // Allow absolute or scheme relative URLs to same origin
+            return (url === origin || url.slice(0, origin.length + 1) === origin + '/') ||
+                (url === sr_origin || url.slice(0, sr_origin.length + 1) === sr_origin + '/') ||
+                // or any other URL that isn't scheme relative or absolute i.e relative.
+                !(/^(\/\/|http:|https:).*/.test(url));
+        }
+
+        function safeMethod(method) {
+            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        }
+
+        if (!safeMethod(settings.type) && sameOrigin(settings.url)) {
+            xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+        }
+    });
     const animateCSS = (node, animation, prefix = 'animate__') => {
         // We create a Promise and return it
         return new Promise((resolve, reject) => {
@@ -45,11 +83,10 @@ $(document).ready(function () {
     const onCoverImageDeleted = (id) => {
         const childNodeEmpty = (childNode) => {
             $(childNode).remove();
-            const $cover_photos_input = $('#cover-photos-input');
-            const value = $cover_photos_input.val();
-            const cardPhotosValue = value.split(',').filter(((value1, index) => index !== id)).toString();
-            console.log(cardPhotosValue);
-            $cover_photos_input.val(cardPhotosValue);
+            cover_photos = [
+                ...(cover_photos.filter(((value1, index) => index !== id)))
+            ];
+            console.log(cover_photos);
         }
         const coverPhotosContainer = document.getElementById('cover-photos-container');
         const childNode = coverPhotosContainer.querySelector(`div[data-id="${id}"]`);
@@ -57,7 +94,7 @@ $(document).ready(function () {
     }
     const setCoverPhoto = (cover_photo, i) => {
         const coverPhotosContainer = document.getElementById('cover-photos-container');
-        if (cover_photo.trim() !== '') {
+        if (cover_photo !== '') {
             const col = document.createElement('div');
             col.classList.add('col-md-4');
             col.setAttribute('data-id', i);
@@ -70,7 +107,7 @@ $(document).ready(function () {
             const img = document.createElement('img');
             img.classList.add('rounded');
             img.alt = `cover-photo-${i}`;
-            $(img).attr("src", `${cover_photo}`).on("error", function () {
+            $(img).attr("src", `${cover_photo.medium.download_url}`).on("error", function () {
                 $(this).attr('src', fallbackImageUrl);
             });
             imgWrap.appendChild(span);
@@ -79,6 +116,7 @@ $(document).ready(function () {
             coverPhotosContainer.appendChild(col);
         }
     }
+
     const setCoverPhotos = (cover_photos) => {
         const coverPhotosArray = cover_photos;
         for (let i = 0; i < coverPhotosArray.length; i++) {
@@ -105,7 +143,10 @@ $(document).ready(function () {
         $('#card-photo-form').attr("src", `${movie['card_photo']}`).on("error", function () {
             $(this).attr('src', fallbackImageUrl);
         });
-        requestAnimationFrame(() => setCoverPhotos(movie['cover_photos']));
+        cover_photos = [
+            ...movie['cover_photos']
+        ]
+        requestAnimationFrame(() => setCoverPhotos(cover_photos));
     }
 
     const fetchMovieById = (movieId) => {
@@ -184,9 +225,11 @@ $(document).ready(function () {
 
     $("#add-movie").click(function () {
         const form = $("#add-movie-form");
+        const formData = new FormData(form[0]);
+        formData.append('cover_photos', JSON.stringify(cover_photos));
         $.ajax({
             url: $(form).attr("data-add-movie-url"),
-            data: new FormData(form[0]),
+            data: formData,
             method: 'POST',
             processData: false,
             contentType: false,
@@ -291,13 +334,44 @@ $(document).ready(function () {
     })
 
     $('#add-url-button').on('click', () => {
-        const $cover_photos_input = $('#cover-photos-input');
-        const coverPhotosValue = $cover_photos_input.val().trim();
-        const coverInput = $('#cover-photo-input').val().trim();
-        const new_photo_input = coverPhotosValue.concat(',', coverInput);
-        $cover_photos_input.val(new_photo_input);
-        requestAnimationFrame(() => setCoverPhoto(coverInput, coverPhotosValue.split(',').length))
+        const coverInput = JSON.parse($('#cover-photo-input').val().trim());
+        cover_photos = [
+            ...cover_photos,
+            coverInput
+        ]
+        requestAnimationFrame(() => setCoverPhoto(coverInput, cover_photos.length))
     })
+
+    $('#url-to-firestore-button').on('click', (e) => {
+        e.preventDefault();
+        const coverInput = $('#cover-photo-input').val().trim();
+        const movie_id = $('input[name="id"]').val().trim();
+        $.ajax({
+            method: 'GET',
+            url: 'url-upload',
+            data: {
+                cover_photo: coverInput,
+                movie_id: movie_id
+            },
+            success: function (data) {
+                if (data.status === 'OK') {
+                    alert(data.result.message);
+                    const thumbnail = data.result.download_url
+                    $('#cover-photo-input').val('');
+                    cover_photos = [
+                        ...cover_photos,
+                        thumbnail
+                    ]
+                    requestAnimationFrame(() => setCoverPhoto(thumbnail, cover_photos.length))
+                } else {
+                    alert(data.error);
+                }
+            },
+            error: function (xmlHttpRequestEventTarget, status, error) {
+                console.log(error);
+            }
+        });
+    });
 });
 const STATE_YOUTUBE_TRAILER = {
     'START': 0,
@@ -307,7 +381,7 @@ const STATE_YOUTUBE_TRAILER = {
 const SELECT_FIELDS_NAME = ['country', 'language'];
 const fallbackImageUrl = 'https://firebasestorage.googleapis.com/v0/b/movieweb-ec15f.appspot.com/o/static%2FfallbackImage.svg?alt=media&token=75557a2d-1bd4-4862-ad11-10a14cbbdb72';
 let GoogleAuth, pageToken, query_prev, stateYoutubeTrailer = STATE_YOUTUBE_TRAILER.START, totalResult = 0,
-    currentResult = 0, maxBatchResult = 5, selectTrailerCards = [], inputTrailerCards = [];
+    currentResult = 0, maxBatchResult = 5, selectTrailerCards = [], inputTrailerCards = [], cover_photos = [];
 // <div class="card mb-3" style="max-width: 540px;">
 //   <div class="row no-gutters">
 //     <div class="col-md-4">
