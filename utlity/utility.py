@@ -9,7 +9,7 @@ __all__ = ['get_list',
            'unix_time_millis'
            ]
 
-epoch = datetime.datetime.utcfromtimestamp(0)
+epoch = datetime.utcfromtimestamp(0)
 
 
 def unix_time_millis(dt):
