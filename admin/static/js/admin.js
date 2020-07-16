@@ -96,7 +96,7 @@ $(document).ready(function () {
         const coverPhotosContainer = document.getElementById('cover-photos-container');
         if (cover_photo !== '') {
             const col = document.createElement('div');
-            col.classList.add('col-md-4');
+            col.classList.add('col', 'col-md-4', 'col-12');
             col.setAttribute('data-id', i);
             const imgWrap = document.createElement('div');
             imgWrap.classList.add('img-wrap');
@@ -139,10 +139,11 @@ $(document).ready(function () {
                 $(field).val(`${movie[key]}`);
             }
         })
-        $('input[name=id]').val(movieId);
-        $('#card-photo-form').attr("src", `${movie['card_photo']}`).on("error", function () {
-            $(this).attr('src', fallbackImageUrl);
+        $.each(movie['genre'], function (i, e) {
+            $(`select[name="genre"] option[value="${e}"]`).prop("selected", true);
         });
+        $('input[name=id]').val(movieId);
+        setCardPhoto(movie['card_photo']);
         cover_photos = [
             ...movie['cover_photos']
         ]
@@ -227,6 +228,7 @@ $(document).ready(function () {
         const form = $("#add-movie-form");
         const formData = new FormData(form[0]);
         formData.append('cover_photos', JSON.stringify(cover_photos));
+        formData.append('card_photo', JSON.stringify(card_photo));
         $.ajax({
             url: $(form).attr("data-add-movie-url"),
             data: formData,
@@ -350,8 +352,9 @@ $(document).ready(function () {
             method: 'GET',
             url: 'url-upload',
             data: {
-                cover_photo: coverInput,
-                movie_id: movie_id
+                photo_url: coverInput,
+                movie_id: movie_id,
+                type: 'cover'
             },
             success: function (data) {
                 if (data.status === 'OK') {
@@ -372,6 +375,45 @@ $(document).ready(function () {
             }
         });
     });
+
+    function setCardPhoto(thumbnail) {
+        if (thumbnail && thumbnail.large && thumbnail.large.download_url) {
+            $('#card-photo-form').attr("src", `${thumbnail.large.download_url}`).on("error", function () {
+                $(this).attr('src', fallbackImageUrl);
+            });
+        } else {
+            $('#card-photo-form').attr("src", `${fallbackImageUrl}`)
+        }
+        card_photo = thumbnail
+    }
+
+    $('#card-url-to-firestore-button').on('click', (e) => {
+        e.preventDefault();
+        const cardInput = $('#card-photo-input').val().trim();
+        const movie_id = $('input[name="id"]').val().trim();
+        $.ajax({
+            method: 'GET',
+            url: 'url-upload',
+            data: {
+                photo_url: cardInput,
+                movie_id: movie_id,
+                type: 'card'
+            },
+            success: function (data) {
+                if (data.status === 'OK') {
+                    alert(data.result.message);
+                    const thumbnail = data.result.download_url
+                    $('#card-photo-input').val('');
+                    setCardPhoto(thumbnail);
+                } else {
+                    alert(data.error);
+                }
+            },
+            error: function (xmlHttpRequestEventTarget, status, error) {
+                console.log(error);
+            }
+        });
+    })
 });
 const STATE_YOUTUBE_TRAILER = {
     'START': 0,
@@ -381,7 +423,8 @@ const STATE_YOUTUBE_TRAILER = {
 const SELECT_FIELDS_NAME = ['country', 'language'];
 const fallbackImageUrl = 'https://firebasestorage.googleapis.com/v0/b/movieweb-ec15f.appspot.com/o/static%2FfallbackImage.svg?alt=media&token=75557a2d-1bd4-4862-ad11-10a14cbbdb72';
 let GoogleAuth, pageToken, query_prev, stateYoutubeTrailer = STATE_YOUTUBE_TRAILER.START, totalResult = 0,
-    currentResult = 0, maxBatchResult = 5, selectTrailerCards = [], inputTrailerCards = [], cover_photos = [];
+    currentResult = 0, maxBatchResult = 5, selectTrailerCards = [], inputTrailerCards = [], cover_photos = [],
+    card_photo = {};
 // <div class="card mb-3" style="max-width: 540px;">
 //   <div class="row no-gutters">
 //     <div class="col-md-4">
