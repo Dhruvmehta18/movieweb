@@ -66,7 +66,7 @@ def add_movie(request):
             'language': language,
             'total_reviews': total_reviews,
             'genre': genre,
-            'card_photo': card_photo,
+            'card_photo': json.loads(card_photo),
             'cover_photos': json.loads(cover_photos),
             'trailer_id': trailer_id
         }
@@ -99,14 +99,14 @@ def delete_movie(request):
 
 
 def url_upload(request):
-    upload_url = request.GET.get('cover_photo')
+    upload_url = request.GET.get('photo_url')
     movie_id = request.GET.get('movie_id')
+    type_image = request.GET.get('type')
     data = {}
     if movie_id:
         try:
-            validate(upload_url)
             folder_name = movie_id + str(unix_time_millis(datetime.datetime.utcnow()))
-            download_url = upload_blob_by_url(upload_url, folder_name, movie_id)
+            download_url = upload_blob_by_url(upload_url, folder_name, movie_id, type_image)
             result = {
                 'message': 'Uploaded',
                 'download_url': download_url

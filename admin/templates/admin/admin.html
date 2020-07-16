@@ -28,7 +28,25 @@
                                         Url</label>
                                 </div>
                                 <input type="url" class="form-control" placeholder="Card Photo" aria-label="Card Photo"
-                                       id="card-photo-input" name="card_photo" aria-describedby="card-photo-described"/>
+                                       id="card-photo-input" aria-describedby="card-photo-described"/>
+                                <div class="input-group-append">
+                                    <button type="button" class="btn btn-outline-secondary"
+                                            id="add-card-url-button">Add
+                                    </button>
+                                    <button type="button"
+                                            class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <span class="sr-only">Toggle Dropdown</span>
+                                    </button>
+                                    <div class="dropdown-menu">
+                                        <button class="dropdown-item" id="card-url-to-firestore-button">Url To
+                                            Firestore
+                                        </button>
+                                        <button class="dropdown-item" id="card-upload-to-firestore">Upload to
+                                            FireStore
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
@@ -164,8 +182,10 @@
                                 </div>
                             </div>
                             <div class="input-group mb-3 h-100">
-                                <div class="cover-photos-container d-inline-flex overflow-auto row flex-nowrap w-100"
+                                <div class="container cover-photos-container d-inline-flex overflow-auto row
+                                flex-nowrap w-100"
                                      id="cover-photos-container">
+
                                 </div>
                                 <div class="input-group-prepend">
                                     <label class="input-group-text" id="cover-photo-described"
