@@ -4,9 +4,12 @@ moviewebenv
 /.vscode
 __pycache__
 db.sqlite3
-/static
 .DS_Store
 migrations
 .env
 node_modules
 bootstrap
+*.css
+*.css.map
+CACHE
+

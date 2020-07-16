@@ -1,0 +1,370 @@
+{% extends 'admin/base.html' %}
+{% load static %}
+{% load utility %}
+{% block body_block %}
+    <div class="modal fade" id="formMovieModal" tabindex="-1" role="dialog" aria-labelledby="formModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable overflow-hidden">
+            <div class="modal-content" id="add-movie-dialog">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="formModalLabel">Add/Edit Movie Details</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <form method="post" data-add-movie-url="{% url 'admin:admin_add_movie' %}" id="add-movie-form">
+                            <input type="hidden" name="id"/>
+                            <div class="input-group mb-3">
+                                <div class="card-photo-container">
+                                    <img
+                                            src="https://firebasestorage.googleapis.com/v0/b/movieweb-ec15f.appspot.com/o/static%2FfallbackImage.svg?alt=media&token=75557a2d-1bd4-4862-ad11-10a14cbbdb72"
+                                            class="img-fluid rounded mx-auto" alt="card photo" id="card-photo-form"/>
+                                </div>
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text" id="card-photo-described" for="card-photo-input">Card
+                                        Photo
+                                        Url</label>
+                                </div>
+                                <input type="url" class="form-control" placeholder="Card Photo" aria-label="Card Photo"
+                                       id="card-photo-input" aria-describedby="card-photo-described"/>
+                                <div class="input-group-append">
+                                    <button type="button" class="btn btn-outline-secondary"
+                                            id="add-card-url-button">Add
+                                    </button>
+                                    <button type="button"
+                                            class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <span class="sr-only">Toggle Dropdown</span>
+                                    </button>
+                                    <div class="dropdown-menu">
+                                        <button class="dropdown-item" id="card-url-to-firestore-button">Url To
+                                            Firestore
+                                        </button>
+                                        <button class="dropdown-item" id="card-upload-to-firestore">Upload to
+                                            FireStore
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text" id="title-described" for="title-input">Title</label>
+                                </div>
+                                <input type="text" class="form-control" placeholder="title"
+                                       aria-describedby="title-described"
+                                       id="title-input"
+                                       name="title"/>
+                            </div>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text" id="description-described"
+                                           for="description-input">Description</label>
+                                </div>
+                                <textarea class="form-control" aria-describedby="description-described"
+                                          placeholder="Description of Movie" name="description" rows="5"
+                                          id="description-input"></textarea>
+                            </div>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text" id="duration-described"
+                                           for="duration-input">Duration</label>
+                                </div>
+                                <input type="number" class="form-control" placeholder="duration"
+                                       aria-describedby="duration-described"
+                                       id="duration-input" name="duration" min="0"/>
+                                <div class="input-group-append">
+                                    <span class="input-group-text" aria-label="minutes">m</span>
+                                </div>
+                            </div>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text" id="rating-described"
+                                           for="rating-input">Rating</label>
+                                </div>
+                                <input type="text" class="form-control" placeholder="Rating"
+                                       aria-describedby="rating-described"
+                                       id="rating-input" name="rating"/>
+                            </div>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text" id="release-described"
+                                           for="release-date-input">Release Date</label>
+                                </div>
+                                <input type="date" class="form-control" placeholder="Release Date"
+                                       aria-label="Release Date" aria-describedby="release-described"
+                                       id="release-date-input" name="release_date"/>
+                            </div>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text" id="year-described"
+                                           for="year-input">Year</label>
+                                </div>
+                                <input type="text" class="form-control" placeholder="year" aria-describedby="Year"
+                                       id="year-input" name="year"/>
+                            </div>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text" id="genre-described"
+                                           for="genre-input">Choose Genres</label>
+                                </div>
+                                <select class="form-control custom-select" aria-describedby="genre-described"
+                                        id="genre-input" name="genre" multiple>
+                                    <option>Choose Genres...</option>
+                                    {% for genre in genres %}
+                                        <option value="{{ genre }}">
+                                            {{ genre }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text" id="country-described"
+                                           for="country-input">Choose Country</label>
+                                </div>
+                                <select class="custom-select" id="country-input" name="country"
+                                        aria-describedby="country-described">
+                                    <option>Choose a country...</option>
+                                    {% for country in country_list %}
+                                        <option value="{{ country.text }}" data-country-code="{{ country.value }}">
+                                            {{ country.text }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                                <div class="input-group-append">
+                                    <label class="input-group-text" for="country-input">
+                                        <img src="https://www.countryflags.io/in/flat/24.png" id="country-image"
+                                             alt="india">
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text" id="language-described"
+                                           for="language-input">Choose Language</label>
+                                </div>
+                                <select class="form-control custom-select" aria-describedby="language-described"
+                                        id="language-input" name="language">
+                                    <option>Choose a Language...</option>
+                                    {% for language in languages %}
+                                        <option value="{{ language }}">
+                                            {{ language }}
+                                        </option>
+                                    {% endfor %}
+
+                                </select>
+                            </div>
+
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text" id="total-reviews-described"
+                                           for="total-reviews-input">Total Reviews</label>
+                                </div>
+                                <input type="number" class="form-control" placeholder="Total Reviews"
+                                       aria-describedby="total-reviews-described"
+                                       id="total-reviews-input" name="total_reviews"/>
+                            </div>
+
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text" id="trailer-described"
+                                           for="trailer-input">Trailer Id</label>
+                                </div>
+                                <input type="text" class="form-control" placeholder="Trailer Id"
+                                       aria-describedby="trailer-described"
+                                       id="trailer-input" name="trailer_id" readonly/>
+                                <div class="input-group-append">
+                                    <button type="button" class="btn btn-outline-secondary" id="trailer-search-button">
+                                        Search
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="input-group mb-3 h-100">
+                                <div class="container cover-photos-container d-inline-flex overflow-auto row
+                                flex-nowrap w-100"
+                                     id="cover-photos-container">
+
+                                </div>
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text" id="cover-photo-described"
+                                           for="cover-photo-input">Cover Photo
+                                        Url</label>
+                                </div>
+                                <input type="url" class="form-control" placeholder="Cover Photo"
+                                       id="cover-photo-input"
+                                       aria-describedby="cover-photo-described"/>
+                                <div class="input-group-append">
+                                    <button type="button" class="btn btn-outline-secondary"
+                                            id="add-url-button">Add
+                                    </button>
+                                    <button type="button"
+                                            class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <span class="sr-only">Toggle Dropdown</span>
+                                    </button>
+                                    <div class="dropdown-menu">
+                                        <button class="dropdown-item" id="url-to-firestore-button">Url To
+                                            Firestore
+                                        </button>
+                                        <button class="dropdown-item" id="upload-to-firestore">Upload to
+                                            FireStore
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                            data-target="#formMovieModal" id="close-form-button">Close
+                    </button>
+                    <button type="button" class="btn btn-primary" id="add-movie">Save changes</button>
+                </div>
+            </div>
+            <div class="search-overlay-box" id="search-overlay-box" style="display: none;height: 100%;overflow: hidden">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div class="form-group has-search input-group">
+                            <input type="search" class="form-control pl-2" placeholder="Search Trailers using Youtube"
+                                   id="search-movie-input"
+                                   aria-label="Search through youtube video for getting video Id">
+                            <div class="input-group-append">
+                                <button class="btn btn-secondary" type="button" id="search-movie-button">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-body" style="pointer-events: auto" id="search-overlay-body">
+                        <div class="card-group" id="video-search-group">
+                        </div>
+                    </div>
+                    <div class="modal-footer" id="search-modal-footer">
+                        <div class="d-flex justify-content-between w-100 ">
+                            <div class="flex-row align-items-center"
+                                 id="select-display-video" style="display: none;">
+                                <button type="button" class="btn flex-button"
+                                        id="search-overlay-clear-button"><span
+                                        class="material-icons-round">close</span></button>
+                                <span id="no-selected" style="letter-spacing: 0.3rem;">0</span>
+                                <span>videos selected</span>
+                            </div>
+                            <div class="d-inline-flex flex-row">
+                                <button type="button" class="btn btn-primary flex-button"
+                                        id="search-overlay-done-button" style="display: none"><span
+                                        class="material-icons-round
+                                        text-white">done</span>Done
+                                </button>
+                                <button type="button" class="btn btn-outline-primary"
+                                        id="search-overlay-close-button">Close
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="alertFormDialog" tabindex="-1" role="dialog" aria-labelledby="alert-title"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="alert-title">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" data-target="#alertFormDialog"
+                            aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p id="alert-body-text">Modal body text goes here.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" data-negative="true"
+                            id="alert-negative-button">Close
+                    </button>
+                    <button type="button" class="btn btn-primary" data-positive="true" id="alert-positive-button">Save
+                        changes
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="p-3">
+        <div class="p-3">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#formMovieModal">
+                <span class="material-icons-round" style="position: relative;top: 5px;">
+                    add
+                </span>
+                Add Movie
+            </button>
+        </div>
+        <div class="p-3 ">
+            <select class="custom-select w-auto" id="selectnorows">
+                {% for value in number_select_rows %}
+                    <option value={{ value }}>{{ value }}</option>
+                {% endfor %}
+            </select>
+            <label for="selectnorows">
+                records per page
+            </label>
+        </div>
+        <div class="table-responsive">
+            <table class="table ">
+                <thead class="shadow-sm">
+                <tr class="table-header">
+
+                    <th scope="col">
+                        <div class="d-inline-flex flex-row w-100 justify-content-between">
+                            Actions
+                        </div>
+                    </th>
+                    {% for movie_key in movie_keys %}
+                        <th scope="col">
+                            <div class="d-inline-flex flex-row w-100 justify-content-between">
+                                <span>{{ movie_key }}</span>
+                                <span class="material-icons table-header-filter-icon">
+                                filter_alt
+                            </span>
+                            </div>
+
+                        </th>
+                    {% endfor %}
+                </tr>
+                </thead>
+                <tbody>
+                {% for movie in movie_list %}
+                    <tr>
+                        <td class="table-item">
+                            <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2"
+                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Actions
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                                    <button type="button" class="btn btn-warning dropdown-item"
+                                            data-movie-id="{{ movie.id }}" data-toggle="modal"
+                                            data-target="#formMovieModal">Edit
+                                    </button>
+                                    <button type="button" class="btn btn-outline-danger dropdown-item"
+                                            data-movie-id="{{ movie.id }}" data-toggle="modal"
+                                            data-target="#alertFormDialog"
+                                            data-type="delete-movie">Delete
+                                    </button>
+                                </div>
+                            </div>
+                        </td>
+                        {% for movie_key, movie_value in movie.items %}
+                            <td class="table-item">{{ movie_value|truncatechars:100 }}</td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

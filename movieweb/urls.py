@@ -15,12 +15,12 @@ Including another URLconf
 """
 from django.conf import settings
 from django.conf.urls.static import static
-from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', include('movie.urls', namespace='movie')),
-    path('', include('movieDetail.urls', namespace='movie_detail')),
-    path('', include('login.urls', namespace='login'))
-]+ static(settings.STATIC_ROOT + settings.STATIC_URL + settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+                  path('', include('admin.urls', namespace='admin')),
+                  path('', include('movie.urls', namespace='movie')),
+                  path('', include('movieDetail.urls', namespace='movie_detail')),
+                  path('', include('login.urls', namespace='login'))
+              ] + static(settings.STATIC_ROOT + settings.STATIC_URL + settings.MEDIA_URL,
+                         document_root=settings.MEDIA_ROOT)

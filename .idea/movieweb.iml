@@ -31,6 +31,9 @@
     <orderEntry type="library" name="jquery-validate" level="application" />
     <orderEntry type="library" name="firebase-auth" level="application" />
     <orderEntry type="library" name="firebase-app" level="application" />
+    <orderEntry type="library" name="jquery" level="application" />
+    <orderEntry type="library" name="api" level="application" />
+    <orderEntry type="library" name="animate.css" level="application" />
   </component>
   <component name="TemplatesService">
     <option name="TEMPLATE_CONFIGURATION" value="Django" />
