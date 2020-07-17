@@ -2,6 +2,7 @@ $(document).ready(function () {
     let imageCounter = 0;
     const cover_image = document.getElementById('cover_image');
     const IMAGE_URLS = JSON.parse(document.getElementById('COVER_PHOTOS').textContent);
+    let gvideoId = '';
 
     console.log(IMAGE_URLS);
     const setBackground = () => {
@@ -40,13 +41,18 @@ $(document).ready(function () {
         // Check if clicked element is a video thumbnail
         const videoId = event.target.getAttribute('data-video');
         if (!videoId) return;
-        if (player && player_trailer) {
-            player_trailer.style.display = 'initial';
-            player_trailer.requestFullscreen().finally(() => {
-                player.playVideo();
-            })
-        } else {
+        if (gvideoId === '') {
+            gvideoId = videoId
             onYouTubeIframeAPIReady(videoId)
+        } else if (gvideoId === videoId && player && player_trailer) {
+            player_trailer.style.display = 'initial';
+            player.playVideo();
+            player_trailer.requestFullscreen();
+        } else {
+            gvideoId = videoId
+            player_trailer.style.display = 'initial';
+            player.loadVideoById(videoId);
+            player_trailer.requestFullscreen();
         }
     }
 
@@ -69,6 +75,7 @@ $(document).ready(function () {
     function onPlayerReady(event) {
         player_trailer = document.getElementById('youtube-trailer');
         player_trailer.requestFullscreen().finally(() => {
+            player_trailer.style.display = 'initial';
             event.target.playVideo();
         })
     }
@@ -79,11 +86,7 @@ $(document).ready(function () {
 
     document.addEventListener('fullscreenchange', () => {
         // the value is null if there is no fullscreen element
-        if (document.fullscreenElement) {
-            if (player) {
-                player.playVideo();
-            }
-        } else {
+        if (!document.fullscreenElement) {
             stopVideo()
             player_trailer.style.display = 'none';
         }

@@ -100,9 +100,9 @@
                                 {% with movie.get_trailer_id as trailer_ids %}
                                     {% for trailer_id in trailer_ids %}
                                         <div class="youtube-thumbnail">
-                                            <img width="250" height="150" data-video="{{ trailer_id }}"
+                                            <img height="200" data-video="{{ trailer_id }}"
                                                  alt="Play the trailer"
-                                                 src="http://img.youtube.com/vi/{{ trailer_id }}/0.jpg"/>
+                                                 src="https://img.youtube.com/vi/{{ trailer_id }}/mqdefault.jpg"/>
                                         </div>
                                     {% endfor %}
                                 {% endwith %}
