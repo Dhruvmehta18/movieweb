@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 {% load static %}
+{% load compress %}
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -9,7 +10,13 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Round" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'css/movieDetail.css' %}"/>
+    {% compress css %}
+        <link rel="preload" href="{% static 'css/movieDetail.css' %}" as="style"
+              onload="this.onload=null;this.rel='stylesheet'"/>
+        <noscript>
+            <link rel="stylesheet" href="{% static 'css/movieDetail.css' %}"/>
+        </noscript>
+    {% endcompress css %}
     <title>MovieWeb | {{ movie.title }}</title>
 </head>
 <body>

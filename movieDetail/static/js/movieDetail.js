@@ -1,19 +1,20 @@
 $(document).ready(function () {
     let imageCounter = 0;
     const cover_image = document.getElementById('cover_image');
-    const IMAGE_URLS = cover_image.getAttribute('data-setbg').split(',');
+    const IMAGE_URLS = JSON.parse(document.getElementById('COVER_PHOTOS').textContent);
+
     console.log(IMAGE_URLS);
-    const setBackground = (image) => {
-        cover_image.src = IMAGE_URLS[image].trim()
+    const setBackground = () => {
+        imageCounter = (imageCounter + 1) % IMAGE_URLS.length;
+        cover_image.src = IMAGE_URLS[imageCounter].large.download_url;
     };
     const setImage = () => {
+        setBackground();
         cover_image.addEventListener("animationiteration", function () {
-            imageCounter = (imageCounter + 1) % IMAGE_URLS.length;
-            setBackground(imageCounter)
-        }, false)
+            setBackground();
+        }, false);
     }
-    setImage();
-
+    setImage()
     /**
      * Element.requestFullScreen() polyfill
      * @author Chris Ferdinandi
@@ -22,7 +23,6 @@ $(document).ready(function () {
 
     let player;
     let player_trailer;
-    const youtube_thumbnail = document.getElementById('youtube-thumbnail');
     const tag = document.createElement('script');
 
     tag.src = "https://www.youtube.com/iframe_api";
@@ -50,7 +50,7 @@ $(document).ready(function () {
         }
     }
 
-    youtube_thumbnail.addEventListener('click', onYoutubeTrailerListener, false);
+    $('.youtube-thumbnails-container').on('click', '.youtube-thumbnail', onYoutubeTrailerListener);
 
     //  This function creates an <iframe> (and YouTube player)
     //    after the API code downloads.
