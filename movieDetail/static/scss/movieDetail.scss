@@ -117,7 +117,8 @@ body {
 
   > .youtube-thumbnail {
     cursor: pointer;
-    margin: 8px
+    margin: 8px;
+    width: 100%;
   }
 }
 
@@ -126,6 +127,11 @@ body {
   transform: rotate(180deg);
 }
 
+.sonar-container {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+}
 /* Prevent scrollbars to appear when waves go out of bound */
 .sonar-wrapper {
   position: relative;
@@ -169,5 +175,12 @@ body {
   to {
     transform: scale(3);
     opacity: 0;
+  }
+}
+
+.h-md-inherit {
+  height: auto !important;
+  @include media-breakpoint-up(md) {
+    height: inherit !important;
   }
 }
