@@ -1,19 +1,21 @@
 $(document).ready(function () {
     let imageCounter = 0;
     const cover_image = document.getElementById('cover_image');
-    const IMAGE_URLS = cover_image.getAttribute('data-setbg').split(',');
+    const IMAGE_URLS = JSON.parse(document.getElementById('COVER_PHOTOS').textContent);
+    let gvideoId = '';
+
     console.log(IMAGE_URLS);
-    const setBackground = (image) => {
-        cover_image.src = IMAGE_URLS[image].trim()
+    const setBackground = () => {
+        imageCounter = (imageCounter + 1) % IMAGE_URLS.length;
+        cover_image.src = IMAGE_URLS[imageCounter].large.download_url;
     };
     const setImage = () => {
+        setBackground();
         cover_image.addEventListener("animationiteration", function () {
-            imageCounter = (imageCounter + 1) % IMAGE_URLS.length;
-            setBackground(imageCounter)
-        }, false)
+            setBackground();
+        }, false);
     }
-    setImage();
-
+    setImage()
     /**
      * Element.requestFullScreen() polyfill
      * @author Chris Ferdinandi
@@ -22,7 +24,6 @@ $(document).ready(function () {
 
     let player;
     let player_trailer;
-    const youtube_thumbnail = document.getElementById('youtube-thumbnail');
     const tag = document.createElement('script');
 
     tag.src = "https://www.youtube.com/iframe_api";
@@ -40,17 +41,22 @@ $(document).ready(function () {
         // Check if clicked element is a video thumbnail
         const videoId = event.target.getAttribute('data-video');
         if (!videoId) return;
-        if (player && player_trailer) {
-            player_trailer.style.display = 'initial';
-            player_trailer.requestFullscreen().finally(() => {
-                player.playVideo();
-            })
-        } else {
+        if (gvideoId === '') {
+            gvideoId = videoId
             onYouTubeIframeAPIReady(videoId)
+        } else if (gvideoId === videoId && player && player_trailer) {
+            player_trailer.style.display = 'initial';
+            player.playVideo();
+            player_trailer.requestFullscreen();
+        } else {
+            gvideoId = videoId
+            player_trailer.style.display = 'initial';
+            player.loadVideoById(videoId);
+            player_trailer.requestFullscreen();
         }
     }
 
-    youtube_thumbnail.addEventListener('click', onYoutubeTrailerListener, false);
+    $('.youtube-thumbnails-container').on('click', '.youtube-thumbnail', onYoutubeTrailerListener);
 
     //  This function creates an <iframe> (and YouTube player)
     //    after the API code downloads.
@@ -69,6 +75,7 @@ $(document).ready(function () {
     function onPlayerReady(event) {
         player_trailer = document.getElementById('youtube-trailer');
         player_trailer.requestFullscreen().finally(() => {
+            player_trailer.style.display = 'initial';
             event.target.playVideo();
         })
     }
@@ -79,11 +86,7 @@ $(document).ready(function () {
 
     document.addEventListener('fullscreenchange', () => {
         // the value is null if there is no fullscreen element
-        if (document.fullscreenElement) {
-            if (player) {
-                player.playVideo();
-            }
-        } else {
+        if (!document.fullscreenElement) {
             stopVideo()
             player_trailer.style.display = 'none';
         }

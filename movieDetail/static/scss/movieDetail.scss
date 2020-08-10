@@ -1,15 +1,20 @@
-@import "scss/theme";
+@import "scss/theme.scss";
 
 :root {
-    --primary: #515bf2;
+  --primary: #515bf2;
 }
 
+body {
+  height: 100vh;
+}
+
+
 .material-icons-round.yellow {
-    color: var(--yellow);
+  color: var(--yellow);
 }
 
 .rating-icon {
-    vertical-align: sub;
+  vertical-align: sub;
 }
 
 .movie-title {
@@ -58,24 +63,63 @@
 }
 
 .movie-detail-row {
-    background: linear-gradient(60deg, black 40%, transparent 68%);
+  background: linear-gradient(60deg, black 40%, transparent 68%);
+  overflow-y: auto;
 }
 
 .cover-photo {
-    pointer-events: none;
-    position: absolute;
-    min-width: 100%;
-    height: inherit;
-    z-index: -1;
-    animation-name: slowzoom;
+  pointer-events: none;
+  position: absolute;
+  min-width: 100%;
+  height: inherit;
+  z-index: -1;
+  animation-name: slowzoom;
   animation-duration: 10s;
   animation-iteration-count: infinite;
   animation-direction: alternate;
   animation-timing-function: linear;
 }
 
-.youtube-thumbnails {
-  cursor: pointer;
+.youtube-thumbnails-container {
+  display: inline-flex;
+  flex-direction: row;
+  overflow-y: auto;
+  width: 100%;
+  /* total width */
+  &::-webkit-scrollbar {
+    background-color: transparent;
+    width: 6px
+  }
+
+  /* background of the scrollbar except button or resizer */
+  &::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+
+  &::-webkit-scrollbar-track:hover {
+    background-color: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #babac0;
+    border-radius: 16px;
+    border: 6px solid #000000;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: #a0a0a5;
+    border: 6px solid #000000;
+  }
+
+  &::-webkit-scrollbar-button {
+    display: none
+  }
+
+  > .youtube-thumbnail {
+    cursor: pointer;
+    margin: 8px;
+    width: 100%;
+  }
 }
 
 .vertical-text {
@@ -83,6 +127,11 @@
   transform: rotate(180deg);
 }
 
+.sonar-container {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+}
 /* Prevent scrollbars to appear when waves go out of bound */
 .sonar-wrapper {
   position: relative;
@@ -126,5 +175,12 @@
   to {
     transform: scale(3);
     opacity: 0;
+  }
+}
+
+.h-md-inherit {
+  height: auto !important;
+  @include media-breakpoint-up(md) {
+    height: inherit !important;
   }
 }

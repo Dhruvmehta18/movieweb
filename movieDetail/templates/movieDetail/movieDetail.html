@@ -5,12 +5,10 @@
          style="height:100vh;">
         <img id="cover_image"
              class="cover-photo"
-             src="{{ movie.get_card_photos }}"
-             alt="cover"
-             data-setbg={{ movie.get_cover_photos }}/>
+             src="{{ movie.get_cover_photo }}"
+             alt="cover"/>
         <div class="row movie-detail-row h-100">
-            <div class="col col-lg-1 d-flex flex-column align-items-center justify-content-center"
-                 style="height: inherit;">
+            <div class="col col-md-1 d-none flex-column align-items-center justify-content-center d-md-flex h-auto">
                 <div class="row d-flex flex-column justify-content-sm-between">
                     <div class="col">
                         <p class="vertical-text">Facebook</p>
@@ -29,7 +27,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col col-lg-6 " style="height: inherit;">
+            <div class="col col-12 col-md-8 px-0 px-md-2 h-auto">
                 <div class="container d-flex flex-column">
                     <div class="jumbotron bg-transparent">
                         <h4>
@@ -43,12 +41,14 @@
                             <span style="vertical-align: text-top;">{{ movie.year }}</span>
                             <span class="pipe-icon">|</span>
                             {% for genre in movie.genre %}
-                                <span><small>{{ genre }}</small><span>
+                                <span><small>{{ genre }}</small></span>
                                 <span><small class="text-primary">&bull;</small></span>
                             {% endfor %}
-                            <span><small>{{ movie.duration }} m</small><span>
+                            <span><small>{{ movie.duration }} m</small></span>
                         </p>
-                        <div class="d-flex flex-row btn-group-sm" role="group" aria-label="Detail button group">
+                        <div class="d-flex flex-row btn-group-sm justify-content-between justify-content-md-start"
+                             role="group"
+                             aria-label="Detail button group">
                             <button type="button" id="like" class="btn btn-lg mr-3 d-inline-flex flex-column
                 text-white-50 align-items-center"
                                     aria-label="Like" data-state="0">
@@ -79,10 +79,13 @@
                             </button>
                             <button type="button" id="favorite" class="btn btn-lg mr-3" aria-label="Like"
                                     data-state="0">
-                                <span class="fa fa-heart-o text-secondary h4"></span>
+                                <span class="fa fa-heart-o text-secondary h4 m-0"></span>
+                                <span class="text-white-50">
+                                    favorite
+                                </span>
                             </button>
                         </div>
-                        <div class="container my-4">
+                        <div class="container my-4 px-0 px-md-2">
                             <h4>Introduction</h4>
                             <p class="lead">
                                 {{ movie.get_description_start }}<span id="dots">...</span>
@@ -97,31 +100,38 @@
                         <div class="container my-4">
                             <h4>Trailer</h4>
                             <div id="youtube-trailer"></div>
-                            <p id="youtube-thumbnail" class="youtube-thumbnails">
-                                <img width="250" height="150" data-video="{{ movie.trailer_id }}" alt="Play the trailer"
-                                     src="http://img.youtube.com/vi/{{ movie.trailer_id }}/0.jpg"/>
-                            </p>
+                            <div class="youtube-thumbnails-container">
+                                {% with movie.get_trailer_id as trailer_ids %}
+                                    {% for trailer_id in trailer_ids %}
+                                        <div class="youtube-thumbnail">
+                                            <img height="200" data-video="{{ trailer_id }}"
+                                                 alt="Play the trailer"
+                                                 src="https://img.youtube.com/vi/{{ trailer_id }}/mqdefault.jpg"/>
+                                        </div>
+                                    {% endfor %}
+                                {% endwith %}
+                            </div>
                         </div>
                     </div>
                 </div>
-
             </div>
-            <div class="col col-lg-5 d-flex flex-column justify-content-end" style="height: inherit;">
-                <div class="text-center m-4 mb-5 pb-4 d-flex justify-content-center align-items-center">
+            <div class="col col-1 col-md-3 d-flex flex-column justify-content-end h-md-inherit">
+                <div class="text-center m-4 mb-0 mb-md-5 pb-0 pb-md-4 d-flex justify-content-center
+                align-items-center sonar-container">
                     <div class="sonar-wrapper mb-5 mx-2">
-                        <button type="button"
-                                class="btn btn-lg btn-secondary p-0 d-inline-flex align-items-center
+                        <a href="{% url 'watch_video:watch_movie_page' movie_id=movie.id %}"
+                           class="btn btn-lg btn-secondary p-0 d-inline-flex align-items-center
                               justify-content-between rounded-circle shadow-lg  sonar-emitter">
                           <span class="material-icons-round icon p-3">
                               play_arrow
                           </span>
-                        </button>
+                        </a>
                         <div class="sonar-wave"></div>
                     </div>
-                    <span class="text-white mx-3 mb-5 p-0 ">Watch Movie</span>
-
+                    <span class="text-white mx-3 mb-5 p-0 d-none d-md-block">Watch Movie</span>
                 </div>
             </div>
         </div>
     </div>
+    {{ movie.cover_photos|json_script:"COVER_PHOTOS" }}
 {% endblock %}

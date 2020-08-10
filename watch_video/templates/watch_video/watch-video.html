@@ -1,0 +1,28 @@
+{% extends 'watch_video/base.html' %}
+{% load static %}
+{% block body_block %}
+    <div>
+        <video
+                id="my-video"
+                class="video-js html5-video-player"
+                controls
+                preload="auto"
+                width="980"
+                height="450"
+                data-setup="{}"
+                crossorigin="anonymous"
+        >
+            <p class="vjs-no-js">
+                To view this video please enable JavaScript, and consider upgrading to a
+                web browser that
+                <a href="https://videojs.com/html5-video-support/" target="_blank"
+                >supports HTML5 video</a
+                >
+            </p>
+        </video>
+    </div>
+    <script src="https://vjs.zencdn.net/7.8.3/video.js"></script>
+    <script src="http://cdn.dashjs.org/latest/dash.all.min.js"></script>
+    <script src={% static 'js/videojs-dash.min.js' %}></script>
+
+{% endblock %}

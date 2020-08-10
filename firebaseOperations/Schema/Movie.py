@@ -11,6 +11,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from django.http import JsonResponse
 from django.urls import reverse
 
 from utlity import utility
@@ -188,7 +189,13 @@ class Movie(object):
         return self.title
 
     def get_cover_photos(self):
-        return ','.join(self.cover_photos)
+        return self.cover_photos
+
+    def get_cover_photos_json(self):
+        return JsonResponse(self.cover_photos)
+
+    def get_cover_photo(self):
+        return self.cover_photos[0].get('small').get('download_url')
 
     def get_formatted_movie_date(self):
         return utility.format_day_month_year(self.release_date)
@@ -198,6 +205,9 @@ class Movie(object):
 
     def get_description_end(self):
         return self.description[231:]
+
+    def get_trailer_id(self):
+        return self.trailer_id.split(',')
 
     @staticmethod
     def get_keys():
