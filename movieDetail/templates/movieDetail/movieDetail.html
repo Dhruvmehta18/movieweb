@@ -119,13 +119,13 @@
                 <div class="text-center m-4 mb-0 mb-md-5 pb-0 pb-md-4 d-flex justify-content-center
                 align-items-center sonar-container">
                     <div class="sonar-wrapper mb-5 mx-2">
-                        <button type="button"
-                                class="btn btn-lg btn-secondary p-0 d-inline-flex align-items-center
+                        <a href="{% url 'watch_video:watch_movie_page' movie_id=movie.id %}"
+                           class="btn btn-lg btn-secondary p-0 d-inline-flex align-items-center
                               justify-content-between rounded-circle shadow-lg  sonar-emitter">
                           <span class="material-icons-round icon p-3">
                               play_arrow
                           </span>
-                        </button>
+                        </a>
                         <div class="sonar-wave"></div>
                     </div>
                     <span class="text-white mx-3 mb-5 p-0 d-none d-md-block">Watch Movie</span>

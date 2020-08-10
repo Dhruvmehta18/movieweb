@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'movie.apps.MovieConfig',
     'movieDetail.apps.MoviedetailConfig',
     'admin.apps.AdminConfig',
+    'watch_video.apps.WatchVideoConfig',
     'admin.templatetags.utility'
 ]
 

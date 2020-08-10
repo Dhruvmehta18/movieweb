@@ -8,7 +8,8 @@
     "scss:movieDetail": "node-sass movieDetail/static/scss/movieDetail.scss movieDetail/static/css/movieDetail.css -w",
     "scss:theme": "node-sass scss/theme.scss css/theme.css -w",
     "scss:login": "node-sass login/static/scss/user.scss  login/static/css/user.css -w",
-    "scss:admin": "node-sass admin/static/scss/admin.scss  admin/static/scss/admin.css -w"
+    "scss:admin": "node-sass admin/static/scss/admin.scss  admin/static/scss/admin.css -w",
+    "scss:watch-video": "node-sass watch_video/static/scss/watch_video.scss  watch_video/static/scss/watch_video.css -w"
   },
   "repository": {
     "type": "git",
@@ -22,6 +23,8 @@
   "homepage": "https://github.com/Dhruvmehta18/movieweb#readme",
   "dependencies": {
     "bootstrap": "^4.5.0",
-    "node-sass": "^4.14.1"
+    "node-sass": "^4.14.1",
+    "videojs-contrib-quality-levels": "^2.0.9",
+    "videojs-hls-quality-selector": "^1.1.1"
   }
 }

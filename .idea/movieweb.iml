@@ -34,6 +34,13 @@
     <orderEntry type="library" name="jquery" level="application" />
     <orderEntry type="library" name="api" level="application" />
     <orderEntry type="library" name="animate.css" level="application" />
+    <orderEntry type="library" name="video-js" level="application" />
+    <orderEntry type="library" name="videojs-ie8" level="application" />
+    <orderEntry type="library" name="video" level="application" />
+    <orderEntry type="library" name="dash.all" level="application" />
+    <orderEntry type="library" name="videojs-hls-quality-selector" level="application" />
+    <orderEntry type="library" name="videojs-contrib-hls" level="application" />
+    <orderEntry type="library" name="videojs-contrib-quality-levels" level="application" />
   </component>
   <component name="TemplatesService">
     <option name="TEMPLATE_CONFIGURATION" value="Django" />
