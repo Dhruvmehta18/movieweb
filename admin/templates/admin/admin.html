@@ -15,13 +15,16 @@
                 <div class="modal-body">
                     <div>
                         <form method="post" data-add-movie-url="{% url 'admin:admin_add_movie' %}" id="add-movie-form">
-                            <input type="hidden" name="id"/>
-                            <div class="input-group mb-3">
-                                <div class="card-photo-container">
+                            <div class="card-photo-container">
+                                <div class="blur-img-container"></div>
+                                <div class="img-fluid img-container">
                                     <img
                                             src="https://firebasestorage.googleapis.com/v0/b/movieweb-ec15f.appspot.com/o/static%2FfallbackImage.svg?alt=media&token=75557a2d-1bd4-4862-ad11-10a14cbbdb72"
                                             class="img-fluid rounded mx-auto" alt="card photo" id="card-photo-form"/>
                                 </div>
+                            </div>
+                            <input type="hidden" name="id"/>
+                            <div class="input-group mb-3">
                                 <div class="input-group-prepend">
                                     <label class="input-group-text" id="card-photo-described" for="card-photo-input">Card
                                         Photo
@@ -181,12 +184,12 @@
                                     </button>
                                 </div>
                             </div>
-                            <div class="input-group mb-3 h-100">
-                                <div class="container cover-photos-container d-inline-flex overflow-auto row
+                            <div class="container cover-photos-container d-inline-flex overflow-auto row
                                 flex-nowrap w-100"
-                                     id="cover-photos-container">
+                                 id="cover-photos-container">
 
-                                </div>
+                            </div>
+                            <div class="input-group mb-3 h-100">
                                 <div class="input-group-prepend">
                                     <label class="input-group-text" id="cover-photo-described"
                                            for="cover-photo-input">Cover Photo
@@ -294,6 +297,37 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="fileUploadModal" tabindex="-1" role="dialog" aria-labelledby="upload-title"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="upload-title">Upload File</h5>
+                    <button type="button" class="close" data-dismiss="modal" data-target="#fileUploadModal"
+                            aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="drop-area">
+                        <div id="upload-body"><h2>Drag File or Upload it</h2></div>
+                        <form class="my-form" id="import-data-form">
+                            <input type="file" id="fileElem" accept=".xlsx, .xls, .csv"
+                                   onchange="handleFiles(this.files)">
+                            <label class="upload-button" for="fileElem">Select file</label>
+                        </form>
+                        <progress id="progress-bar" max=100 value=0></progress>
+                        <div id="gallery"></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" data-negative="true"
+                            id="upload-negative-button">Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="p-3">
         <div class="p-3">
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#formMovieModal">
@@ -301,6 +335,12 @@
                     add
                 </span>
                 Add Movie
+            </button>
+            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#fileUploadModal">
+                <span class="material-icons-round" style="position: relative;top: 5px;">
+                    upload
+                </span>
+                Import Data
             </button>
         </div>
         <div class="p-3 ">

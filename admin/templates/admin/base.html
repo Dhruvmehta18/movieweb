@@ -64,6 +64,10 @@
     const movie_detail_data_url = "{% url 'movie_detail:movie_detail_data' %}"
     {#const csrf_token_convert_token = {% csrf_token %}#}
 </script>
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/7.19.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.19.0/firebase-storage.js"></script>
+<script src="{% static 'js/firebaseConfig.js' %}"></script>
 <script src="{% static 'js/admin.js' %}"></script>
 <script defer rel=preconnect src="https://apis.google.com/js/api.js?onload=handleClientLoad">
 </script>

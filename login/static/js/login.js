@@ -133,7 +133,7 @@ function initApp() {
             // [START_EXCLUDE]
             // [END_EXCLUDE]
             // similar behavior as an HTTP redirect
-            window.location.href = '../';
+            window.location.href = `${getContinueUrl()}`;
         } else {
             // User is signed out.
             // [START_EXCLUDE]

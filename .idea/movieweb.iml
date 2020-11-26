@@ -41,6 +41,7 @@
     <orderEntry type="library" name="videojs-hls-quality-selector" level="application" />
     <orderEntry type="library" name="videojs-contrib-hls" level="application" />
     <orderEntry type="library" name="videojs-contrib-quality-levels" level="application" />
+    <orderEntry type="library" name="firebase-storage" level="application" />
   </component>
   <component name="TemplatesService">
     <option name="TEMPLATE_CONFIGURATION" value="Django" />

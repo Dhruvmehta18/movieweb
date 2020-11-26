@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="JavaScriptLibraryMappings">
-    <file url="file://$PROJECT_DIR$" libraries="{9ba48debc8, animate.css, api, bootstrap, dash.all, firebase-app, firebase-auth, font-awesome, jquery, jquery-3.3.1.slim, jquery-validate, popper.js, video, video-js, videojs-contrib-hls, videojs-contrib-quality-levels, videojs-hls-quality-selector, videojs-ie8}" />
+    <file url="file://$PROJECT_DIR$" libraries="{9ba48debc8, animate.css, api, bootstrap, dash.all, firebase-app, firebase-auth, firebase-storage, font-awesome, jquery, jquery-3.3.1.slim, jquery-validate, popper.js, video, video-js, videojs-contrib-hls, videojs-contrib-quality-levels, videojs-hls-quality-selector, videojs-ie8}" />
   </component>
 </project>
