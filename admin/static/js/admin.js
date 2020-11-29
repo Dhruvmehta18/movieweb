@@ -322,6 +322,8 @@ $(document).ready(function () {
     const closeSearchTrailerModal = () => {
         $('#add-movie-dialog').css("pointer-events", "initial");
         animateCSS($('#search-overlay-box').get(0), 'slideOutDown').then(value => {
+            
+        }).finally(()=>{
             clearSelectedVideos();
             $('#search-overlay-box').hide();
         });
@@ -754,10 +756,6 @@ function uploadFile(file, i) {
                     break;
             }
         }, function () {
-            // Upload completed successfully, now we can get the download URL
-            uploadTask.snapshot.ref.getDownloadURL().then(function (downloadURL) {
-                console.log('File available at', downloadURL);
-            });
             afterUploadFile(file.name)
         });
 
