@@ -1,7 +1,7 @@
 {% extends 'movie/base.html' %}
 {% load static %}
 {% block body_block %}
-    <nav class="navbar navbar-dark bg-primary">
+    <nav class="navbar navbar-dark bg-dark">
         <a class="navbar-brand" href="#">MovieWeb</a>
         <form class="form-inline">
             <input class="form-control mr-sm-2" type="search" placeholder="Search Movies of your choice ..."
@@ -9,11 +9,25 @@
             <button class="btn btn-success my-2 my-sm-0" type="submit">Search</button>
         </form>
     </nav>
-    <div class="card-deck ">
+    <div id="carouselMovieCaptions" class="carousel slide" data-ride="carousel">
+  <ol class="carousel-indicators">
+  </ol>
+  <div class="carousel-inner">
+  </div>
+  <a class="carousel-control-prev" href="#carouselMovieCaptions" role="button" data-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a class="carousel-control-next" href="#carouselMovieCaptions" role="button" data-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
+</div>
+    <div class="card-deck m-2">
         {% for movie in movies_list %}
-            <div class="card bg-dark text-white mx-1" style="max-width:150px;">
+            <div class="card bg-dark text-white m-2 card-width ">
                 <a href="{{ movie.get_absolute_url }}" class="text-reset">
-                    <img class="card-img-top" alt="{{ movie.title }}"
+                    <img class="card-img-top card-image" alt="{{ movie.title }}"
                          srcset='{{ movie.card_photo.small.download_url }} 0.5x,
 {{ movie.card_photo.medium.download_url }} 1x, {{ movie.card_photo.large.download_url }} 2x'
                          src="{{ movie.card_photo.medium.download_url }}">
@@ -24,7 +38,7 @@
                             <div class="card-body">
                             </div>
                             <div class="card-footer bg-transparent">
-                                <div class="">
+                                <div class="text-center">
                                     <h5 class="card-title mb-0 text-wrap">{{ movie.title }}</h5>
                                 </div>
                             </div>

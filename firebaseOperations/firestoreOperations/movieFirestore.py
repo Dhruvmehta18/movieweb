@@ -1,3 +1,4 @@
+import datetime
 import os
 
 import firebase_admin
@@ -10,7 +11,7 @@ firebase_app = firebase_admin.initialize_app(cred)
 db = firestore.client()
 collection_name = u'movies'
 
-__all__ = ['get_movies_all', 'get_movie_by_id', 'add_movie_db', 'delete_movie_db']
+__all__ = ['get_movies_all', 'get_movie_by_id', 'add_movie_db', 'delete_movie_db', 'get_carousels']
 
 
 def get_movies_all():
@@ -48,3 +49,19 @@ def add_movie_db(movie):
 
 def delete_movie_db(movie_id):
     db.collection(collection_name).document(movie_id).delete()
+
+
+def get_carousels():
+    date = datetime.datetime.now()
+    (day, month, year) = (date.day, (date.month + 10) % 12 + 1, date.year + (date.month - 10) // 12)
+    print(day, month, year)
+    movie_carousels_query = db.collection(u'movies') \
+        .where(u'release_date', u'>=', u'{0}-{1}-{2}'.format(year, month, day)) \
+        .order_by(u'release_date', direction=firestore.Query.DESCENDING) \
+        .limit(5)
+    movie_carousels = movie_carousels_query.stream()
+    # movie_carousels = db.collection("movies").where("releas")
+    movie_list = []
+    for doc in movie_carousels:
+        movie_list.append(Movie.from_dict(doc.to_dict(), doc.id).to_dict())
+    return movie_list

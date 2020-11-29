@@ -696,7 +696,6 @@ function initializeProgress(numFiles) {
 function updateProgress(fileNumber, percent) {
     uploadProgress[fileNumber] = percent
     let total = uploadProgress.reduce((tot, curr) => tot + curr, 0) / uploadProgress.length
-    console.debug('update', fileNumber, percent, total)
     progressBar.value = total
 }
 
@@ -712,7 +711,7 @@ function previewFile(file) {
     reader.readAsDataURL(file)
     reader.onloadend = function () {
         let img = document.createElement('img')
-        img.src = reader.result
+        img.src = file.src
         document.getElementById('gallery').appendChild(img)
     }
 }
@@ -721,7 +720,7 @@ function uploadFile(file, i) {
     const metadata = {
         contentType: `${file.type}`
     }
-    const uploadTask = tempUploadRef.child('images/' + file.name).put(file, metadata);
+    const uploadTask = tempUploadRef.child(file.name).put(file, metadata);
 
 // Listen for state changes, errors, and completion of the upload.
     uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, // or 'state_changed'
@@ -759,5 +758,27 @@ function uploadFile(file, i) {
             uploadTask.snapshot.ref.getDownloadURL().then(function (downloadURL) {
                 console.log('File available at', downloadURL);
             });
+            afterUploadFile(file.name)
         });
+
+    function afterUploadFile(file_name){
+        $.ajax({
+            method: 'GET',
+            url: 'file_upload',
+            data: {
+                file_name: file_name
+            },
+            success: function (data) {
+                if (data.status === 'OK') {
+                    alert(data.message);
+                    window.location.reload()
+                } else {
+                    alert(data.error);
+                }
+            },
+            error: function (xmlHttpRequestEventTarget, status, error) {
+                console.log(error);
+            }
+        });
+    }
 }
