@@ -7,7 +7,7 @@ db.sqlite3
 .DS_Store
 migrations
 .env
-node_modules
+**/node_modules
 bootstrap
 *.css
 *.css.map
