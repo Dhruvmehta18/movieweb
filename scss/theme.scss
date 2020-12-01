@@ -4,6 +4,12 @@ $primary: #515bf2;
 $secondary: #cf292c;
 $enable-responsive-font-sizes: true;
 
+.fonts-loaded {
+  body {
+    font-family: "Roboto", sans-serif;
+  }
+}
+
 @import "../node_modules/bootstrap/scss/bootstrap";
 
 button.btn {

@@ -42,7 +42,6 @@ class Movie(object):
     @staticmethod
     def from_dict(source, doc_id=""):
         # [START_EXCLUDE]
-        print(source, doc_id)
         movie = Movie(doc_id,
                       source[u'title'],
                       source[u'description'],
@@ -109,7 +108,6 @@ class Movie(object):
             self.cover_photos = []
         if self.genre is None:
             self.genre = []
-        print("self=", self)
         dest = {
             u'id': self.id,
             u'title': self.title,

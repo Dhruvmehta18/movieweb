@@ -177,8 +177,10 @@ $(document).ready(function () {
             }
         },
         'hide.bs.modal': function () {
+            resetVariables();
             $('#add-movie-form').get(0).reset();
             $('#card-photo-form').attr("src", fallbackImageUrl);
+            $('.blur-img-container').css("background-image", `url("${fallbackImageUrl}")`)
             closeSearchTrailerModal();
             $('#cover-photos-container').empty();
         }
@@ -268,11 +270,12 @@ $(document).ready(function () {
                 .show()
                 .get(0),
             'slideInUp').then((value => {
-            const trailerArray = $('#trailer-input').val().trim().split(', ');
-            console.log(trailerArray);
-            inputTrailerCards = [
-                ...trailerArray
-            ]
+            const trailerArray = $('#trailer-input').val().trim().split(',');
+            if (trailerArray.length !== 0 && trailerArray[0] !== '') {
+                inputTrailerCards = [
+                    ...trailerArray
+                ]
+            }
         }));
     })
     const $searchMovieInput = $('#search-movie-input');
@@ -319,6 +322,8 @@ $(document).ready(function () {
     const closeSearchTrailerModal = () => {
         $('#add-movie-dialog').css("pointer-events", "initial");
         animateCSS($('#search-overlay-box').get(0), 'slideOutDown').then(value => {
+            
+        }).finally(()=>{
             clearSelectedVideos();
             $('#search-overlay-box').hide();
         });
@@ -381,8 +386,9 @@ $(document).ready(function () {
             $('#card-photo-form').attr("src", `${thumbnail.large.download_url}`).on("error", function () {
                 $(this).attr('src', fallbackImageUrl);
             });
+            $('.blur-img-container').css("background-image", `url("${thumbnail.small.download_url}")`);
         } else {
-            $('#card-photo-form').attr("src", `${fallbackImageUrl}`)
+            $('#card-photo-form').attr("src", `${fallbackImageUrl}`);
         }
         card_photo = thumbnail
     }
@@ -413,8 +419,29 @@ $(document).ready(function () {
                 console.log(error);
             }
         });
+    });
+    $('#downloadMovies').on('click', (e)=>{
+        $.ajax({
+            method: 'GET',
+            url: 'download_movies',
+            data: {
+                type: 'json'
+            },
+            success: function (data) {
+                if (data.status === 'OK') {
+                    const thumbnail = data.result.download_url
+                    download_file('movies.json', thumbnail, 'application/json')
+                } else {
+                    console.e(data.error);
+                }
+            },
+            error: function (xmlHttpRequestEventTarget, status, error) {
+                console.log(error);
+            }
+        });
     })
 });
+
 const STATE_YOUTUBE_TRAILER = {
     'START': 0,
     'LOADING': 1,
@@ -422,6 +449,11 @@ const STATE_YOUTUBE_TRAILER = {
 }
 const SELECT_FIELDS_NAME = ['country', 'language'];
 const fallbackImageUrl = 'https://firebasestorage.googleapis.com/v0/b/movieweb-ec15f.appspot.com/o/static%2FfallbackImage.svg?alt=media&token=75557a2d-1bd4-4862-ad11-10a14cbbdb72';
+
+const storage = firebase.storage();
+// Create a storage reference from our storage service
+const storageRef = storage.ref();
+const tempUploadRef = storageRef.child('uploadTempFolder');
 let GoogleAuth, pageToken, query_prev, stateYoutubeTrailer = STATE_YOUTUBE_TRAILER.START, totalResult = 0,
     currentResult = 0, maxBatchResult = 5, selectTrailerCards = [], inputTrailerCards = [], cover_photos = [],
     card_photo = {};
@@ -436,6 +468,37 @@ let GoogleAuth, pageToken, query_prev, stateYoutubeTrailer = STATE_YOUTUBE_TRAIL
 //         <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
 //         <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
 //       </div>
+function resetVariables() {
+    pageToken = null;
+    query_prev = null;
+    stateYoutubeTrailer = STATE_YOUTUBE_TRAILER.START;
+    totalResult = 0;
+    currentResult = 0;
+    maxBatchResult = 5;
+    selectTrailerCards = [];
+    inputTrailerCards = [];
+    cover_photos = [];
+    card_photo = {};
+}
+
+function download_file(name, download_url, mime_type="text/plain") {
+
+    var dlink = document.createElement('a');
+    dlink.download = name;
+    dlink.href = download_url
+    dlink.target = "_blank"
+    dlink.onclick = (e) => {
+        // revokeObjectURL needs a delay to work properly
+        setTimeout(function() {
+            window.URL.revokeObjectURL(this.href);
+        }, 2000);
+    };
+    document.body.appendChild(dlink)
+    dlink.click();
+    dlink.remove();
+    document.body.removeChild(dlink)
+}
+
 function afterCardSelected() {
     if (selectTrailerCards.length > 0) {
         $("#select-display-video").show();
@@ -465,7 +528,6 @@ function trailerCardClicked(event) {
     afterCardSelected();
 }
 
-//   </div>
 function setVideoList(video_list = [], skeleton = false, pageToken, error) {
     const videoSearchCardGroup = document.getElementById('video-search-group');
     if (error) {
@@ -616,4 +678,143 @@ function loadClient() {
 
 function handleClientLoad() {
     gapi.load('client', loadClient);
+}
+
+// ************************ Drag and drop ***************** //
+let dropArea = document.getElementById("drop-area");
+
+// Prevent default drag behaviors
+;['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+    dropArea.addEventListener(eventName, preventDefaults, false)
+    document.body.addEventListener(eventName, preventDefaults, false)
+})
+
+// Highlight drop area when item is dragged over it
+;['dragenter', 'dragover'].forEach(eventName => {
+    dropArea.addEventListener(eventName, highlight, false)
+})
+
+;['dragleave', 'drop'].forEach(eventName => {
+    dropArea.addEventListener(eventName, unhighlight, false)
+})
+
+// Handle dropped files
+dropArea.addEventListener('drop', handleDrop, false)
+
+function preventDefaults(e) {
+    e.preventDefault()
+    e.stopPropagation()
+}
+
+function highlight() {
+    dropArea.classList.add('highlight')
+}
+
+function unhighlight() {
+    dropArea.classList.remove('highlight')
+}
+
+function handleDrop(e) {
+    const dt = e.dataTransfer;
+    const files = dt.files;
+
+    handleFiles(files);
+}
+
+let uploadProgress = []
+let progressBar = document.getElementById('progress-bar')
+
+function initializeProgress(numFiles) {
+    progressBar.value = 0
+    uploadProgress = []
+
+    for (let i = numFiles; i > 0; i--) {
+        uploadProgress.push(0)
+    }
+}
+
+function updateProgress(fileNumber, percent) {
+    uploadProgress[fileNumber] = percent
+    let total = uploadProgress.reduce((tot, curr) => tot + curr, 0) / uploadProgress.length
+    progressBar.value = total
+}
+
+function handleFiles(files) {
+    files = [...files]
+    initializeProgress(files.length)
+    files.forEach(uploadFile)
+    // files.forEach(previewFile)
+}
+
+function previewFile(file) {
+    let reader = new FileReader()
+    reader.readAsDataURL(file)
+    reader.onloadend = function () {
+        let img = document.createElement('img')
+        img.src = file.src
+        document.getElementById('gallery').appendChild(img)
+    }
+}
+
+function uploadFile(file, i) {
+    const metadata = {
+        contentType: `${file.type}`
+    }
+    const uploadTask = tempUploadRef.child(file.name).put(file, metadata);
+
+// Listen for state changes, errors, and completion of the upload.
+    uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, // or 'state_changed'
+        function (snapshot) {
+            // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+            const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            updateProgress(i, progress);
+            switch (snapshot.state) {
+                case firebase.storage.TaskState.PAUSED: // or 'paused'
+                    console.log('Upload is paused');
+                    break;
+                case firebase.storage.TaskState.RUNNING: // or 'running'
+                    console.log('Upload is running');
+                    break;
+            }
+        }, function (error) {
+
+            // A full list of error codes is available at
+            // https://firebase.google.com/docs/storage/web/handle-errors
+            switch (error.code) {
+                case 'storage/unauthorized':
+                    console.log("User doesn't have permission to access the object");
+                    break;
+
+                case 'storage/canceled':
+                    console.log("User canceled the upload");
+                    break;
+
+                case 'storage/unknown':
+                    console.log(`Unknown error occurred, inspect ${error.serverResponse}`);
+                    break;
+            }
+        }, function () {
+            afterUploadFile(file.name)
+        });
+
+    function afterUploadFile(file_name){
+        $.ajax({
+            method: 'GET',
+            url: 'file_upload',
+            data: {
+                file_name: file_name
+            },
+            success: function (data) {
+                if (data.status === 'OK') {
+                    alert(data.message);
+                    window.location.reload()
+                } else {
+                    alert(data.error);
+                }
+            },
+            error: function (xmlHttpRequestEventTarget, status, error) {
+                console.log(error);
+            }
+        });
+    }
 }
