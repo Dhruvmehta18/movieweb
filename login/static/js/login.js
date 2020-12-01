@@ -41,6 +41,12 @@ function logInWithFacebook() {
     // [END_EXCLUDE]
 }
 
+function validateEmail(email) {
+     const reg = /^([A-Za-z0-9_\-.])+@([A-Za-z0-9_\-.])+\.([A-Za-z]{2,4})$/
+
+     return reg.test(email)
+}
+
 // [END buttoncallback]
 function logIn(event) {
     event.preventDefault();
@@ -133,7 +139,7 @@ function initApp() {
             // [START_EXCLUDE]
             // [END_EXCLUDE]
             // similar behavior as an HTTP redirect
-            window.location.href = '../';
+            window.location.href = `${getContinueUrl()}`;
         } else {
             // User is signed out.
             // [START_EXCLUDE]

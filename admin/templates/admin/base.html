@@ -6,6 +6,29 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <script src="https://www.gstatic.com/firebasejs/7.15.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.15.0/firebase-auth.js"></script>
+    <script type="text/javascript" src={% static 'js/firebaseConfig.js' %}></script>
+    <script>
+        const getRootUrl = () => window.location.origin
+        ? `${window.location.origin}/`
+        : `${window.location.protocol}/${window.location.host}/`;
+const getContinueUrl = () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    let continueUrl = urlParams.get('continue');
+    if (continueUrl === null || continueUrl === '') {
+        continueUrl = `${getRootUrl()}admin`;
+    }
+    return continueUrl;
+}
+
+firebase.auth().onAuthStateChanged(function (user) {
+    if (!user) {
+        window.location.href = `${getRootUrl()}login?continue="${getContinueUrl()}"`;
+    }
+});
+
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com/css?family=Roboto&display=swap" as="style"
           onload="this.onload=null;this.rel='stylesheet'"/>
     <link rel="dns-prefetch" href="https://fonts.googleapis.com/css?family=Roboto&display=swap" as="style"
@@ -64,6 +87,8 @@
     const movie_detail_data_url = "{% url 'movie_detail:movie_detail_data' %}"
     {#const csrf_token_convert_token = {% csrf_token %}#}
 </script>
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/7.19.0/firebase-storage.js"></script>
 <script src="{% static 'js/admin.js' %}"></script>
 <script defer rel=preconnect src="https://apis.google.com/js/api.js?onload=handleClientLoad">
 </script>

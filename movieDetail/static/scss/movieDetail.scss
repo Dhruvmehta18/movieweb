@@ -63,14 +63,15 @@ body {
 }
 
 .movie-detail-row {
-  background: linear-gradient(60deg, black 40%, transparent 68%);
+  background: linear-gradient(60deg, black 30%, transparent 68%);
   overflow-y: auto;
 }
 
 .cover-photo {
   pointer-events: none;
   position: absolute;
-  min-width: 100%;
+  min-width: 70%;
+  right:0;
   height: inherit;
   z-index: -1;
   animation-name: slowzoom;

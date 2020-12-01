@@ -8,6 +8,7 @@ from django.shortcuts import render
 
 from firebaseOperations.Schema.Movie import Movie
 from firebaseOperations.firestoreOperations.movieFireStorage import *
+from firebaseOperations.firestoreOperations.movieFireStorage import download_csv
 from firebaseOperations.firestoreOperations.movieFirestore import *
 from utlity.utility import *
 
@@ -52,8 +53,6 @@ def add_movie(request):
         card_photo = request.POST.get('card_photo')
         cover_photos = request.POST.get('cover_photos')
         trailer_id = request.POST.get('trailer_id')
-        print(f'_id={_id}')
-        print(f'cover_photos={cover_photos}')
         movie_dict = {
             'id': _id,
             'title': title,
@@ -120,3 +119,45 @@ def url_upload(request):
         data['error'] = 'movie_id not found'
         data['status'] = '404'
         raise Http404(data)
+
+
+def file_upload(request):
+    data = {}
+    if request.method == 'GET':
+        file_name = request.GET.get('file_name')
+        error = download_csv(file_name)
+
+        data['error'] = error
+        if error:
+            data['status'] = 'FAILURE'
+            data['message'] = "Successfully added to the database"
+            return JsonResponse(data)
+        else:
+            data['status'] = 'OK'
+            return JsonResponse(data)
+    else:
+        data['error'] = 'GET METHOD IS ONLY VALID'
+    return JsonResponse(data)
+
+
+def download_movies_file(request):
+    data = {}
+    if request.method == 'GET':
+        data_type = request.GET.get('type', 'json')
+        download_url, error = download_movies(data_type)
+    
+        data['error'] = error
+        if error:
+            data['status'] = 'FAILURE'
+            return JsonResponse(data)
+        else:
+            result = {
+                'message': 'Uploaded',
+                'download_url': download_url
+            }
+            data['result'] = result
+            data['status'] = 'OK'
+            return JsonResponse(data)
+    else:
+        data['error'] = 'GET METHOD IS ONLY VALID'
+    return JsonResponse(data)

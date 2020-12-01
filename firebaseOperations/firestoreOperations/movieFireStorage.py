@@ -1,17 +1,24 @@
+import csv
 import io
+import os
 import posixpath
+import re
 from os import path
+import json
 
 import requests
 from PIL import Image
 from google.cloud import storage
+
+from firebaseOperations.Schema.Movie import Movie
+from firebaseOperations.firestoreOperations.movieFirestore import add_movie_db, get_movies_json
 
 client = storage.Client()
 bucket = client.get_bucket('movieweb-ec15f.appspot.com')
 
 main_dir = 'movies'
 image_file_format = 'jpg'
-image_quality = 70
+image_quality = 90
 
 small_image_cover_size = (300, 300)
 medium_image_cover_size = (700, 700)
@@ -77,7 +84,7 @@ card_photo_dict = {
     },
 }
 
-__all__ = ['upload_blob_by_url']
+__all__ = ['upload_blob_by_url', 'download_csv', 'download_movies']
 
 
 def get_photo_dict(type_image):
@@ -108,13 +115,11 @@ def upload_blob_by_url(source_image_url, folder_name, movie_id, type_image='cove
             image_buf = io.BytesIO()
             image_ref.save(image_buf, format='JPEG', quality=image_quality)
             root, ext = path.splitext(file_name_list[i])
-            print(ext)
             if not ext or ext != image_file_format:
                 ext = f'.{image_file_format}'
             destination_blob_dir_name = root + ext
             destination_dir = posixpath.join(main_dir, movie_id, type_image, folder_name)
             destination_path = posixpath.join(destination_dir, destination_blob_dir_name)
-            print(destination_path)
             photo_dict['download_url_path'] = destination_dir
             blob = bucket.blob(destination_path)
             # posting to firebase storage
@@ -127,3 +132,57 @@ def upload_blob_by_url(source_image_url, folder_name, movie_id, type_image='cove
         return photo_dict
     else:
         return None, 'content type of url is not image'
+
+
+def download_csv(file_name):
+    blob = bucket.get_blob("uploadTempFolder/{0}".format(file_name))
+    if blob.exists():
+        file_csv_bytes = blob.download_to_filename(file_name)
+        with open(file_name, "r") as file_csv:
+            csv_reader = csv.DictReader(file_csv)
+            line_count = 0
+            for row in csv_reader:
+                if line_count == 0:
+                    print(f'Column names are {", ".join(row)}')
+                    line_count += 1
+                else:
+                    if row['title']:
+                        movie_dict = {
+                            'id': None,
+                            'title': row['title'],
+                            'description': row['description'],
+                            'duration': row['duration'],
+                            'rating': row['rating'],
+                            'release_date': row['release_date'],
+                            'year': row['year'],
+                            'country': row['country'],
+                            'language': row['language'],
+                            'total_reviews': row['total_reviews'],
+                            'genre': row['genre'].split(","),
+                            'card_photo': row['card_photo'],
+                            'cover_photos': row['cover_photos'],
+                            'trailer_id': row['trailer_id']
+                        }
+                        error = add_movie_db(Movie.from_dict(movie_dict, None))
+                        if error:
+                            return error
+                line_count += 1
+            print(f'Processed {line_count} lines.', end="\r")
+        if os.path.isfile(file_name):
+            os.remove(file_name)
+        blob.delete()
+
+
+def download_movies(data_type):
+    destination_path = posixpath.join('downloadTempFolder', 'movies.json')
+    blob = bucket.blob(destination_path)
+    
+    if data_type == 'json':
+        movie_json = get_movies_json()
+        blob.upload_from_string(movie_json, content_type="application/json")
+    else:
+        return None, '{data_type} format is not supported'.format(data_type)
+    
+    blob.make_public()
+    download_url = blob.public_url
+    return download_url, None    

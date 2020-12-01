@@ -18,7 +18,8 @@ env = environ.Env(
     # set casting, default value
     DEBUG=(bool, False),
     COMPRESS_ENABLED=(bool, True),
-    COMPRESS_OFFLINE=(bool, False)
+    COMPRESS_OFFLINE=(bool, False),
+    LOCAL_IP_ADDRESS=(str, '0.0.0.0')
 )
 
 environ.Env.read_env()
@@ -33,8 +34,12 @@ SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env('DEBUG')
+if DEBUG:
+    LOCAL_IP_ADDRESS = env('LOCAL_IP_ADDRESS')
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+    ALLOWED_HOSTS = ['127.0.0.1', 'localhost', LOCAL_IP_ADDRESS]
+else:
+    ALLOWED_HOSTS = []
 
 # Application definition
 
