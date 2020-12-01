@@ -13,3 +13,4 @@ bootstrap
 *.css.map
 CACHE
 .dccache
+**/firebaseConfig.js
