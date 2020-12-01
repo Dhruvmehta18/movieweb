@@ -71,7 +71,7 @@ MIDDLEWARE = [
     "compression_middleware.middleware.CompressionMiddleware",
 ]
 
-ROOT_URLCONF = 'movieweb.urls'
+ROOT_URLCONF = 'backend.urls'
 
 TEMPLATES = [
     {
@@ -89,7 +89,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'movieweb.wsgi.application'
+WSGI_APPLICATION = 'backend.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
@@ -150,7 +150,7 @@ STATICFILES_DIRS = [
     'css',
     'static'
 ]
-STATIC_ROOT = os.path.join(BASE_DIR, 'movieweb/static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'backend/static')
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
