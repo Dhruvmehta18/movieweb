@@ -420,6 +420,26 @@ $(document).ready(function () {
             }
         });
     });
+    $('#downloadMovies').on('click', (e)=>{
+        $.ajax({
+            method: 'GET',
+            url: 'download_movies',
+            data: {
+                type: 'json'
+            },
+            success: function (data) {
+                if (data.status === 'OK') {
+                    const thumbnail = data.result.download_url
+                    download_file('movies.json', thumbnail, 'application/json')
+                } else {
+                    console.e(data.error);
+                }
+            },
+            error: function (xmlHttpRequestEventTarget, status, error) {
+                console.log(error);
+            }
+        });
+    })
 });
 
 const STATE_YOUTUBE_TRAILER = {
@@ -459,6 +479,24 @@ function resetVariables() {
     inputTrailerCards = [];
     cover_photos = [];
     card_photo = {};
+}
+
+function download_file(name, download_url, mime_type="text/plain") {
+
+    var dlink = document.createElement('a');
+    dlink.download = name;
+    dlink.href = download_url
+    dlink.target = "_blank"
+    dlink.onclick = (e) => {
+        // revokeObjectURL needs a delay to work properly
+        setTimeout(function() {
+            window.URL.revokeObjectURL(this.href);
+        }, 2000);
+    };
+    document.body.appendChild(dlink)
+    dlink.click();
+    dlink.remove();
+    document.body.removeChild(dlink)
 }
 
 function afterCardSelected() {

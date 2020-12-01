@@ -11,7 +11,7 @@ from PIL import Image
 from google.cloud import storage
 
 from firebaseOperations.Schema.Movie import Movie
-from firebaseOperations.firestoreOperations.movieFirestore import add_movie_db
+from firebaseOperations.firestoreOperations.movieFirestore import add_movie_db, get_movies_json
 
 client = storage.Client()
 bucket = client.get_bucket('movieweb-ec15f.appspot.com')
@@ -84,7 +84,7 @@ card_photo_dict = {
     },
 }
 
-__all__ = ['upload_blob_by_url']
+__all__ = ['upload_blob_by_url', 'download_csv', 'download_movies']
 
 
 def get_photo_dict(type_image):
@@ -171,3 +171,18 @@ def download_csv(file_name):
         if os.path.isfile(file_name):
             os.remove(file_name)
         blob.delete()
+
+
+def download_movies(data_type):
+    destination_path = posixpath.join('downloadTempFolder', 'movies.json')
+    blob = bucket.blob(destination_path)
+    
+    if data_type == 'json':
+        movie_json = get_movies_json()
+        blob.upload_from_string(movie_json, content_type="application/json")
+    else:
+        return None, '{data_type} format is not supported'.format(data_type)
+    
+    blob.make_public()
+    download_url = blob.public_url
+    return download_url, None    

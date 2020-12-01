@@ -138,3 +138,26 @@ def file_upload(request):
     else:
         data['error'] = 'GET METHOD IS ONLY VALID'
     return JsonResponse(data)
+
+
+def download_movies_file(request):
+    data = {}
+    if request.method == 'GET':
+        data_type = request.GET.get('type', 'json')
+        download_url, error = download_movies(data_type)
+    
+        data['error'] = error
+        if error:
+            data['status'] = 'FAILURE'
+            return JsonResponse(data)
+        else:
+            result = {
+                'message': 'Uploaded',
+                'download_url': download_url
+            }
+            data['result'] = result
+            data['status'] = 'OK'
+            return JsonResponse(data)
+    else:
+        data['error'] = 'GET METHOD IS ONLY VALID'
+    return JsonResponse(data)
