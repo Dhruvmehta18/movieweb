@@ -1,13 +1,12 @@
 import React from "react";
 import {
   BrowserRouter as Router,
-  Switch,
-  Route
+  Switch
 } from "react-router-dom";
 
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
-import { Box, CssBaseline } from "@material-ui/core";
+import { CssBaseline } from "@material-ui/core";
 import Login from './containers/login';
 import Registration from './containers/registration';
 import MovieIndex from './containers/movieIndex';
@@ -30,8 +29,11 @@ function App() {
             main: '#8539BE',
           },
           background:{
-            paper:prefersDarkMode?'#424657':'#fff',
-            default: prefersDarkMode?'#333646':'#fafafa'
+            paper:prefersDarkMode?'#212121':'#fff',
+            default: prefersDarkMode?'#121212':'#fafafa'
+          },
+          error:{
+            main: "#CF6679"
           }
         },
       }),

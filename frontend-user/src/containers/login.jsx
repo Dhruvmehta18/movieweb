@@ -13,28 +13,26 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import useAuth from "../components/useAuth";
 import {
-  ButtonGroup,
   Card,
   CardContent,
   CardHeader,
-  Icon,
 } from "@material-ui/core";
 import Copyright from "../components/Copyright";
-import googleImg from "../img/icon-google.png";
 import {
   addRememberMeChoice,
   getRememberMeChoice,
 } from "../utility/localStorageUtility";
 import { checkPassword, validateEmail } from "../utility/verificationUtility";
+import GoogleButton from "../components/googleButton";
+import FacebookButton from "../components/facebookButton";
 
 const useStyles = makeStyles((theme) => ({
   container: {
     marginTop: theme.spacing(12),
+    marginBottom: theme.spacing(8),
   },
   paper: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
+    padding: theme.spacing(2)
   },
   avatar: {
     margin: theme.spacing(1),
@@ -45,15 +43,6 @@ const useStyles = makeStyles((theme) => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
-  },
-  btnGoogle: {
-    color: "#555555",
-  },
-  btnFb: {
-    color: "#3b5998",
-  },
-  btnGoogleImg: {
-    width: 16,
   },
   signUpText: {
     fontFamily: "Raleway, sans-serif",
@@ -144,7 +133,7 @@ export default function Login() {
   };
 
   const setOnRemmeberMeChangeListener = (ev) => {
-    const checked = ev.target.checked
+    const checked = ev.target.checked;
     setRememberMe(checked);
     addRememberMeChoice(checked);
     auth.setPersistenceHelper(
@@ -154,7 +143,8 @@ export default function Login() {
       },
       (error) => {
         setFormError(error);
-      })
+      }
+    );
   };
 
   const classes = useStyles();
@@ -162,10 +152,9 @@ export default function Login() {
   return (
     <Container component="main" maxWidth="xs" className={classes.container}>
       <CssBaseline />
-      <Card elevation={4}>
+      <Card elevation={4} className={classes.paper}>
         <CardHeader title="Log In" />
         <CardContent>
-          <div className={classes.paper}>
             <form className={classes.form} type="POST" noValidate>
               <TextField
                 variant="outlined"
@@ -230,38 +219,27 @@ export default function Login() {
                 className={classes.submit}
                 onClick={(event) => login(event, email, password)}
               >
-                Sign In
+                <Typography variant="button" className={classes.signUpText}>Sign In</Typography>
               </Button>
-              <ButtonGroup
-                variant="text"
-                aria-label="Sign In with third party provider"
-                fullWidth={true}
+              <Typography
+                align="center"
+                variant="h6"
+                className={classes.signUpText}
+                gutterBottom
               >
-                <Button
-                  variant="outlined"
-                  className={classes.btnGoogle}
-                  startIcon={
-                    <Icon>
-                      <img
-                        src={googleImg}
-                        alt="google"
-                        className={classes.btnGoogleImg}
-                      />
-                    </Icon>
-                  }
-                  onClick={signInWithGoogle}
-                >
-                  Google
-                </Button>
-                <Button
-                  variant="outlined"
-                  className={classes.btnFb}
-                  startIcon={<Icon>facebook-official</Icon>}
-                  onClick={logInWithFacebook}
-                >
-                  FaceBook
-                </Button>
-              </ButtonGroup>
+                Or
+              </Typography>
+              <Grid container spacing={2}  direction="column" justify="center">
+                <Grid item xs={12}>
+                   <GoogleButton onClick={signInWithGoogle} />
+                </Grid>
+               <Grid item xs={12}>
+                <FacebookButton onClick={logInWithFacebook}/>
+                 </Grid>
+              </Grid>
+            </form>
+        </CardContent>
+        <Box m={4}>
               <Box>
                 <Typography
                   align="center"
@@ -271,15 +249,11 @@ export default function Login() {
                   className={classes.signUpText}
                 >
                   New to MovieWeb?
-                  <Link href="registration" variant="body2">
+                  <Link href="registration">
                     {" Sign Up"}
                   </Link>
                 </Typography>
               </Box>
-            </form>
-          </div>
-        </CardContent>
-        <Box m={4}>
           <Copyright />
         </Box>
       </Card>

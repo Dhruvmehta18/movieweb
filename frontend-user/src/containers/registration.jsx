@@ -6,7 +6,6 @@ import TextField from "@material-ui/core/TextField";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import Link from "@material-ui/core/Link";
-import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
@@ -17,15 +16,17 @@ import {
   Card,
   CardContent,
   CardHeader,
+  Grid,
   Icon,
 } from "@material-ui/core";
 import Copyright from "../components/Copyright";
-import googleImg from "../img/icon-google.png";
 import {
   addRememberMeChoice,
   getRememberMeChoice,
 } from "../utility/localStorageUtility";
 import { checkPassword, validateEmail } from "../utility/verificationUtility";
+import GoogleButton from "../components/googleButton";
+import FacebookButton from "../components/facebookButton";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -33,9 +34,7 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: theme.spacing(8),
   },
   paper: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
+    padding: theme.spacing(2)
   },
   avatar: {
     margin: theme.spacing(1),
@@ -128,7 +127,7 @@ export default function Registration() {
     }
   };
 
-  const signInWithGoogle = () => {
+  const signUpWithGoogle = () => {
     setFormError(null);
     auth.signInWithGoogle(
       () => {
@@ -189,10 +188,9 @@ export default function Registration() {
   return (
     <Container component="main" maxWidth="xs" className={classes.container}>
       <CssBaseline />
-      <Card elevation={4}>
+      <Card elevation={4} className={classes.paper}>
         <CardHeader title="Sign Up" />
         <CardContent>
-          <div className={classes.paper}>
             <form className={classes.form} noValidate>
               <TextField
                 variant="outlined"
@@ -267,48 +265,30 @@ export default function Registration() {
                 className={classes.submit}
                 onClick={(event) => registration(event, email, password)}
               >
-                Sign Up
+                <Typography variant="button" className={classes.logInText}>Sign Up</Typography>
               </Button>
               <Box>
                 <Typography
                   align="center"
-                  variant="subtitle1"
+                  variant="h6"
                   component="p"
                   gutterBottom
+                  className={classes.logInText}
                 >
-                  Or Sign Up with
+                  Or
                 </Typography>
-                <ButtonGroup
-                  variant="text"
-                  aria-label="Sign Up with third party provider"
-                  fullWidth={true}
-                >
-                  <Button
-                    variant="outlined"
-                    className={classes.btnGoogle}
-                    startIcon={
-                      <Icon>
-                        <img
-                          src={googleImg}
-                          alt="google"
-                          className={classes.btnGoogleImg}
-                        />
-                      </Icon>
-                    }
-                    onClick={signInWithGoogle}
-                  >
-                    Google
-                  </Button>
-                  <Button
-                    variant="outlined"
-                    className={classes.btnFb}
-                    startIcon={<Icon>facebook-official</Icon>}
-                    onClick={logInWithFacebook}
-                  >
-                    FaceBook
-                  </Button>
-                </ButtonGroup>
+              <Grid container spacing={2} direction="column" justify="center">
+                <Grid item xs={12}>
+                   <GoogleButton onClick={signUpWithGoogle} />
+                </Grid>
+               <Grid item xs={12}>
+                <FacebookButton onClick={logInWithFacebook}/>
+                 </Grid>
+              </Grid>
               </Box>
+            </form>
+        </CardContent>
+        <Box m={2}>
               <Box>
                 <Typography
                   align="center"
@@ -318,15 +298,11 @@ export default function Registration() {
                   className={classes.logInText}
                 >
                   Already a member?
-                  <Link href="login" variant="body2">
+                  <Link href="login">
                     {" Log In"}
                   </Link>
                 </Typography>
               </Box>
-            </form>
-          </div>
-        </CardContent>
-        <Box m={2}>
           <Copyright />
         </Box>
       </Card>
