@@ -51,6 +51,8 @@ INSTALLED_APPS = [
     'whitenoise.runserver_nostatic',
     'django.contrib.staticfiles',
     'compressor',
+    'corsheaders',
+    'rest_framework',
     'login.apps.LoginConfig',
     'movie.apps.MovieConfig',
     'movieDetail.apps.MoviedetailConfig',
@@ -60,6 +62,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -69,6 +72,10 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     "compression_middleware.middleware.CompressionMiddleware",
+]
+
+CORS_ORIGIN_WHITELIST = [
+     "http://localhost:3000"
 ]
 
 ROOT_URLCONF = 'backend.urls'
