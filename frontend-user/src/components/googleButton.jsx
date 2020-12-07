@@ -9,11 +9,10 @@ const useStyles = makeStyles((theme) => ({
     textTransform:"capitalize"
   },
   btnGoogleImg: {
-    width: 40,
-    height: 40,
+    height: theme.spacing(5),
+    padding: theme.spacing(0.1)
   },
   btnGoogle: {
-    height: 40,
     padding: theme.spacing(0,1,0,1),
     justifyContent: "start",
     color: theme.palette.type==="light"?"#4285F4":"#ffffff",
@@ -35,7 +34,7 @@ const theme = createMuiTheme({
       },
     },
   });
-    const {onClick} = props; 
+    const {onClick, disabled} = props; 
   const classes = useStyles();
   return (
     <ThemeProvider theme={theme}>
@@ -52,6 +51,7 @@ const theme = createMuiTheme({
       onClick={onClick}
       fullWidth
       color="primary"
+      disabled={disabled}
     >
       <Typography variant="button" className={classes.btnGoogleTxt}>Sign in with Google</Typography>
     </Button>

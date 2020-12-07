@@ -3,16 +3,20 @@ import firebase from "firebase";
 export const authenticator = {
   isAuthenticated: false,
   persistenceAuth: firebase.auth.Auth.Persistence.SESSION,
-  setFirebasePersistence(persistence, callback, callBackError){
-    const tempPersistenceAuth = persistence?firebase.auth.Auth.Persistence.LOCAL:firebase.auth.Auth.Persistence.SESSION
-    firebase.auth().setPersistence(tempPersistenceAuth)
-    .then(() => {
-      authenticator.persistenceAuth = tempPersistenceAuth;
-      callback();
-    })
-    .catch(callBackError);
+  setFirebasePersistence(persistence, callback, callBackError) {
+    const tempPersistenceAuth = persistence
+      ? firebase.auth.Auth.Persistence.LOCAL
+      : firebase.auth.Auth.Persistence.SESSION;
+    firebase
+      .auth()
+      .setPersistence(tempPersistenceAuth)
+      .then(() => {
+        authenticator.persistenceAuth = tempPersistenceAuth;
+        callback();
+      })
+      .catch(callBackError);
   },
-  signInWithEmailPassword(email="", password="", cb, callBackError) {
+  signInWithEmailPassword(email = "", password = "", cb, callBackError) {
     firebase
       .auth()
       .signInWithEmailAndPassword(email.trim(), password.trim())
@@ -21,9 +25,9 @@ export const authenticator = {
         authenticator.isAuthenticated = true;
         callBackError(null);
       })
-      .catch(callBackError)
+      .catch(callBackError);
   },
-  signUpWithEmailPassword(email="", password="", cb, callBackError) {
+  signUpWithEmailPassword(email = "", password = "", cb, callBackError) {
     firebase
       .auth()
       .createUserWithEmailAndPassword(email.trim(), password.trim())
@@ -57,13 +61,24 @@ export const authenticator = {
       })
       .catch(callBackError);
   },
+  passwordReset(emailAddress="", cb, callBackError) {
+    var auth = firebase.auth();
+    auth
+      .sendPasswordResetEmail(emailAddress)
+      .then(()=>cb())
+      .catch(callBackError);
+  },
   signout(cb) {
     authenticator.isAuthenticated = false;
-    firebase.auth().signOut().then(()=>{
-    cb();
-    }).catch(()=>{
-      console.error("Some error occurred");
-      cb();
-    })
+    firebase
+      .auth()
+      .signOut()
+      .then(() => {
+        cb();
+      })
+      .catch(() => {
+        console.error("Some error occurred");
+        cb();
+      });
   },
 };

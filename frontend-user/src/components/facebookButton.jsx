@@ -18,7 +18,6 @@ const useStyles = makeStyles((theme) => ({
   },
   btnFb: {
     padding: theme.spacing(0,1,0,1),
-    height: 40,
     transition:
       "filter 220ms cubic-bezier(0.4, 0, 0.2, 1) 220ms, background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
     "&:hover": {
@@ -28,7 +27,8 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   btnFbImg: {
-    height: 32,
+    height: theme.spacing(5),
+    padding: theme.spacing(0.5)
   },
 }));
 const FacebookButton = (props) => {
@@ -43,7 +43,7 @@ const FacebookButton = (props) => {
       }
     },
   });
-  const { onClick } = props;
+  const { onClick, disabled } = props;
   const classes = useStyles();
   return (
     <ThemeProvider theme={theme}>
@@ -56,6 +56,7 @@ const FacebookButton = (props) => {
         onClick={onClick}
         fullWidth
         color="primary"
+        disabled={disabled}
       >
         <Typography variant="button" className={classes.btnFbText}>
           Login with Facebook

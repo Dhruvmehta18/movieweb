@@ -46,20 +46,26 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
-  btnGoogle: {
-    color: "#555555",
-  },
-  btnFb: {
-    color: "#3b5998",
-  },
-  btnGoogleImg: {
-    width: 19,
-  },
   logInText: {
     fontFamily: "Raleway, sans-serif",
   },
   errorText: {
     color: theme.palette.error.main,
+  },
+  [theme.breakpoints.down("sm")]: {
+    container: {
+      minWidth: "100vw",
+      minHeight: "100vh",
+      marginTop: theme.spacing(0),
+      marginBottom: theme.spacing(0),
+      padding: theme.spacing(0),
+      overflow: "auto"
+    },
+    paper:{
+      height: "100vh",
+      overflow: "auto",
+      padding: theme.spacing(1)
+    }
   },
 }));
 
@@ -187,7 +193,6 @@ export default function Registration() {
 
   return (
     <Container component="main" maxWidth="xs" className={classes.container}>
-      <CssBaseline />
       <Card elevation={4} className={classes.paper}>
         <CardHeader title="Sign Up" />
         <CardContent>
