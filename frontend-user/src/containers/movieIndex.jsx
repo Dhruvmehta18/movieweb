@@ -1,5 +1,7 @@
+import { Box } from '@material-ui/core';
 import React from 'react';
 import { useHistory } from "react-router-dom";
+import Navbar from '../components/Navbar/Navbar';
 import useAuth from "../components/useAuth";
 
 const MovieIndex = (props) => {
@@ -11,9 +13,9 @@ const MovieIndex = (props) => {
   });
   }
     return (
-        <div>
-            Movie index 
-        </div>
+        <Box>
+          <Navbar/>
+        </Box>
     );
 }
 
