@@ -10,7 +10,6 @@ const MovieIndex = (props) => {
     history.replace({ pathname: "/login" });
   });
   }
-  signOut();
     return (
         <div>
             Movie index 
