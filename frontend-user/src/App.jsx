@@ -4,11 +4,11 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import { Box, CssBaseline } from "@material-ui/core";
-import PrivateRoute from "./components/PrivateRoute";
 import ProvideAuth from "./components/ProvideAuth";
-import AuthRoute from "./components/AuthRoute";
 import FullScreenLoader from "./components/FullScreenLoader";
 
+import PrivateRoute from "./components/PrivateRoute";
+import AuthRoute from "./components/AuthRoute";
 const Login = lazy(() => import("./containers/login"));
 const Registration = lazy(() => import("./containers/registration"));
 const MovieIndex = lazy(() => import("./containers/movieIndex"));

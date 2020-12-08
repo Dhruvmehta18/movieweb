@@ -89,6 +89,7 @@ function useProvideAuth() {
 
   const signout = (callback) => {
     return authenticator.signout(() => {
+      removeUserIdentityObject();
       setUser(null);
       callback();
     });

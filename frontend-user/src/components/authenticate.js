@@ -70,6 +70,7 @@ export const authenticator = {
   },
   signout(cb) {
     authenticator.isAuthenticated = false;
+    authenticator.persistenceAuth = firebase.auth.Auth.Persistence.SESSION
     firebase
       .auth()
       .signOut()
