@@ -7,8 +7,8 @@ import { Box, CssBaseline } from "@material-ui/core";
 import ProvideAuth from "./components/ProvideAuth";
 import FullScreenLoader from "./components/FullScreenLoader";
 
-import PrivateRoute from "./components/PrivateRoute";
-import AuthRoute from "./components/AuthRoute";
+const PrivateRoute = lazy(()=>import("./components/PrivateRoute"));
+const AuthRoute = lazy(()=>import("./components/AuthRoute"));
 const Login = lazy(() => import("./containers/login"));
 const Registration = lazy(() => import("./containers/registration"));
 const MovieIndex = lazy(() => import("./containers/movieIndex"));
