@@ -8,12 +8,12 @@ import PrivateRoute from "./components/PrivateRoute";
 import ProvideAuth from "./components/ProvideAuth";
 import AuthRoute from "./components/AuthRoute";
 import FullScreenLoader from "./components/FullScreenLoader";
-import PasswordReset from "./components/PasswordReset";
 
 const Login = lazy(() => import("./containers/login"));
 const Registration = lazy(() => import("./containers/registration"));
 const MovieIndex = lazy(() => import("./containers/movieIndex"));
 const MovieDetail = lazy(() => import("./containers/movieDetail"));
+const PasswordReset = lazy(() => import("./components/PasswordReset"));
 
 function App() {
   const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
@@ -43,23 +43,25 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Suspense fallback={<FullScreenLoader />}>
-        <ProvideAuth>
-          <Router>
-            <Box>
+      <ProvideAuth>
+        <Router>
+          <Box>
+            <Suspense fallback={<FullScreenLoader />}>
               <Switch>
                 <AuthRoute exact path="/login" children={<Login />} />
                 <AuthRoute path="/registration" children={<Registration />} />
-                <Route path="/reset-password" children={<PasswordReset/>}></Route>
+                <Route
+                  path="/reset-password"
+                  children={<PasswordReset />}/>
                 <Switch>
                   <PrivateRoute exact path="/" children={<MovieIndex />} />
                   <PrivateRoute path="/movie/:id" children={<MovieDetail />} />
                 </Switch>
               </Switch>
-            </Box>
-          </Router>
-        </ProvideAuth>
-      </Suspense>
+            </Suspense>
+          </Box>
+        </Router>
+      </ProvideAuth>
     </ThemeProvider>
   );
 }
