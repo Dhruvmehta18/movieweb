@@ -40,6 +40,9 @@ const useStyles = makeStyles((theme) => ({
   helperPasswordText: {
     ...theme.typography.subtitle1,
   },
+  fieldLen: {
+    maxWidth: "500px"
+  },
   [theme.breakpoints.down("sm")]: {
     container: {
       minWidth: "100vw",
@@ -57,9 +60,6 @@ const useStyles = makeStyles((theme) => ({
     helperPasswordText: {
       ...theme.typography.body2,
     },
-  },
-  fieldLen: {
-    maxWidth: "500px"
   }
 }));
 
@@ -133,7 +133,7 @@ export default function PasswordReset() {
           </Box>
         </Box>
         <CardContent>
-          <form className={classes.form}>
+          <form className={classes.form} noValidate>
             <TextField
               variant="outlined"
               margin="normal"

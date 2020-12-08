@@ -12,7 +12,12 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import useAuth from "../components/useAuth";
-import { Card, CardContent, CardHeader, LinearProgress } from "@material-ui/core";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  LinearProgress,
+} from "@material-ui/core";
 import Copyright from "../components/Copyright";
 import {
   addRememberMeChoice,
@@ -28,13 +33,17 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: theme.spacing(8),
   },
   paper: {
-    padding: theme.spacing(2)
+    padding: theme.spacing(2),
   },
   avatar: {
     margin: theme.spacing(1),
     backgroundColor: theme.palette.secondary.main,
   },
   form: {
+    display: "inline-flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
     width: "100%", // Fix IE 11 issue.
   },
   submit: {
@@ -46,6 +55,16 @@ const useStyles = makeStyles((theme) => ({
   errorText: {
     color: theme.palette.error.main,
   },
+  fieldLen: {
+    maxWidth: "500px",
+  },
+  fixField: {
+    width: "100%",
+    margin: "0 auto",
+  },
+  forgotPasswordContainer:{
+    width:"100%"
+  },
   [theme.breakpoints.down("sm")]: {
     container: {
       minWidth: "100vw",
@@ -53,13 +72,13 @@ const useStyles = makeStyles((theme) => ({
       marginTop: theme.spacing(0),
       marginBottom: theme.spacing(0),
       padding: theme.spacing(0),
-      overflow: "auto"
+      overflow: "auto",
     },
-    paper:{
+    paper: {
       height: "100vh",
       overflow: "auto",
-      padding: theme.spacing(1)
-    }
+      padding: theme.spacing(1),
+    },
   },
 }));
 
@@ -170,9 +189,9 @@ export default function Login() {
 
   return (
     <Container component="main" maxWidth="xs" className={classes.container}>
+        {submitForm && <LinearProgress color="secondary" />}
       <Card elevation={4} className={classes.paper}>
-        {submitForm&&<LinearProgress  color="secondary"/>}
-        <CardHeader title="Log In" />
+        <CardHeader title="Log In" titleTypographyProps={{ align: "center" }} />
         <CardContent>
           <form className={classes.form} type="POST" noValidate>
             <TextField
@@ -189,6 +208,7 @@ export default function Login() {
               autoFocus
               helperText={emailError}
               error={emailError !== null}
+              className={classes.fieldLen}
             />
             <TextField
               variant="outlined"
@@ -203,13 +223,17 @@ export default function Login() {
               onChange={setOnPasswordChangeListener}
               helperText={passwordError}
               error={passwordError !== null}
+              className={classes.fieldLen}
             />
-            <Typography align="right" variant="caption" component="p">
-              <Link href="/reset-password" variant="caption">
-                Forgot password?
-              </Link>
-            </Typography>
+            <Box display="flex" justifyContent="flex-end" className={[classes.forgotPasswordContainer, classes.fieldLen].join(" ")}>
+              <Typography align="right" variant="caption" component="p">
+                <Link href="/reset-password" variant="caption">
+                  Forgot password?
+                </Link>
+              </Typography>
+            </Box>
             <FormControlLabel
+              className={[classes.fixField, classes.fieldLen].join(" ")}
               control={
                 <Checkbox
                   checked={remember}
@@ -236,7 +260,7 @@ export default function Login() {
               fullWidth
               variant="contained"
               color="primary"
-              className={classes.submit}
+              className={[classes.submit, classes.fieldLen].join(" ")}
               onClick={(event) => login(event, email, password)}
               disabled={submitForm}
             >
@@ -244,24 +268,32 @@ export default function Login() {
                 Sign In
               </Typography>
             </Button>
-            <Typography
-              align="center"
-              variant="h6"
-              className={classes.signUpText}
-              gutterBottom
-            >
-              Or
-            </Typography>
-            <Grid container spacing={2} direction="column" justify="center">
-              <Grid item xs={12}>
-                <GoogleButton onClick={signInWithGoogle} 
-              disabled={submitForm}/>
+            <Box>
+              <Typography
+                align="center"
+                variant="h6"
+                className={classes.signUpText}
+                gutterBottom
+              >
+                Or
+              </Typography>
+              <Grid container spacing={2} direction="row" justify="center">
+                <Grid item xs={12}>
+                  <GoogleButton
+                    onClick={signInWithGoogle}
+                    className={classes.fieldLen}
+                    disabled={submitForm}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <FacebookButton
+                    onClick={logInWithFacebook}
+                    className={classes.fieldLen}
+                    disabled={submitForm}
+                  />
+                </Grid>
               </Grid>
-              <Grid item xs={12}>
-                <FacebookButton onClick={logInWithFacebook}
-              disabled={submitForm} />
-              </Grid>
-            </Grid>
+            </Box>
           </form>
         </CardContent>
         <Box m={4}>

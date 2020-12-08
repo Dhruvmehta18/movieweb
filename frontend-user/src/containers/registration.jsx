@@ -18,6 +18,7 @@ import {
   CardHeader,
   Grid,
   Icon,
+  LinearProgress,
 } from "@material-ui/core";
 import Copyright from "../components/Copyright";
 import {
@@ -41,6 +42,10 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.secondary.main,
   },
   form: {
+    display: "inline-flex",
+    flexDirection: "column",
+    justifyContent:"center",
+    alignItems:"center",
     width: "100%", // Fix IE 11 issue.
   },
   submit: {
@@ -51,6 +56,13 @@ const useStyles = makeStyles((theme) => ({
   },
   errorText: {
     color: theme.palette.error.main,
+  },
+  fieldLen: {
+    maxWidth: "500px"
+  },
+  fixField:{
+    width: "100%",
+    margin: "0 auto"
   },
   [theme.breakpoints.down("sm")]: {
     container: {
@@ -66,7 +78,7 @@ const useStyles = makeStyles((theme) => ({
       overflow: "auto",
       padding: theme.spacing(1)
     }
-  },
+  }
 }));
 
 export default function Registration() {
@@ -81,6 +93,7 @@ export default function Registration() {
   const [passwordError, setPasswordError] = useState(null);
   const [confirmPasswordError, setConfirmPasswordError] = useState(null);
   const [formError, setFormError] = useState(null);
+  const [submitForm, setSubmit] = useState(false);
 
   let { from } = location.state || { from: { pathname: "/" } };
 
@@ -116,6 +129,7 @@ export default function Registration() {
 
   const registration = (event, email, password) => {
     event.preventDefault();
+    setSubmit(true);
     setFormError(null);
     if (checkFormValid()) {
       auth.signUpWithEmail(
@@ -123,35 +137,44 @@ export default function Registration() {
         password,
         () => {
           history.replace(from);
+          setSubmit(false);
         },
         (error) => {
           setFormError(error);
+          setSubmit(false);
         }
       );
     } else {
+      setSubmit(false);
       generateErrorOnInValid();
     }
   };
 
   const signUpWithGoogle = () => {
     setFormError(null);
+    setSubmit(true);
     auth.signInWithGoogle(
       () => {
         history.replace(from);
+        setSubmit(false);
       },
       (error) => {
         setFormError(error);
+        setSubmit(false);
       }
     );
   };
   const logInWithFacebook = () => {
     setFormError(null);
+    setSubmit(true);
     auth.signInWithFacebook(
       () => {
         history.replace(from);
+        setSubmit(false);
       },
       (error) => {
         setFormError(error);
+        setSubmit(false);
       }
     );
   };
@@ -193,8 +216,9 @@ export default function Registration() {
 
   return (
     <Container component="main" maxWidth="xs" className={classes.container}>
+        {submitForm&&<LinearProgress  color="secondary"/>}
       <Card elevation={4} className={classes.paper}>
-        <CardHeader title="Sign Up" />
+        <CardHeader title="Sign Up" titleTypographyProps={{align: "center"}}/>
         <CardContent>
             <form className={classes.form} noValidate>
               <TextField
@@ -211,6 +235,7 @@ export default function Registration() {
                 autoFocus
                 helperText={emailError}
                 error={emailError !== null}
+                className={classes.fieldLen}
               />
               <TextField
                 variant="outlined"
@@ -226,6 +251,7 @@ export default function Registration() {
                 value={password}
                 helperText={passwordError}
                 error={passwordError !== null}
+                className={classes.fieldLen}
               />
               <TextField
                 variant="outlined"
@@ -240,8 +266,10 @@ export default function Registration() {
                 value={confirmPassword}
                 helperText={confirmPasswordError}
                 error={confirmPasswordError !== null}
+                className={classes.fieldLen}
               />
               <FormControlLabel
+              className={[classes.fixField, classes.fieldLen].join(" ")}
                 control={
                   <Checkbox
                     checked={remember}
@@ -267,7 +295,7 @@ export default function Registration() {
                 fullWidth
                 variant="contained"
                 color="primary"
-                className={classes.submit}
+                className={[classes.submit, classes.fieldLen].join(" ")}
                 onClick={(event) => registration(event, email, password)}
               >
                 <Typography variant="button" className={classes.logInText}>Sign Up</Typography>
@@ -282,12 +310,14 @@ export default function Registration() {
                 >
                   Or
                 </Typography>
-              <Grid container spacing={2} direction="column" justify="center">
+              <Grid container spacing={2} direction="row" justify="center">
                 <Grid item xs={12}>
-                   <GoogleButton onClick={signUpWithGoogle} />
+                   <GoogleButton onClick={signUpWithGoogle} 
+              className={classes.fieldLen}/>
                 </Grid>
                <Grid item xs={12}>
-                <FacebookButton onClick={logInWithFacebook}/>
+                <FacebookButton onClick={logInWithFacebook} 
+              className={classes.fieldLen}/>
                  </Grid>
               </Grid>
               </Box>

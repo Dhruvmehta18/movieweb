@@ -43,13 +43,13 @@ const FacebookButton = (props) => {
       }
     },
   });
-  const { onClick, disabled } = props;
+  const { onClick, disabled,className, ...extraProps } = props;
   const classes = useStyles();
   return (
     <ThemeProvider theme={theme}>
       <Button
         variant="contained"
-        className={classes.btnFb}
+        className={[classes.btnFb, className].join(" ")}
         startIcon={
           <img src={prefersDarkMode?facebookDarkIcon:facebookIcon} alt="facebook" className={classes.btnFbImg} />
         }
@@ -57,6 +57,7 @@ const FacebookButton = (props) => {
         fullWidth
         color="primary"
         disabled={disabled}
+        {...extraProps}
       >
         <Typography variant="button" className={classes.btnFbText}>
           Login with Facebook

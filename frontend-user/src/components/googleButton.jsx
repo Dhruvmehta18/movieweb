@@ -34,13 +34,13 @@ const theme = createMuiTheme({
       },
     },
   });
-    const {onClick, disabled} = props; 
+    const {onClick, disabled,className, ...extraProps} = props; 
   const classes = useStyles();
   return (
     <ThemeProvider theme={theme}>
     <Button
       variant="contained"
-      className={classes.btnGoogle}
+      className={[classes.btnGoogle, className].join(" ")}
       startIcon={
           <img
             src={prefersDarkMode?googleImgDark:googleImgLight}
@@ -52,6 +52,7 @@ const theme = createMuiTheme({
       fullWidth
       color="primary"
       disabled={disabled}
+      {...extraProps}
     >
       <Typography variant="button" className={classes.btnGoogleTxt}>Sign in with Google</Typography>
     </Button>
