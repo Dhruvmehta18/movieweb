@@ -9,6 +9,7 @@ import FullScreenLoader from "./components/FullScreenLoader";
 
 const PrivateRoute = lazy(()=>import("./components/PrivateRoute"));
 const AuthRoute = lazy(()=>import("./components/AuthRoute"));
+const Header = lazy(()=>import("./components/Header"));
 const Login = lazy(() => import("./containers/login"));
 const Registration = lazy(() => import("./containers/registration"));
 const MovieIndex = lazy(() => import("./containers/movieIndex"));
@@ -54,6 +55,7 @@ function App() {
                   path="/reset-password"
                   children={<PasswordReset />}/>
                 <Switch>
+                  <Header/>
                   <PrivateRoute exact path="/" children={<MovieIndex />} />
                   <PrivateRoute path="/movie/:id" children={<MovieDetail />} />
                 </Switch>

@@ -102,13 +102,13 @@ const Navbar = (props) => {
     return () => {
       window.onscroll = null;
     };
-  }, [elevationAppBar]);
+  }, [active, elevationAppBar, toogleDrawerState, index]);
 
-  const toggleDrawer = (state) => {
+  const toggleDrawer = (state=false) => {
     updateToogleDrawerState(state);
   };
 
-  const navItemsClicked = (event, index) => {
+  const navItemsClicked = (event, index=-1) => {
     updateActiveItems(index);
   };
 
