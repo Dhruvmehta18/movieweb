@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  Link as RouterLink,
-  useLocation
-} from "react-router-dom";
+import { Link as RouterLink, useHistory, useLocation } from "react-router-dom";
 
 import "./Navbar.css";
 import AppBar from "@material-ui/core/AppBar";
@@ -18,11 +15,12 @@ import {
   ListItem,
   SwipeableDrawer,
   Box,
-  Link
+  Link,
 } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 import HideOnScroll from "../HideOnScroll";
 import LogoTitle from "../LogoTitle";
+import useAuth from "../useAuth";
 
 const items = [
   {
@@ -85,9 +83,11 @@ const anchor = "left";
 
 const Navbar = (props) => {
   const classes = useStyles();
+  let history = useHistory();
   let location = useLocation();
-  const index = items.findIndex(value => value.link === location.pathname)
-  const [active, updateActiveItems] = useState(index===-1?0:index);
+  let auth = useAuth();
+  const index = items.findIndex((value) => value.link === location.pathname);
+  const [active, updateActiveItems] = useState(index === -1 ? 0 : index);
   const [elevationAppBar, updateElevationAppbar] = useState(0);
   const [toogleDrawerState, updateToogleDrawerState] = useState(false);
 
@@ -104,87 +104,97 @@ const Navbar = (props) => {
     };
   }, [active, elevationAppBar, toogleDrawerState, index]);
 
-  const toggleDrawer = (state=false) => {
+  const signOut = () => {
+    auth.signout(() => {
+      history.replace({ pathname: "/login" });
+    });
+  };
+
+  const toggleDrawer = (state = false) => {
     updateToogleDrawerState(state);
   };
 
-  const navItemsClicked = (event, index=-1) => {
+  const navItemsClicked = (event, index = -1) => {
     updateActiveItems(index);
   };
 
   return (
-        <div>
-          <HideOnScroll>
-            <AppBar
-              color="transparent"
-              ref={props.forwardRef}
-              className={classes.offsetBackground}
-              elevation={elevationAppBar}
-            >
-              <Toolbar>
-                <React.Fragment key={anchor}>
-                  <IconButton
-                    edge="start"
-                    className={classes.menuButton}
-                    color="inherit"
-                    aria-label="open drawer"
-                    onClick={() => toggleDrawer(true)}
-                  >
-                    <MenuIcon />
-                  </IconButton>
-                  <SwipeableDrawer
-                    className={classes.drawer}
-                    disableBackdropTransition={!iOS}
-                    disableDiscovery={iOS}
-                    anchor={anchor}
-                    open={toogleDrawerState}
-                    onClose={() => toggleDrawer(false)}
-                    onOpen={() => toggleDrawer(true)}
-                    PaperProps={{
-                      className: classes.drawer,
-                    }}
-                    ModalProps={{
-                      keepMounted: true, // Better open performance on mobile.
-                    }}
-                  >
-                    <Box paddingX={2} paddingBottom={1} paddingTop={2}>
-                        <LogoTitle/>
-                    </Box>
-                    <List>
-                      {items.map((item) => (
-                          <ListItemLink key={item.name} to={item.link} primary={item.name}/>
-                      ))}
-                    </List>
-                  </SwipeableDrawer>
-                </React.Fragment>
-                <LogoTitle/>
-                <Typography variant="h6" className={classes.tabs}>
-                  <Tabs
-                    value={active}
-                    onChange={navItemsClicked}
-                    indicatorColor="primary"
-                  >
-                    {items.map((item, index) => {
-                      return (
-                        <Tab
-                          key={index}
-                          component={RouterLink}
-                          to={item.link}
-                          exact={item.exact}
-                          underline="none"
-                          color="textPrimary"
-                          value={index}
-                          label={item.name}
-                        />
-                      );
-                    })}
-                  </Tabs>
-                </Typography>
-              </Toolbar>
-            </AppBar>
-          </HideOnScroll>
-          <div className={classes.offset}>x</div>
-        </div>
+    <div>
+      <HideOnScroll>
+        <AppBar
+          color="transparent"
+          ref={props.forwardRef}
+          className={classes.offsetBackground}
+          elevation={elevationAppBar}
+        >
+          <Toolbar>
+            <React.Fragment key={anchor}>
+              <IconButton
+                edge="start"
+                className={classes.menuButton}
+                color="inherit"
+                aria-label="open drawer"
+                onClick={() => toggleDrawer(true)}
+              >
+                <MenuIcon />
+              </IconButton>
+              <SwipeableDrawer
+                className={classes.drawer}
+                disableBackdropTransition={!iOS}
+                disableDiscovery={iOS}
+                anchor={anchor}
+                open={toogleDrawerState}
+                onClose={() => toggleDrawer(false)}
+                onOpen={() => toggleDrawer(true)}
+                PaperProps={{
+                  className: classes.drawer,
+                }}
+                ModalProps={{
+                  keepMounted: true, // Better open performance on mobile.
+                }}
+              >
+                <Box paddingX={2} paddingBottom={1} paddingTop={2}>
+                  <LogoTitle />
+                </Box>
+                <List>
+                  {items.map((item) => (
+                    <ListItemLink
+                      key={item.name}
+                      to={item.link}
+                      primary={item.name}
+                    />
+                  ))}
+                </List>
+              </SwipeableDrawer>
+            </React.Fragment>
+            <LogoTitle />
+            <Typography variant="h6" className={classes.tabs}>
+              <Tabs
+                value={active}
+                onChange={navItemsClicked}
+                indicatorColor="primary"
+              >
+                {items.map((item, index) => {
+                  return (
+                    <Tab
+                      key={index}
+                      component={RouterLink}
+                      to={item.link}
+                      exact={item.exact}
+                      underline="none"
+                      color="textPrimary"
+                      value={index}
+                      label={item.name}
+                    />
+                  );
+                })}
+              </Tabs>
+            </Typography>
+          </Toolbar>
+        </AppBar>
+      </HideOnScroll>
+      <div className={classes.offset}>x</div>
+    </div>
   );
 };
 
@@ -192,16 +202,19 @@ function ListItemLink(props) {
   const { primary, to } = props;
 
   const renderLink = React.useMemo(
-      () => React.forwardRef((itemProps, ref) => <RouterLink to={to} ref={ref} {...itemProps} />),
-      [to],
+    () =>
+      React.forwardRef((itemProps, ref) => (
+        <RouterLink to={to} ref={ref} {...itemProps} />
+      )),
+    [to]
   );
 
   return (
-      <li>
-        <ListItem button component={renderLink} alignItems="center" >
-          <ListItemText primary={primary} />
-        </ListItem>
-      </li>
+    <li>
+      <ListItem button component={renderLink} alignItems="center">
+        <ListItemText primary={primary} />
+      </ListItem>
+    </li>
   );
 }
 

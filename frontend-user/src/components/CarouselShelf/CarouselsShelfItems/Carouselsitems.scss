@@ -1,0 +1,13 @@
+.carousels-container{
+    overflow: hidden;
+    overflow-x: scroll;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+    scroll-behavior: auto;
+    will-change: transform;
+    -webkit-overflow-scrolling: touch;
+    -ms-overflow-style: none;
+    &::-webkit-scrollbar {
+        display: none;
+      }
+}

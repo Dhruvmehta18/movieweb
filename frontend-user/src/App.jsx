@@ -48,6 +48,7 @@ function App() {
         <Router>
           <Box>
             <Suspense fallback={<FullScreenLoader />}>
+              <Header/>
               <Switch>
                 <AuthRoute exact path="/login" children={<Login />} />
                 <AuthRoute path="/registration" children={<Registration />} />
@@ -55,7 +56,6 @@ function App() {
                   path="/reset-password"
                   children={<PasswordReset />}/>
                 <Switch>
-                  <Header/>
                   <PrivateRoute exact path="/" children={<MovieIndex />} />
                   <PrivateRoute path="/movie/:id" children={<MovieDetail />} />
                 </Switch>
