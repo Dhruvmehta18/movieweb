@@ -1,0 +1,13 @@
+:root{
+    --movie-card-margin-vertical: 16px;
+    --movie-card-width: 200px;
+    --movie-card-height: 300px;
+    --carousels-shelf-content-base-width: calc(100vw - 112px);
+    --carousels-shelf-content-width: calc(var(--carousels-shelf-content-base-width));
+    --carousels-shelf-icons-position: calc((100% - var(--carousels-shelf-content-base-width)) / 2);
+    
+}
+code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+      monospace;
+  }

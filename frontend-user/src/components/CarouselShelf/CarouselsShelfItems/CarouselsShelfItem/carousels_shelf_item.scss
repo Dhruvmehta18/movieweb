@@ -1,48 +1,47 @@
-
 .movie-card {
-    max-width: 200px;
-    min-width: 200px;
-    margin: 16px;
-    height: 300px;
-    align-items: center;
-    overflow: hidden;
-    transition: ease-in all 0.1s;
-    border: none;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1442643923240938), 0 3px 8px rgba(0, 0, 0, 0.24);
-    > a.text-reset{
-      height:inherit;
-    }
-    &:hover {
-      .card-img-overlay {
-        display: block;
-        background: linear-gradient(0deg, rgba(0, 0, 0, .8), transparent 60%);
-      }
-    }
+  max-width: var(--movie-card-width);
+  min-width: var(--movie-card-width);
+  margin: 0;
+  margin-top:var(--movie-card-margin-vertical);
+  margin-bottom:var(--movie-card-margin-vertical);
+  margin-right: 32px;
+  height: var(--movie-card-height);
+  align-items: center;
+  overflow: hidden;
+  transition: ease-in all 0.1s;
+  > a.text-reset {
+    height: inherit;
+  }
+  &:hover {
     .card-img-overlay {
-      display: none;
-    }
-    img.card-image{
-      height:100%;
-      width:auto;
+      display: block;
+      background: linear-gradient(0deg, rgba(0, 0, 0, 0.8), transparent 60%);
     }
   }
-  
-  #carouselMovieCaptions{
-    background-color: #121212;
+  .card-img-overlay {
+    display: none;
   }
-  
-  
-  @media screen and (min-width: 576px) {
-  .carousel-item{
-    .img-container{
-      z-index:1
+  img.card-image {
+    height: 100%;
+    width: auto;
+  }
+}
+
+#carouselMovieCaptions {
+  background-color: #121212;
+}
+
+@media screen and (min-width: 576px) {
+  .carousel-item {
+    .img-container {
+      z-index: 1;
     }
     img {
-        max-height: 70vh;
-        width: auto !important;
-        z-index: 1;
+      max-height: 70vh;
+      width: auto !important;
+      z-index: 1;
     }
-  .blur-img-container {
+    .blur-img-container {
       width: 100%;
       height: inherit;
       background-size: 100%;
@@ -51,13 +50,12 @@
       position: absolute;
       top: 0;
       left: 0;
-    z-index:0;
-  }
-  .photoContainer{
-        display: flex;
+      z-index: 0;
+    }
+    .photoContainer {
+      display: flex;
       justify-content: center;
       height: 100%;
+    }
   }
-  }
-  }
-  
+}

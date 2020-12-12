@@ -4,36 +4,50 @@ import { ChevronLeft, ChevronRight } from "@material-ui/icons";
 import { LOADED } from "../../constants/constants";
 import CarouselsShelfHeader from "./CarouselsShelfHeader/CarouselsShelfHeader";
 import CarouselsShelfItems from "./CarouselsShelfItems/CarouselsShelfItems";
-const useStyles = makeStyles(() => ({
-  navShelfIcons: {
+import "./carouselsShelf.css";
+const useStyles = makeStyles((theme) => ({
+  navShelfIconsContainer: {
     position: "absolute",
-    top: 'calc(200px / 2)',
+    top: "calc((var(--movie-card-height) + 2 * var(--movie-card-margin-vertical)) / 2)",
+    transform: "translate3d(-50%, -50%, 0)",
     borderRadius: "50%",
+    zIndex: 2
   },
+  navShelfIcon:{
+    color: theme.palette.common.black,
+    background: theme.palette.common.white,
+    zIndex: "inherit"
+  },
+  prevIconContainer:{
+    left: "var(--carousels-shelf-icons-position)"
+  },
+  nextIconContainer:{
+    right: 0
+  }
 }));
 const CarouselsShelf = (props) => {
   const classes = useStyles();
   const { carouselsList = [] } = props;
   console.log(carouselsList);
   return (
-    <Box margin={2}>
+    <Box>
       {carouselsList &&
         carouselsList.requestState === LOADED &&
         carouselsList.data.map((carousel, index) => {
           return (
-            <Box margin={2} key={index}>
+            <Box key={index}>
               <CarouselsShelfHeader title={carousel.title} />
-              <Box>
-                <Box className={classes.navShelfIcons}>
-                <IconButton aria-label="previous">
-                  <ChevronLeft />
-                </IconButton>
+              <Box position="relative">
+                <Box className={[classes.navShelfIconsContainer, classes.prevIconContainer].join(" ")}>
+                  <IconButton aria-label="previous" className={classes.navShelfIcon}>
+                    <ChevronLeft />
+                  </IconButton>
                 </Box>
                 <CarouselsShelfItems carousel={carousel} />
-                <Box className={classes.navShelfIcons}>
-                <IconButton aria-label="next">
-                  <ChevronRight />
-                </IconButton>
+                <Box className={[classes.navShelfIconsContainer, classes.nextIconContainer].join(" ")}>
+                  <IconButton aria-label="next" className={classes.navShelfIcon}>
+                    <ChevronRight />
+                  </IconButton>
                 </Box>
               </Box>
             </Box>

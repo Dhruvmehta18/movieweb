@@ -8,7 +8,7 @@ const CarouselsShelfItem = memo((props) => {
   const src = `${movie.card_photo.medium.download_url}`;
   const linkTo = `/movie/${movie.id}`;
   return (
-    <Grid item component={Paper} className="movie-card">
+    <Grid item component={Paper} className="movie-card" elevation={4}>
       <a href={linkTo} className="text-reset">
         <img
           className="card-img-top card-image"
