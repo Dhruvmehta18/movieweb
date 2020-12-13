@@ -1,5 +1,6 @@
 import { Grid, Paper } from "@material-ui/core";
 import React, { memo } from "react";
+import DynamicImage from "../../../DynamicImage/DynamicImage";
 import "./carousels_shelf_item.css";
 
 const CarouselsShelfItem = memo((props) => {
@@ -10,11 +11,13 @@ const CarouselsShelfItem = memo((props) => {
   return (
     <Grid item component={Paper} className="movie-card" elevation={4}>
       <a href={linkTo} className="text-reset">
-        <img
+        <DynamicImage
           className="card-img-top card-image"
           alt={movie.title}
-          srcSet={srcset}
-          src={src}
+          dataSrc={src}
+          dataSrcset={srcset}
+          fallbackImageUrl={movie.card_photo.small.download_url}
+          isFallbackBlur
         />
       </a>
     </Grid>
