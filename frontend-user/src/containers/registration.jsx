@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useLocation, useHistory } from "react-router-dom";
 import Button from "@material-ui/core/Button";
-import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
@@ -35,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: theme.spacing(8),
   },
   paper: {
-    padding: theme.spacing(2)
+    padding: theme.spacing(2),
   },
   avatar: {
     margin: theme.spacing(1),
@@ -44,8 +43,8 @@ const useStyles = makeStyles((theme) => ({
   form: {
     display: "inline-flex",
     flexDirection: "column",
-    justifyContent:"center",
-    alignItems:"center",
+    justifyContent: "center",
+    alignItems: "center",
     width: "100%", // Fix IE 11 issue.
   },
   submit: {
@@ -58,11 +57,11 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.error.main,
   },
   fieldLen: {
-    maxWidth: "500px"
+    maxWidth: "500px",
   },
-  fixField:{
+  fixField: {
     width: "100%",
-    margin: "0 auto"
+    margin: "0 auto",
   },
   [theme.breakpoints.down("sm")]: {
     container: {
@@ -71,14 +70,14 @@ const useStyles = makeStyles((theme) => ({
       marginTop: theme.spacing(0),
       marginBottom: theme.spacing(0),
       padding: theme.spacing(0),
-      overflow: "auto"
+      overflow: "auto",
     },
-    paper:{
+    paper: {
       height: "100vh",
       overflow: "auto",
-      padding: theme.spacing(1)
-    }
-  }
+      padding: theme.spacing(1),
+    },
+  },
 }));
 
 export default function Registration() {
@@ -198,7 +197,7 @@ export default function Registration() {
   };
 
   const setOnRemmeberMeChangeListener = (ev) => {
-    const checked = ev.target.checked
+    const checked = ev.target.checked;
     setRememberMe(checked);
     addRememberMeChoice(checked);
     auth.setPersistenceHelper(
@@ -216,128 +215,135 @@ export default function Registration() {
 
   return (
     <Container component="main" maxWidth="xs" className={classes.container}>
-        {submitForm&&<LinearProgress  color="secondary"/>}
+      {submitForm && <LinearProgress color="secondary" />}
       <Card elevation={4} className={classes.paper}>
-        <CardHeader title="Sign Up" titleTypographyProps={{align: "center"}}/>
+        <CardHeader
+          title="Sign Up"
+          titleTypographyProps={{ align: "center" }}
+        />
         <CardContent>
-            <form className={classes.form} noValidate>
-              <TextField
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                id="email"
-                label="Email"
-                name="email"
-                autoComplete="email"
-                onChange={setOnEmailChangeListener}
-                value={email}
-                autoFocus
-                helperText={emailError}
-                error={emailError !== null}
-                className={classes.fieldLen}
-              />
-              <TextField
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-                onChange={setOnPasswordChangeListener}
-                value={password}
-                helperText={passwordError}
-                error={passwordError !== null}
-                className={classes.fieldLen}
-              />
-              <TextField
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                label="Confirm Password"
-                type="password"
-                id="confirm-password"
-                autoComplete="confirm-password"
-                onChange={setOnConfirmPasswordChangeListener}
-                value={confirmPassword}
-                helperText={confirmPasswordError}
-                error={confirmPasswordError !== null}
-                className={classes.fieldLen}
-              />
-              <FormControlLabel
+          <form className={classes.form} noValidate>
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              id="email"
+              label="Email"
+              name="email"
+              autoComplete="email"
+              onChange={setOnEmailChangeListener}
+              value={email}
+              autoFocus
+              helperText={emailError}
+              error={emailError !== null}
+              className={classes.fieldLen}
+            />
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              name="password"
+              label="Password"
+              type="password"
+              id="password"
+              autoComplete="current-password"
+              onChange={setOnPasswordChangeListener}
+              value={password}
+              helperText={passwordError}
+              error={passwordError !== null}
+              className={classes.fieldLen}
+            />
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              label="Confirm Password"
+              type="password"
+              id="confirm-password"
+              autoComplete="confirm-password"
+              onChange={setOnConfirmPasswordChangeListener}
+              value={confirmPassword}
+              helperText={confirmPasswordError}
+              error={confirmPasswordError !== null}
+              className={classes.fieldLen}
+            />
+            <FormControlLabel
               className={[classes.fixField, classes.fieldLen].join(" ")}
-                control={
-                  <Checkbox
-                    checked={remember}
-                    value="remember"
-                    color="primary"
-                    onChange={setOnRemmeberMeChangeListener}
-                  />
-                }
-                label="Remember me"
-              />
-              {formError && (
-                <Typography
-                  variant="caption"
-                  component="p"
-                  gutterBottom
-                  className={classes.errorText}
-                >
-                  {formError.message}
-                </Typography>
-              )}
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                color="primary"
-                className={[classes.submit, classes.fieldLen].join(" ")}
-                onClick={(event) => registration(event, email, password)}
+              control={
+                <Checkbox
+                  checked={remember}
+                  value="remember"
+                  color="primary"
+                  onChange={setOnRemmeberMeChangeListener}
+                />
+              }
+              label="Remember me"
+            />
+            {formError && (
+              <Typography
+                variant="caption"
+                component="p"
+                gutterBottom
+                className={classes.errorText}
               >
-                <Typography variant="button" className={classes.logInText}>Sign Up</Typography>
-              </Button>
-              <Box>
-                <Typography
-                  align="center"
-                  variant="h6"
-                  component="p"
-                  gutterBottom
-                  className={classes.logInText}
-                >
-                  Or
-                </Typography>
+                {formError.message}
+              </Typography>
+            )}
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="primary"
+              className={[classes.submit, classes.fieldLen].join(" ")}
+              onClick={(event) => registration(event, email, password)}
+            >
+              <Typography variant="button" className={classes.logInText}>
+                Sign Up
+              </Typography>
+            </Button>
+            <Box>
+              <Typography
+                align="center"
+                variant="h6"
+                component="p"
+                gutterBottom
+                className={classes.logInText}
+              >
+                Or
+              </Typography>
               <Grid container spacing={2} direction="row" justify="center">
                 <Grid item xs={12}>
-                   <GoogleButton onClick={signUpWithGoogle} 
-              className={classes.fieldLen}/>
+                  <GoogleButton
+                    onClick={signUpWithGoogle}
+                    className={classes.fieldLen}
+                  />
                 </Grid>
-               <Grid item xs={12}>
-                <FacebookButton onClick={logInWithFacebook} 
-              className={classes.fieldLen}/>
-                 </Grid>
+                <Grid item xs={12}>
+                  <FacebookButton
+                    onClick={logInWithFacebook}
+                    className={classes.fieldLen}
+                  />
+                </Grid>
               </Grid>
-              </Box>
-            </form>
+            </Box>
+          </form>
         </CardContent>
         <Box m={2}>
-              <Box>
-                <Typography
-                  align="center"
-                  variant="subtitle1"
-                  component="p"
-                  gutterBottom
-                  className={classes.logInText}
-                >
-                  Already a member?
-                  <Link href="login">
-                    {" Log In"}
-                  </Link>
-                </Typography>
-              </Box>
+          <Box>
+            <Typography
+              align="center"
+              variant="subtitle1"
+              component="p"
+              gutterBottom
+              className={classes.logInText}
+            >
+              Already a member?
+              <Link href="login">{" Log In"}</Link>
+            </Typography>
+          </Box>
           <Copyright />
         </Box>
       </Card>

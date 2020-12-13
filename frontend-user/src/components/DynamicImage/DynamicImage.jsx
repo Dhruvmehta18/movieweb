@@ -1,7 +1,7 @@
 import React, { memo, useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import { Box, makeStyles } from "@material-ui/core";
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   canvasImage: {
     width: "var(--movie-card-width)",
     height: "var(--movie-card-height)",
@@ -52,8 +52,8 @@ const DynamicImage = memo((props) => {
         imageObj.remove();
       };
       imageObj.onerror = () => {
-        setErrorFallbackImage(true)
-      }
+        setErrorFallbackImage(true);
+      };
     };
     const imageObserver = new IntersectionObserver((entries, observer) => {
       entries.forEach((entry) => {
@@ -66,10 +66,10 @@ const DynamicImage = memo((props) => {
             img.onload = () => {
               observer.unobserve(img);
               setErrorImgMain(false);
-            }
+            };
             img.onerror = () => {
               setErrorImgMain(true);
-            }
+            };
             img.setAttribute("src", img.dataset.src);
             if (errorFallbackImage) {
               loadCanvasImage(fallbackImageUrl, isFallbackBlur);
@@ -80,7 +80,14 @@ const DynamicImage = memo((props) => {
     }, {});
 
     imageObserver.observe(imageRef.current);
-  }, [errorImgMain, errorFallbackImage, movieCardBaseWidth, movieCardBaseHeight, isFallbackBlur, fallbackImageUrl]);
+  }, [
+    errorImgMain,
+    errorFallbackImage,
+    movieCardBaseWidth,
+    movieCardBaseHeight,
+    isFallbackBlur,
+    fallbackImageUrl,
+  ]);
   const classes = useStyles();
   return (
     <Box

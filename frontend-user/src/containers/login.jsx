@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useLocation, useHistory } from "react-router-dom";
 import Button from "@material-ui/core/Button";
-import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
@@ -62,8 +61,8 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     margin: "0 auto",
   },
-  forgotPasswordContainer:{
-    width:"100%"
+  forgotPasswordContainer: {
+    width: "100%",
   },
   [theme.breakpoints.down("sm")]: {
     container: {
@@ -189,7 +188,7 @@ export default function Login() {
 
   return (
     <Container component="main" maxWidth="xs" className={classes.container}>
-        {submitForm && <LinearProgress color="secondary" />}
+      {submitForm && <LinearProgress color="secondary" />}
       <Card elevation={4} className={classes.paper}>
         <CardHeader title="Log In" titleTypographyProps={{ align: "center" }} />
         <CardContent>
@@ -225,7 +224,14 @@ export default function Login() {
               error={passwordError !== null}
               className={classes.fieldLen}
             />
-            <Box display="flex" justifyContent="flex-end" className={[classes.forgotPasswordContainer, classes.fieldLen].join(" ")}>
+            <Box
+              display="flex"
+              justifyContent="flex-end"
+              className={[
+                classes.forgotPasswordContainer,
+                classes.fieldLen,
+              ].join(" ")}
+            >
               <Typography align="right" variant="caption" component="p">
                 <Link href="/reset-password" variant="caption">
                   Forgot password?

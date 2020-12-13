@@ -7,9 +7,9 @@ import { Box, CssBaseline } from "@material-ui/core";
 import ProvideAuth from "./components/ProvideAuth";
 import FullScreenLoader from "./components/FullScreenLoader";
 
-const PrivateRoute = lazy(()=>import("./components/PrivateRoute"));
-const AuthRoute = lazy(()=>import("./components/AuthRoute"));
-const Header = lazy(()=>import("./components/Header"));
+const PrivateRoute = lazy(() => import("./components/PrivateRoute"));
+const AuthRoute = lazy(() => import("./components/AuthRoute"));
+const Header = lazy(() => import("./components/Header"));
 const Login = lazy(() => import("./containers/login"));
 const Registration = lazy(() => import("./containers/registration"));
 const MovieIndex = lazy(() => import("./containers/movieIndex"));
@@ -48,13 +48,11 @@ function App() {
         <Router>
           <Box>
             <Suspense fallback={<FullScreenLoader />}>
-              <Header/>
+              <Header />
               <Switch>
                 <AuthRoute exact path="/login" children={<Login />} />
                 <AuthRoute path="/registration" children={<Registration />} />
-                <Route
-                  path="/reset-password"
-                  children={<PasswordReset />}/>
+                <Route path="/reset-password" children={<PasswordReset />} />
                 <Switch>
                   <PrivateRoute exact path="/" children={<MovieIndex />} />
                   <PrivateRoute path="/movie/:id" children={<MovieDetail />} />

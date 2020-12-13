@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import firebase from "firebase/app";
-import 'firebase/auth';
+import "firebase/auth";
 
 import { authenticator } from "./authenticate";
 import {
@@ -106,7 +106,7 @@ function useProvideAuth() {
     signout,
     setPersistenceHelper,
     persistence,
-    resetPassword
+    resetPassword,
   };
 }
 

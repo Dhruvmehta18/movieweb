@@ -1,5 +1,5 @@
 import firebase from "firebase/app";
-import 'firebase/auth';
+import "firebase/auth";
 
 export const authenticator = {
   isAuthenticated: false,
@@ -62,16 +62,16 @@ export const authenticator = {
       })
       .catch(callBackError);
   },
-  passwordReset(emailAddress="", cb, callBackError) {
+  passwordReset(emailAddress = "", cb, callBackError) {
     var auth = firebase.auth();
     auth
       .sendPasswordResetEmail(emailAddress)
-      .then(()=>cb())
+      .then(() => cb())
       .catch(callBackError);
   },
   signout(cb) {
     authenticator.isAuthenticated = false;
-    authenticator.persistenceAuth = firebase.auth.Auth.Persistence.SESSION
+    authenticator.persistenceAuth = firebase.auth.Auth.Persistence.SESSION;
     firebase
       .auth()
       .signOut()

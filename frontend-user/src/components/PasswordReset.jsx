@@ -24,8 +24,8 @@ const useStyles = makeStyles((theme) => ({
   form: {
     display: "inline-flex",
     flexDirection: "column",
-    justifyContent:"center",
-    alignItems:"center",
+    justifyContent: "center",
+    alignItems: "center",
     width: "100%", // Fix IE 11 issue.
   },
   submit: {
@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
     ...theme.typography.subtitle1,
   },
   fieldLen: {
-    maxWidth: "500px"
+    maxWidth: "500px",
   },
   [theme.breakpoints.down("sm")]: {
     container: {
@@ -60,7 +60,7 @@ const useStyles = makeStyles((theme) => ({
     helperPasswordText: {
       ...theme.typography.body2,
     },
-  }
+  },
 }));
 
 export default function PasswordReset() {
@@ -115,7 +115,10 @@ export default function PasswordReset() {
   return (
     <Container component="main" maxWidth="xs" className={classes.container}>
       <Card elevation={4} className={classes.paper}>
-        <CardHeader title="Reset Password" titleTypographyProps={{align: "center"}}/>
+        <CardHeader
+          title="Reset Password"
+          titleTypographyProps={{ align: "center" }}
+        />
         <Box display="flex" justifyContent="center">
           <Box>
             <LockIcon fontSize="large" />

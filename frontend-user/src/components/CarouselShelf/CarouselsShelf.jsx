@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import { Box, Button, IconButton, makeStyles } from "@material-ui/core";
+import { Box, Button, makeStyles } from "@material-ui/core";
 import { ChevronLeft, ChevronRight } from "@material-ui/icons";
 import { LOADED } from "../../constants/constants";
 import CarouselsShelfHeader from "./CarouselsShelfHeader/CarouselsShelfHeader";
@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
     height: "var(--icon-button-width)",
     zIndex: "inherit",
     borderRadius: "50%",
-    boxShadow: theme.shadows[6]
+    boxShadow: theme.shadows[6],
   },
   prevIconContainer: {
     left: "var(--carousels-shelf-icons-position)",
@@ -32,29 +32,35 @@ const useStyles = makeStyles((theme) => ({
 }));
 const CarouselsShelf = (props) => {
   const classes = useStyles();
-  const carouselContainerRef = useRef(null)
+  const carouselContainerRef = useRef(null);
   const { carouselsList = [] } = props;
   const getScrollContainerValue = () => {
     var style = getComputedStyle(document.body);
     const bodyWidth = parseInt(style.width);
-    const movieCardBaseWidth = parseInt(style.getPropertyValue('--movie-card-width'));
-    const appSpacing = parseInt(style.getPropertyValue('--app-spacing'));
-    const movieCardMarginEnd = parseInt(style.getPropertyValue('--movie-card-margin-end'));
+    const movieCardBaseWidth = parseInt(
+      style.getPropertyValue("--movie-card-width")
+    );
+    const appSpacing = parseInt(style.getPropertyValue("--app-spacing"));
+    const movieCardMarginEnd = parseInt(
+      style.getPropertyValue("--movie-card-margin-end")
+    );
     const movieCardWidth = movieCardBaseWidth + movieCardMarginEnd;
-    const cardPossible = Math.floor((bodyWidth-appSpacing) / movieCardWidth);
+    const cardPossible = Math.floor((bodyWidth - appSpacing) / movieCardWidth);
     return cardPossible * movieCardWidth;
-  }
+  };
 
   const onPrevButtonClicked = () => {
-    if(carouselContainerRef) {
-      carouselContainerRef.current.scrollLeft -= getScrollContainerValue()}
-  }
-  
+    if (carouselContainerRef) {
+      carouselContainerRef.current.scrollLeft -= getScrollContainerValue();
+    }
+  };
+
   const onNextButtonClicked = () => {
-    if(carouselContainerRef){
-      getScrollContainerValue()
-       carouselContainerRef.current.scrollLeft += getScrollContainerValue()}
-  }
+    if (carouselContainerRef) {
+      getScrollContainerValue();
+      carouselContainerRef.current.scrollLeft += getScrollContainerValue();
+    }
+  };
   return (
     <Box>
       {carouselsList &&
@@ -82,7 +88,10 @@ const CarouselsShelf = (props) => {
                     </Button>
                   </PaperIconWrapper>
                 </Box>
-                <CarouselsShelfItems carousel={carousel} carouselRef={carouselContainerRef}/>
+                <CarouselsShelfItems
+                  carousel={carousel}
+                  carouselRef={carouselContainerRef}
+                />
                 <Box
                   className={[
                     classes.navShelfIconsContainer,
