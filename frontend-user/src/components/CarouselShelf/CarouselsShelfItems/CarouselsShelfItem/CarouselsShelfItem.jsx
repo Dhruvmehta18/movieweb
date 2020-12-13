@@ -1,5 +1,6 @@
 import { Grid, Paper } from "@material-ui/core";
 import React, { memo } from "react";
+import Image from "../../../Image/Image";
 import "./carousels_shelf_item.css";
 
 const CarouselsShelfItem = memo((props) => {
@@ -10,11 +11,12 @@ const CarouselsShelfItem = memo((props) => {
   return (
     <Grid item component={Paper} className="movie-card" elevation={4}>
       <a href={linkTo} className="text-reset">
-        <img
+        <Image
           className="card-img-top card-image"
           alt={movie.title}
           srcSet={srcset}
           src={src}
+          dataSrc={src}
         />
       </a>
     </Grid>
