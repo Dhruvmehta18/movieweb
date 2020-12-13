@@ -1,28 +1,32 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-import firebase from "firebase";
+import React from "react";
+import ReactDOM from "react-dom";
+import "./index.css";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import firebase from "firebase/app";
+import "firebase/auth";
 import firebaseConfig from "./firebaseConfig";
-import {applyMiddleware, compose, createStore} from 'redux';
-import { Provider } from 'react-redux';
+import { applyMiddleware, compose, createStore } from "redux";
+import { Provider } from "react-redux";
 import reducer from "./redux/reducers";
-import ReduxThunk from 'redux-thunk';
+import ReduxThunk from "redux-thunk";
 
-const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
+const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-const store = createStore(reducer, composeEnhancer(applyMiddleware(ReduxThunk)));
+const store = createStore(
+  reducer,
+  composeEnhancer(applyMiddleware(ReduxThunk))
+);
 firebase.initializeApp(firebaseConfig);
 firebase.auth().useDeviceLanguage();
 
 ReactDOM.render(
   <React.StrictMode>
-  <Provider store={store}>
-    <App />
-  </Provider>
+    <Provider store={store}>
+      <App />
+    </Provider>
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById("root")
 );
 
 // If you want to start measuring performance in your app, pass a function
