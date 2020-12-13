@@ -15,7 +15,6 @@ import {
   ListItem,
   SwipeableDrawer,
   Box,
-  Link,
 } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 import HideOnScroll from "../HideOnScroll";

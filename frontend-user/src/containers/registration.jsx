@@ -11,12 +11,10 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import useAuth from "../components/useAuth";
 import {
-  ButtonGroup,
   Card,
   CardContent,
   CardHeader,
   Grid,
-  Icon,
   LinearProgress,
 } from "@material-ui/core";
 import Copyright from "../components/Copyright";
