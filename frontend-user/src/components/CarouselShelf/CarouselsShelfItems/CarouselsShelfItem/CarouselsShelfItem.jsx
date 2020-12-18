@@ -4,7 +4,7 @@ import DynamicImage from "../../../DynamicImage/DynamicImage";
 import "./carousels_shelf_item.css";
 
 const CarouselsShelfItem = memo((props) => {
-  const { movie } = props;
+  const { movie, dark } = props;
   const srcset = `${movie.card_photo.small.download_url} 0.5x, ${movie.card_photo.medium.download_url} 1x, ${movie.card_photo.large.download_url} 2x`;
   const src = `${movie.card_photo.medium.download_url}`;
   const linkTo = `/movie/${movie.id}`;
@@ -18,6 +18,7 @@ const CarouselsShelfItem = memo((props) => {
           dataSrcset={srcset}
           fallbackImageUrl={movie.card_photo.small.download_url}
           isFallbackBlur
+          dark={dark}
         />
       </a>
     </Grid>

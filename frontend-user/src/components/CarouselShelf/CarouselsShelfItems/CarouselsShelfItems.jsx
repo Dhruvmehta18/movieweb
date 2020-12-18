@@ -5,7 +5,7 @@ import CarouselsShelfItem from "./CarouselsShelfItem/CarouselsShelfItem";
 import "./Carouselsitems.css";
 
 const CarouselsShelfItems = (props) => {
-  const { carousel, carouselRef } = props;
+  const { carousel, carouselRef, dark } = props;
   return (
     <Box width="100%">
       <Grid
@@ -15,7 +15,7 @@ const CarouselsShelfItems = (props) => {
         ref={carouselRef}
       >
         {carousel.list.map((movie, index) => {
-          return <CarouselsShelfItem key={movie.id} movie={movie} />;
+          return <CarouselsShelfItem key={movie.id} movie={movie} dark={dark}/>;
         })}
       </Grid>
     </Box>
@@ -25,6 +25,7 @@ const CarouselsShelfItems = (props) => {
 CarouselsShelfItems.propTypes = {
   carousel: PropTypes.any,
   carouselRef: PropTypes.any,
+  dark: PropTypes.bool
 };
 
 export default CarouselsShelfItems;

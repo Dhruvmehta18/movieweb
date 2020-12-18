@@ -1,6 +1,8 @@
 import React, { memo, useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import { Box, makeStyles } from "@material-ui/core";
+import fallBackImageLight from "../../img/fallbackImage.svg";
+import fallBackImageDark from "../../img/fallbackImageDark.svg";
 const useStyles = makeStyles(() => ({
   canvasImage: {
     width: "var(--movie-card-width)",
@@ -17,6 +19,7 @@ const DynamicImage = memo((props) => {
     dataSrc = "",
     fallbackImageUrl = "",
     isFallbackBlur = false,
+    dark = false,
   } = props;
   const [errorImgMain, setErrorImgMain] = useState(true);
   const [errorFallbackImage, setErrorFallbackImage] = useState(true);
@@ -61,6 +64,7 @@ const DynamicImage = memo((props) => {
             img.setAttribute("srcset", img.dataset.srcset);
           }
           if (errorImgMain) {
+            img.setAttribute("src", img.dataset.src);
             img.onload = () => {
               observer.unobserve(img);
               setErrorImgMain(false);
@@ -68,8 +72,6 @@ const DynamicImage = memo((props) => {
             img.onerror = () => {
               setErrorImgMain(true);
             };
-            console.log(img.dataset.src);
-            img.setAttribute("src", img.dataset.src);
             if (fallbackImageUrl && errorFallbackImage) {
               loadCanvasImage(fallbackImageUrl, isFallbackBlur);
             }
@@ -108,6 +110,7 @@ const DynamicImage = memo((props) => {
       </canvas>
       <img
         alt={alt}
+        src={dark ? fallBackImageDark : fallBackImageLight}
         className={props.className}
         data-src={dataSrc}
         data-srcset={props.dataSrcset}

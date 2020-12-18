@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import { Box, Button, makeStyles } from "@material-ui/core";
+import { Box, Button, makeStyles, useMediaQuery } from "@material-ui/core";
 import { ChevronLeft, ChevronRight } from "@material-ui/icons";
 import { LOADED } from "../../constants/constants";
 import CarouselsShelfHeader from "./CarouselsShelfHeader/CarouselsShelfHeader";
@@ -33,6 +33,7 @@ const useStyles = makeStyles((theme) => ({
 const CarouselsShelf = (props) => {
   const classes = useStyles();
   const carouselContainerRef = useRef(null);
+  const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
   const { carouselsList = [] } = props;
   const getScrollContainerValue = () => {
     var style = getComputedStyle(document.body);
@@ -91,6 +92,7 @@ const CarouselsShelf = (props) => {
                 <CarouselsShelfItems
                   carousel={carousel}
                   carouselRef={carouselContainerRef}
+                  dark={prefersDarkMode}
                 />
                 <Box
                   className={[
