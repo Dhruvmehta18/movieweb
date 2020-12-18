@@ -42,3 +42,5 @@ yarn-error.log*
 
 #eslint
 **/.eslintcache
+
+**/movieweb-admin.json
