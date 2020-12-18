@@ -13,11 +13,9 @@ const DynamicImage = memo((props) => {
   const imageRef = useRef(null);
   const canvasRef = useRef(null);
   const {
-    alt,
-    dataSrc,
-    dataSrcset,
-    className,
-    fallbackImageUrl,
+    alt = "",
+    dataSrc = "",
+    fallbackImageUrl = "",
     isFallbackBlur = false,
   } = props;
   const [errorImgMain, setErrorImgMain] = useState(true);
@@ -59,7 +57,7 @@ const DynamicImage = memo((props) => {
       entries.forEach((entry) => {
         if (entry.intersectionRatio > 0.0) {
           const img = entry.target;
-          if (!img.hasAttribute("srcset")) {
+          if (!img.hasAttribute("srcset") && img.dataset.srcset) {
             img.setAttribute("srcset", img.dataset.srcset);
           }
           if (errorImgMain) {
@@ -70,8 +68,9 @@ const DynamicImage = memo((props) => {
             img.onerror = () => {
               setErrorImgMain(true);
             };
+            console.log(img.dataset.src);
             img.setAttribute("src", img.dataset.src);
-            if (errorFallbackImage) {
+            if (fallbackImageUrl && errorFallbackImage) {
               loadCanvasImage(fallbackImageUrl, isFallbackBlur);
             }
           }
@@ -97,6 +96,7 @@ const DynamicImage = memo((props) => {
       width="100%"
       height="100%"
       position="relative"
+      className={props.containerClassName}
     >
       <canvas
         className={classes.canvasImage}
@@ -108,10 +108,9 @@ const DynamicImage = memo((props) => {
       </canvas>
       <img
         alt={alt}
-        className={className}
-        src={""}
+        className={props.className}
         data-src={dataSrc}
-        data-srcset={dataSrcset}
+        data-srcset={props.dataSrcset}
         ref={imageRef}
       />
     </Box>
