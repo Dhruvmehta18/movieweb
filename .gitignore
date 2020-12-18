@@ -3,6 +3,7 @@ moviewebenv
 *~
 /.vscode
 __pycache__
+**/.venv/**
 **/pythonenv*
 db.sqlite3
 .DS_Store
