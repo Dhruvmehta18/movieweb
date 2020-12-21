@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { memo, useEffect, useRef } from "react";
 import { Box, Button, makeStyles, useMediaQuery } from "@material-ui/core";
 import { ChevronLeft, ChevronRight } from "@material-ui/icons";
 import { LOADED } from "../../constants/constants";
@@ -6,6 +6,9 @@ import CarouselsShelfHeader from "./CarouselsShelfHeader/CarouselsShelfHeader";
 import CarouselsShelfItems from "./CarouselsShelfItems/CarouselsShelfItems";
 import "./carouselsShelf.css";
 import PaperIconWrapper from "../PaperIconWrapper/PaperIconWrapper";
+import { addCarouselShelfList } from "../../redux/actions";
+import { getCarouselsShelfList } from "../../redux/selectors";
+import { connect } from "react-redux";
 const useStyles = makeStyles((theme) => ({
   navShelfIconsContainer: {
     position: "absolute",
@@ -34,7 +37,8 @@ const CarouselsShelf = (props) => {
   const classes = useStyles();
   const carouselContainerRef = useRef(null);
   const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
-  const { carouselsList = [] } = props;
+  const { getUserMovies, carouselsData } = props;
+  const {requestState, data: carouselsList, error} = carouselsData;
   const getScrollContainerValue = () => {
     var style = getComputedStyle(document.body);
     const bodyWidth = parseInt(style.width);
@@ -62,11 +66,19 @@ const CarouselsShelf = (props) => {
       carouselContainerRef.current.scrollLeft += getScrollContainerValue();
     }
   };
+
+  useEffect(() => {
+    getUserMovies();
+  }, [getUserMovies])
+
   return (
     <Box>
-      {carouselsList &&
-        carouselsList.requestState === LOADED &&
-        carouselsList.data.map((carousel, index) => {
+      {
+        requestState === LOADED &&
+        error === null &&
+        carouselsList &&
+        carouselsList.length > 0 &&
+        carouselsList.map((carousel, index) => {
           return (
             <Box key={index}>
               <CarouselsShelfHeader title={carousel.title} />
@@ -120,4 +132,16 @@ const CarouselsShelf = (props) => {
   );
 };
 
-export default CarouselsShelf;
+function mapStateToProps(state) {
+  return {
+    carouselsData: getCarouselsShelfList(state),
+  };
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getUserMovies: () => dispatch(addCarouselShelfList()),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(memo(CarouselsShelf));

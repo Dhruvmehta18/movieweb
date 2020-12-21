@@ -21,7 +21,7 @@ function reducer(state = initialState, action) {
         ...state,
         advCarousel: {
           requestState: LOADED,
-          data: {...action.advCarouselList},
+          data: [...action.advCarouselList],
           error: null,
         },
       };
@@ -30,7 +30,7 @@ function reducer(state = initialState, action) {
         ...state,
         advCarousel: {
           requestState: LOADING,
-          data: {...action.advCarouselList},
+          data: [...action.advCarouselList],
           error: null,
         },
       };
@@ -39,7 +39,7 @@ function reducer(state = initialState, action) {
         ...state,
         advCarousel: {
           requestState: ERROR,
-          data: {},
+          data: [],
           error: {
             ...action.error,
           },
