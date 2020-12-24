@@ -3,12 +3,27 @@ import PropTypes from "prop-types";
 import { Box, makeStyles } from "@material-ui/core";
 import fallBackImageLight from "../../img/fallbackImage.svg";
 import fallBackImageDark from "../../img/fallbackImageDark.svg";
+import transitions from "@material-ui/core/styles/transitions";
 const useStyles = makeStyles(() => ({
-  canvasImage: {
-    width: "var(--movie-card-width)",
-    height: "var(--movie-card-height)",
-    zIndex: 0,
+  canvasImage: ({ width, height }) => ({
+    width: width,
+    height: height,
     position: "absolute",
+    transition: transitions.create("opacity", {
+      duration: transitions.duration.shorter,
+      easing: transitions.easing.easeInOut,
+    }),
+  }),
+  imageSize: {
+    width: "auto",
+    height: "100%",
+    transition: transitions.create("opacity", {
+      duration: transitions.duration.shorter,
+      easing: transitions.easing.easeInOut,
+    }),
+  },
+  zeroOpacity: {
+    opacity: 0,
   },
 }));
 const DynamicImage = memo((props) => {
@@ -20,15 +35,16 @@ const DynamicImage = memo((props) => {
     fallbackImageUrl = "",
     isFallbackBlur = false,
     dark = false,
+    width,
+    height,
+    imgClassName,
+    dataSrcset,
+    ...extraProps
   } = props;
   const [errorImgMain, setErrorImgMain] = useState(true);
   const [errorFallbackImage, setErrorFallbackImage] = useState(true);
-  var style = getComputedStyle(document.body);
-  const movieCardBaseWidth = parseInt(
-    style.getPropertyValue("--movie-card-width")
-  );
-  const movieCardBaseHeight = parseInt(
-    style.getPropertyValue("--movie-card-height")
+  const [imageSrc, setImageSrc] = useState(
+    dark ? fallBackImageDark : fallBackImageLight
   );
   useEffect(() => {
     const loadCanvasImage = (imageUrl, isFallbackBlur = false) => {
@@ -36,21 +52,16 @@ const DynamicImage = memo((props) => {
 
       // load image from data url
       var imageObj = document.createElement("img");
-      imageObj.width = movieCardBaseWidth;
-      imageObj.height = movieCardBaseHeight;
+      imageObj.width = width;
+      imageObj.height = height;
       imageObj.src = imageUrl;
       imageObj.onload = () => {
         if (isFallbackBlur) {
           context.filter = "blur(2px)";
         }
-        context.drawImage(
-          imageObj,
-          0,
-          0,
-          movieCardBaseWidth,
-          movieCardBaseHeight
-        );
+        context.drawImage(imageObj, 0, 0, width, height);
         imageObj.remove();
+        setErrorFallbackImage(false);
       };
       imageObj.onerror = () => {
         setErrorFallbackImage(true);
@@ -64,7 +75,6 @@ const DynamicImage = memo((props) => {
             img.setAttribute("srcset", img.dataset.srcset);
           }
           if (errorImgMain) {
-            img.setAttribute("src", img.dataset.src);
             img.onload = () => {
               observer.unobserve(img);
               setErrorImgMain(false);
@@ -72,6 +82,7 @@ const DynamicImage = memo((props) => {
             img.onerror = () => {
               setErrorImgMain(true);
             };
+            setImageSrc(img.dataset.src);
             if (fallbackImageUrl && errorFallbackImage) {
               loadCanvasImage(fallbackImageUrl, isFallbackBlur);
             }
@@ -84,12 +95,31 @@ const DynamicImage = memo((props) => {
   }, [
     errorImgMain,
     errorFallbackImage,
-    movieCardBaseWidth,
-    movieCardBaseHeight,
     isFallbackBlur,
     fallbackImageUrl,
+    width,
+    height,
+    dark,
   ]);
-  const classes = useStyles();
+  const classes = useStyles({ width: width, height: height });
+
+  let imageClassName = [classes.imageSize, imgClassName || ""];
+  if (errorImgMain) {
+    imageClassName = [...imageClassName, classes.zeroOpacity];
+  } else {
+    imageClassName = imageClassName.filter(
+      (value) => value !== classes.zeroOpacity
+    );
+  }
+  let canvasClassName = [classes.canvasImage];
+  if (errorFallbackImage || !errorImgMain) {
+    canvasClassName = [...canvasClassName, classes.zeroOpacity];
+  } else {
+    canvasClassName = canvasClassName.filter(
+      (value) => value !== classes.zeroOpacity
+    );
+  }
+
   return (
     <Box
       display="inline-flex"
@@ -100,22 +130,23 @@ const DynamicImage = memo((props) => {
       position="relative"
       className={props.containerClassName}
     >
+      <img
+        alt={alt}
+        src={imageSrc}
+        className={imageClassName.join(" ")}
+        data-src={dataSrc}
+        data-srcset={dataSrcset}
+        ref={imageRef}
+        {...extraProps}
+      />
       <canvas
-        className={classes.canvasImage}
+        className={canvasClassName.join(" ")}
         ref={canvasRef}
-        width={movieCardBaseWidth}
-        height={movieCardBaseHeight}
+        width={width}
+        height={height}
       >
         Your Browser not supported yet
       </canvas>
-      <img
-        alt={alt}
-        src={dark ? fallBackImageDark : fallBackImageLight}
-        className={props.className}
-        data-src={dataSrc}
-        data-srcset={props.dataSrcset}
-        ref={imageRef}
-      />
     </Box>
   );
 });

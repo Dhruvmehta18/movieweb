@@ -124,10 +124,11 @@
         height: 100%;
         background: linear-gradient(
           90deg,
-          black 15%,
-          #000000b8,
+          #cccccc 15%,
+          #ccccccb8,
           transparent 100%
         );
+        transition: background 3s ease-out;
       }
     }
 
@@ -186,15 +187,13 @@
       width: 100vw;
     }
   }
-  
+
   .slide.new-right-slide {
     left: auto;
     right: 0;
     animation-name: right-slide;
     @extend .slide.new-slide;
   }
-
-  
 
   @keyframes right-slide {
     from {
@@ -303,6 +302,19 @@
       height: 26px;
       fill: #fff;
       transition: left 0.2s ease;
+    }
+  }
+}
+
+@media screen and (prefers-color-scheme: dark) {
+  .slideshow .slide .image-container {
+    &::before {
+      background: linear-gradient(
+        90deg,
+        black 15%,
+        #000000b8,
+        transparent 100%
+      );
     }
   }
 }

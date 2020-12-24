@@ -4,7 +4,6 @@ import { Link as RouterLink } from "react-router-dom";
 
 const useStyles = makeStyles(() => ({
   title: {
-    flexGrow: 1,
     display: "block",
     color: "#f13030",
     transition: "all 0.1s ease-in-out",

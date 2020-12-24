@@ -233,7 +233,7 @@ const AdvCarousel = (props) => {
     if (requestState === LOADED) {
       timer = setTimeout(() => {
         slideRight();
-      }, 8000);
+      }, 800000);
     }
     return () => {
       clearTimeout(timer);
