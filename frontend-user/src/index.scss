@@ -5,6 +5,9 @@
   --icon-button-width: 42px;
   --app-spacing: 112px;
   --movie-card-margin-end: 32px;
+  --trailer-card-width: 300px;
+  --trailer-card-height: 180px;
+  --trailer-card-margin-end: 32px;
   --carousels-shelf-content-base-width: calc(100vw - var(--app-spacing));
   --carousels-shelf-content-width: calc(
     var(--carousels-shelf-content-base-width)
@@ -16,4 +19,18 @@
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+
+.mwtitle-section {
+  padding: 25px 5vw;
+  background: #fafafa;
+  max-width: 1600px;
+  margin: 0 auto;
+  position: relative;
+}
+
+@media screen and (prefers-color-scheme: dark){
+  .mwtitle-section{
+    background: #121212;
+  }
 }

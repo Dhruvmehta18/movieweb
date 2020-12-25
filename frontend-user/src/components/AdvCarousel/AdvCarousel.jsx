@@ -1,4 +1,4 @@
-import { makeStyles, Typography } from "@material-ui/core";
+import { Box, Button, makeStyles, Typography } from "@material-ui/core";
 import React, { memo, useCallback, useEffect, useMemo, useState } from "react";
 import { addAdvCarouselList } from "../../redux/actions";
 import { getAdvCarouselList } from "../../redux/selectors";
@@ -82,24 +82,26 @@ const Slide = React.memo((props) => {
     right,
   ]);
   return (
-    <div className={slideClass.join(" ")} onAnimationEnd={slideOnAnimationEnd}>
-      <div className="slide-content">
-        <div className={["caption", slideClasses.captionMargin].join(" ")}>
-          <Typography className={titleClass.join(" ")}>{title}</Typography>
-          <div className="advcarousel-text">
-            <Typography component="p">{description}</Typography>
-          </div>
-          <RouterLink to={link} className="advcarousel-btn">
-            <Typography component="span" className="btn-inner">
-              Watch now
-            </Typography>
-          </RouterLink>
-        </div>
-      </div>
-      <div className="image-container">
+    <Box className={slideClass.join(" ")} onAnimationEnd={slideOnAnimationEnd}>
+      <Box className="slide-content">
+        <Box className={["caption"].join(" ")}>
+          <Box>
+            <Typography className={titleClass.join(" ")}>{title}</Typography>
+          </Box>
+          <Box>
+            <Typography variant="body1" component="p" className="advcarousel-text" gutterBottom>{description}</Typography>
+          </Box>
+          <Box>
+            <Button href={link} component={RouterLink} variant="contained" color="primary" to={link}>
+                Watch now
+            </Button>
+          </Box>
+        </Box>
+      </Box>
+      <Box className="image-container">
         <img src={imageLink} alt="d" className="image" />
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 });
 
@@ -308,11 +310,12 @@ const AdvCarousel = (props) => {
 
 const AdvCarouselContainer = (props) => {
   const { advCarouselData, getUserAdvCarousel } = props;
+  const classes = useStyles();
   useEffect(() => {
     getUserAdvCarousel();
   }, [getUserAdvCarousel]);
   return (
-    <main className="main-content">
+    <main className={["main-content", classes.captionMargin].join(" ")}>
       <section className="slideshow">
         <div className="slideshow-inner">
           <div className="slides">

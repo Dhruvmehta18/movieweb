@@ -1,23 +1,21 @@
-import React, { memo, useEffect, useRef } from "react";
+import React, { memo, useMemo, useRef } from "react";
+import PropTypes from "prop-types";
 import { Box, Button, makeStyles, useMediaQuery } from "@material-ui/core";
 import { ChevronLeft, ChevronRight } from "@material-ui/icons";
-import { LOADED } from "../../constants/constants";
+import { CAROUSEL_ITEM_VARIANT, ERROR, LOADED, LOADING } from "../../constants/constants";
 import CarouselsShelfHeader from "./CarouselsShelfHeader/CarouselsShelfHeader";
 import CarouselsShelfItems from "./CarouselsShelfItems/CarouselsShelfItems";
 import "./carouselsShelf.css";
 import PaperIconWrapper from "../PaperIconWrapper/PaperIconWrapper";
-import { addCarouselShelfList } from "../../redux/actions";
-import { getCarouselsShelfList } from "../../redux/selectors";
-import { connect } from "react-redux";
+
 const useStyles = makeStyles((theme) => ({
-  navShelfIconsContainer: {
+  navShelfIconsContainer: ({ cardHeight, cardMarginEnd }) => ({
     position: "absolute",
-    top:
-      "calc((var(--movie-card-height) + 2 * var(--movie-card-margin-vertical)) / 2)",
+    top: (cardHeight + 2 * cardMarginEnd) / 2,
     transform: "translate3d(-50%, -50%, 0)",
     borderRadius: "50%",
     zIndex: 2,
-  },
+  }),
   navShelfIcon: {
     width: "var(--icon-button-width)",
     minWidth: "var(--icon-button-width)",
@@ -27,60 +25,62 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: theme.shadows[6],
   },
   prevIconContainer: {
-    left: "var(--carousels-shelf-icons-position)",
+    left: 0,
   },
   nextIconContainer: {
-    right: 0,
+    left: "100%"
   },
 }));
+
 const CarouselsShelf = (props) => {
-  const classes = useStyles();
+  const {
+    carouselsData,
+    cardBaseWidth,
+    cardBaseHeight,
+    cardMarginEnd,
+    getCardID,
+    itemVariant,
+    onItemClick
+  } = props;
+  const { requestState, data: carouselsList, error } = carouselsData;
+
+  const classes = useStyles({
+    cardHeight: cardBaseHeight,
+    cardMarginEnd: cardMarginEnd,
+  });
   const carouselContainerRef = useRef(null);
   const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
-  const { getUserMovies, carouselsData } = props;
-  const {requestState, data: carouselsList, error} = carouselsData;
-  const getScrollContainerValue = () => {
+
+  const getScrollContainerValue = useMemo(() => {
     var style = getComputedStyle(document.body);
     const bodyWidth = parseInt(style.width);
-    const movieCardBaseWidth = parseInt(
-      style.getPropertyValue("--movie-card-width")
-    );
     const appSpacing = parseInt(style.getPropertyValue("--app-spacing"));
-    const movieCardMarginEnd = parseInt(
-      style.getPropertyValue("--movie-card-margin-end")
-    );
-    const movieCardWidth = movieCardBaseWidth + movieCardMarginEnd;
+    const movieCardWidth = cardBaseWidth + cardMarginEnd;
     const cardPossible = Math.floor((bodyWidth - appSpacing) / movieCardWidth);
     return cardPossible * movieCardWidth;
-  };
+  }, [cardBaseWidth, cardMarginEnd]);
 
   const onPrevButtonClicked = () => {
     if (carouselContainerRef) {
-      carouselContainerRef.current.scrollLeft -= getScrollContainerValue();
+      carouselContainerRef.current.scrollLeft -= getScrollContainerValue;
     }
   };
 
   const onNextButtonClicked = () => {
     if (carouselContainerRef) {
-      getScrollContainerValue();
-      carouselContainerRef.current.scrollLeft += getScrollContainerValue();
+      carouselContainerRef.current.scrollLeft += getScrollContainerValue;
     }
   };
 
-  useEffect(() => {
-    getUserMovies();
-  }, [getUserMovies])
-
   return (
     <Box>
-      {
-        requestState === LOADED &&
+      {requestState === LOADED &&
         error === null &&
         carouselsList &&
         carouselsList.length > 0 &&
         carouselsList.map((carousel, index) => {
           return (
-            <Box key={index}>
+            <Box key={index} component="section" className="mwtitle-section">
               <CarouselsShelfHeader title={carousel.title} />
               <Box position="relative">
                 <Box
@@ -105,6 +105,11 @@ const CarouselsShelf = (props) => {
                   carousel={carousel}
                   carouselRef={carouselContainerRef}
                   dark={prefersDarkMode}
+                  getCardID={getCardID}
+                  cardWidth={cardBaseWidth}
+                  cardHeight={cardBaseHeight}
+                  itemVariant={itemVariant}
+                  onItemClick={onItemClick?onItemClick:null}
                 />
                 <Box
                   className={[
@@ -132,16 +137,18 @@ const CarouselsShelf = (props) => {
   );
 };
 
-function mapStateToProps(state) {
-  return {
-    carouselsData: getCarouselsShelfList(state),
-  };
-}
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    getUserMovies: () => dispatch(addCarouselShelfList()),
-  };
+CarouselsShelf.propTypes = {
+  carouselsData: PropTypes.exact({
+    requestState: PropTypes.oneOf([LOADING, ERROR, LOADED]),
+    data: PropTypes.arrayOf(PropTypes.any),
+    error: PropTypes.any,
+  }),
+  cardBaseWidth: PropTypes.number.isRequired,
+  cardBaseHeight: PropTypes.number.isRequired,
+  cardMarginEnd: PropTypes.number.isRequired,
+  getCardID: PropTypes.func.isRequired,
+  itemVariant: PropTypes.oneOf([CAROUSEL_ITEM_VARIANT.MOVIE, CAROUSEL_ITEM_VARIANT.TRAILER]).isRequired,
+  onItemClick: PropTypes.func
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(memo(CarouselsShelf));
+export default memo(CarouselsShelf);

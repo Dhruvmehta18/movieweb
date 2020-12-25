@@ -1,11 +1,21 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Box, Grid } from "@material-ui/core";
-import CarouselsShelfItem from "./CarouselsShelfItem/CarouselsShelfItem";
 import "./Carouselsitems.css";
+import CarouselShelfItemFactory from "../../CarouselShelfItemFactory";
+import { CAROUSEL_ITEM_VARIANT } from "../../../constants/constants";
 
 const CarouselsShelfItems = (props) => {
-  const { carousel, carouselRef, dark } = props;
+  const {
+    carousel,
+    carouselRef,
+    dark,
+    getCardID,
+    cardWidth,
+    cardHeight,
+    itemVariant,
+    onItemClick
+  } = props;
   return (
     <Box width="100%">
       <Grid
@@ -14,8 +24,18 @@ const CarouselsShelfItems = (props) => {
         className="carousels-container"
         ref={carouselRef}
       >
-        {carousel.list.map((movie, index) => {
-          return <CarouselsShelfItem key={movie.id} movie={movie} dark={dark}/>;
+        {carousel.list.map((value) => {
+          return (
+            <CarouselShelfItemFactory
+              key={getCardID(value)}
+              itemVariant={itemVariant}
+              item={value}
+              dark={dark}
+              width={cardWidth}
+              height={cardHeight}
+              onItemClick={onItemClick}
+            />
+          );
         })}
       </Grid>
     </Box>
@@ -23,9 +43,12 @@ const CarouselsShelfItems = (props) => {
 };
 
 CarouselsShelfItems.propTypes = {
-  carousel: PropTypes.any,
-  carouselRef: PropTypes.any,
-  dark: PropTypes.bool
+  carousel: PropTypes.any.isRequired,
+  carouselRef: PropTypes.any.isRequired,
+  dark: PropTypes.bool,
+  getCardID: PropTypes.func.isRequired,
+  itemVariant: PropTypes.oneOf([CAROUSEL_ITEM_VARIANT.MOVIE, CAROUSEL_ITEM_VARIANT.TRAILER]).isRequired,
+  onItemClick: PropTypes.func
 };
 
 export default CarouselsShelfItems;

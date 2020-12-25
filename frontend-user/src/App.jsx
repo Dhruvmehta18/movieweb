@@ -13,7 +13,7 @@ const Header = lazy(() => import("./components/Header"));
 const Login = lazy(() => import("./containers/login"));
 const Registration = lazy(() => import("./containers/registration"));
 const MovieIndex = lazy(() => import("./containers/movieIndex"));
-const MovieDetail = lazy(() => import("./containers/movieDetail"));
+const MovieDetail = lazy(() => import("./containers/MovieDetail"));
 const PasswordReset = lazy(() => import("./components/PasswordReset"));
 const SearchPage = lazy(() => import("./containers/SearchPage"));
 
@@ -56,9 +56,14 @@ function App() {
                 <Route path="/reset-password" children={<PasswordReset />} />
                 <Switch>
                   <PrivateRoute exact path="/" children={<MovieIndex />} />
-                  <PrivateRoute path="/movie/:id" children={<MovieDetail />} />
-                  <PrivateRoute path="/search" children={<SearchPage/>}/>
+                  <PrivateRoute path="/search" children={<SearchPage />} />
                 </Switch>
+              </Switch>
+              <Switch>
+                <Route
+                  path="/movie/:id"
+                  children={<MovieDetail></MovieDetail>}
+                />
               </Switch>
             </Suspense>
           </Box>
