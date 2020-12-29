@@ -6,10 +6,14 @@ import Navbar from "./Navbar/Navbar";
 const Header = () => {
   const location = useLocation();
   const pathname = location.pathname;
-  console.log(pathname)
+  const noHeaderPathList = [
+    '/search',
+    '/play'
+  ];
+  const isNavbar = !noHeaderPathList.includes((pathname));
   return (
   <React.Fragment>
-    {pathname!=="/search"?<Navbar />: null}
+    {isNavbar?<Navbar />: null}
   </React.Fragment>
 )};
 

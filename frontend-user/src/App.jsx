@@ -16,6 +16,7 @@ const MovieIndex = lazy(() => import("./containers/movieIndex"));
 const MovieDetail = lazy(() => import("./containers/MovieDetail"));
 const PasswordReset = lazy(() => import("./components/PasswordReset"));
 const SearchPage = lazy(() => import("./containers/SearchPage"));
+const MoviePlay = lazy(() => import("./containers/MoviePlay"));
 
 function App() {
   const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
@@ -57,6 +58,7 @@ function App() {
                 <Switch>
                   <PrivateRoute exact path="/" children={<MovieIndex />} />
                   <PrivateRoute path="/search" children={<SearchPage />} />
+                  <PrivateRoute path="/play" children={<MoviePlay />} />
                 </Switch>
               </Switch>
               <Switch>
