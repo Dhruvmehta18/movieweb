@@ -1,9 +1,10 @@
-import React, { memo, useEffect, useRef, useState } from "react";
+import React, {memo, useEffect, useRef, useState} from "react";
 import PropTypes from "prop-types";
-import { Box, makeStyles } from "@material-ui/core";
+import {Box, makeStyles} from "@material-ui/core";
 import fallBackImageLight from "../../img/fallbackImage.svg";
 import fallBackImageDark from "../../img/fallbackImageDark.svg";
 import transitions from "@material-ui/core/styles/transitions";
+
 const useStyles = makeStyles(() => ({
   canvasImage: ({ width, height }) => ({
     width: width,
@@ -89,9 +90,12 @@ const DynamicImage = memo((props) => {
           }
         }
       });
+      return () => {
+        imageObserver.disconnect();
+      }
     }, {});
 
-    imageObserver.observe(imageRef.current);
+    errorImgMain && imageObserver.observe(imageRef.current);
   }, [
     errorImgMain,
     errorFallbackImage,

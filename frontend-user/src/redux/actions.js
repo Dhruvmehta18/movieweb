@@ -51,9 +51,9 @@ function addCarouselShelfList(){
         //     });
         setTimeout(() => {
             const data = jsonData
-            dispatch(setCarouselsShelfList([{title:'Movies', list: data }]));
+            dispatch(setCarouselsShelfList([{title: 'Movies', list: data}, {title: 'Movies 2', list: data}]));
         }, 2000);
-        
+
     };
 }
 
