@@ -1,17 +1,10 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import {
-  Box,
-  fade,
-  IconButton,
-  InputBase,
-  makeStyles,
-  Tooltip,
-} from "@material-ui/core";
+import React, {useCallback, useEffect, useRef} from "react";
+import {Box, fade, IconButton, InputBase, makeStyles, Tooltip,} from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import CloseRoundedIcon from "@material-ui/icons/CloseRounded";
-import { connectSearchBox } from "react-instantsearch-dom";
-import { useHistory, useLocation } from "react-router-dom";
+import {connectSearchBox} from "react-instantsearch-dom";
+import {useHistory} from "react-router-dom";
 import useQuery from "../../hooks/useQuery";
 
 const useStyles = makeStyles((theme) => ({

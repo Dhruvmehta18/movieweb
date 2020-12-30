@@ -9,7 +9,6 @@ import FullScreenLoader from "./components/FullScreenLoader";
 
 const PrivateRoute = lazy(() => import("./components/PrivateRoute"));
 const AuthRoute = lazy(() => import("./components/AuthRoute"));
-const Header = lazy(() => import("./components/Header"));
 const Login = lazy(() => import("./containers/login"));
 const Registration = lazy(() => import("./containers/registration"));
 const MovieIndex = lazy(() => import("./containers/movieIndex"));

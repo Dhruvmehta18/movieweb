@@ -1,6 +1,7 @@
-import { Box, Grid, makeStyles, Typography } from "@material-ui/core";
+import {Box, Grid, makeStyles, Typography} from "@material-ui/core";
 import ButtonBase from "@material-ui/core/ButtonBase";
-import React, { memo, useMemo } from "react";
+import React, {memo, useCallback, useMemo} from "react";
+import {useHistory} from "react-router-dom";
 import ImdbLogo from "../../img/imdb_logo.svg";
 import DynamicImage from "../DynamicImage/DynamicImage";
 
@@ -19,15 +20,16 @@ const useStyles = makeStyles(() => ({
 const SearchHit = (props) => {
   const { hit, dark } = props;
   const classes = useStyles();
+  const history = useHistory();
   const durationString = useMemo(() => {
     const duration = hit.duration;
     if (duration === 0) {
       return ``;
     }
-    const hour = parseInt(duration / 60);
-    const minutes = duration % 60;
-    const hourString = `${hour} hour`;
-    const minutesString = `${minutes} minutes`;
+    const hour = Math.floor(duration / 60);
+    const minutes = Math.floor(duration % 60);
+    const hourString = hour > 1 ? `${hour} hours` : `${hour} hour`;
+    const minutesString = minutes > 1 ? `${minutes} minutes` : `${minutes} minute`;
     if (hour === 0) {
       return minutesString;
     } else if (minutes === 0) {
@@ -37,12 +39,16 @@ const SearchHit = (props) => {
     }
   }, [hit.duration]);
   const src = `https://storage.googleapis.com/movieweb-ec15f.appspot.com/${hit.image_path}/small.jpg`;
-  const linkTo = `/movie/${hit.objectID}`;
+
+  const onSearchHitClickListener = useCallback(() => {
+    history.push(`/movie/${hit.objectID}`)
+  }, [hit.objectID, history]);
+
   return (
-        <ButtonBase component={Box} padding={2} width="inherit">
-          <Grid item>
-            <Box className={classes.image}>
-              <DynamicImage
+      <ButtonBase component={Box} padding={2} width="inherit" onClick={onSearchHitClickListener}>
+        <Grid item>
+          <Box className={classes.image}>
+            <DynamicImage
                 alt={hit.title}
                 dataSrc={src}
                 fallbackImageUrl={src}

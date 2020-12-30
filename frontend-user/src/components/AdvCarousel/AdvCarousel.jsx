@@ -31,8 +31,7 @@ const Slide = React.memo((props) => {
     left,
     right,
     slideRightOnAnimationEnd,
-    slideLeftOnAnimationEnd,
-    slideClasses,
+    slideLeftOnAnimationEnd
   } = props;
   const {
     title = "",

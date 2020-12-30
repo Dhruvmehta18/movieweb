@@ -1,15 +1,11 @@
-import { Box, Divider, useMediaQuery } from '@material-ui/core';
+import {Box, Divider, useMediaQuery} from '@material-ui/core';
 import React from 'react';
 import algoliasearch from 'algoliasearch/lite';
-import {
-  InstantSearch,
-  Configure,
-  RefinementList,
-} from 'react-instantsearch-dom';
+import {Configure, InstantSearch} from 'react-instantsearch-dom';
 import SearchInput from '../components/Search/SearchInput';
 import SearchResult from '../components/Search/SearchResult';
 import SearchHits from '../components/Search/SearchHits';
-import { useWindowSize } from '../hooks/useWindowSize';
+import {useWindowSize} from '../hooks/useWindowSize';
 import GenreRefinementList from '../components/CustomRefinementList/GenreRefinementList/GenreRefinementList';
 
 const searchClient = algoliasearch(
@@ -35,8 +31,8 @@ const SearchPage = () => {
     return (
         <Box>
             <InstantSearch indexName="dev_MOVIES" searchClient={searchClient}>
-            <Configure hitsPerPage={4} />
-            <SearchInput/>
+                <Configure hitsPerPage={hitsPerPage}/>
+                <SearchInput/>
             <Divider/>
             <GenreRefinementList attribute="genre"/>
             <SearchResult Hits={SearchHits} dark={prefersDarkMode}/>

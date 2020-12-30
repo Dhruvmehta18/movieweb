@@ -53,14 +53,14 @@ const CarouselShelfRow = memo(({carousel, getCardID, cardBaseWidth, cardBaseHeig
 
     const maxScrolling = useMemo(() => {
         return carouselContainerRef.current ? (carouselContainerRef.current.scrollWidth - carouselContainerRef.current.clientWidth) : 0;
-    }, [carouselContainerRef.current]);
+    }, []);
 
     const onPrevButtonClicked = useCallback(() => {
         if (carouselContainerRef) {
             carouselContainerRef.current.scrollLeft -= getScrollContainerValue;
             setScrollLeft(Math.max(scrollLeft - getScrollContainerValue, 0));
         }
-    }, [carouselContainerRef, scrollLeft, getScrollContainerValue, maxScrolling]);
+    }, [carouselContainerRef, scrollLeft, getScrollContainerValue]);
 
     const onNextButtonClicked = useCallback(() => {
         if (carouselContainerRef) {

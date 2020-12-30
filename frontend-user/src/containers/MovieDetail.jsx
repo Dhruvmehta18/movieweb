@@ -124,7 +124,7 @@ const MovieDetail = () => {
 
   const onPlayButtonClicked = useCallback(() => {
     history.push(`/play/${movie_id}`);
-  }, []);
+  }, [movie_id, history]);
 
   const opts = {
     height: "390",

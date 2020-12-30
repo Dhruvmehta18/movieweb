@@ -1,16 +1,15 @@
-import { Grid, Paper } from "@material-ui/core";
-import React, { memo } from "react";
-import { Link } from "react-router-dom";
+import {Grid, Paper} from "@material-ui/core";
+import React, {memo} from "react";
 import DynamicImage from "../../../DynamicImage/DynamicImage";
 import "./TrailerShelfItem.css";
 
 const TrailerShelfItem = memo((props) => {
-  const {item, dark, width, height, onItemClick} = props;
-  const src = `https://i.ytimg.com/vi/${item}/mqdefault.jpg`;
-  const fallbackImageUrl = `https://i.ytimg.com/vi/${item}/default.jpg`
+    const {item, dark, width, height, onItemClick} = props;
+    const src = `https://i.ytimg.com/vi/${item}/mqdefault.jpg`;
+    const fallbackImageUrl = `https://i.ytimg.com/vi/${item}/default.jpg`
 
-  return (
-    <Grid item component={Paper} className="trailer-card" elevation={4} onClick={()=>onItemClick(item)}>
+    return (
+        <Grid item component={Paper} className="trailer-card" elevation={4} onClick={() => onItemClick(item)}>
         <DynamicImage
           imgClassName="card-img-top"
           alt={item}
