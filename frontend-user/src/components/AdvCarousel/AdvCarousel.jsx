@@ -1,14 +1,14 @@
-import { Box, Button, makeStyles, Typography } from "@material-ui/core";
-import React, { memo, useCallback, useEffect, useMemo, useState } from "react";
-import { addAdvCarouselList } from "../../redux/actions";
-import { getAdvCarouselList } from "../../redux/selectors";
+import {Box, Button, makeStyles, Typography} from "@material-ui/core";
+import React, {memo, useCallback, useEffect, useMemo, useState} from "react";
+import {addAdvCarouselList} from "../../redux/actions";
+import {getAdvCarouselList} from "../../redux/selectors";
 import "./advCarouselStyle.css";
-import { ReactComponent as LeftArrow } from "../../img/leftArrowAdvIcon.svg";
-import { ReactComponent as RightArrow } from "../../img/rightArrowAdvIcon.svg";
-import usePreviousState from "../usePreviousState";
-import { Link as RouterLink } from "react-router-dom";
-import { LOADED } from "../../constants/constants";
-import { connect } from "react-redux";
+import {ReactComponent as LeftArrow} from "../../img/leftArrowAdvIcon.svg";
+import {ReactComponent as RightArrow} from "../../img/rightArrowAdvIcon.svg";
+import usePreviousState from "../../hooks/usePreviousState";
+import {Link as RouterLink} from "react-router-dom";
+import {LOADED} from "../../constants/constants";
+import {connect} from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   captionMargin: {

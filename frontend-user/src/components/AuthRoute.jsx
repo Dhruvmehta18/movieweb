@@ -1,17 +1,17 @@
 import React from "react";
-import { Route, Redirect, useLocation } from "react-router-dom";
-import { getUserIdentityObject } from "../utility/localStorageUtility";
-import useAuth from "./useAuth";
+import {Redirect, Route, useLocation} from "react-router-dom";
+import {getUserIdentityObject} from "../utility/localStorageUtility";
+import useAuth from "../hooks/useAuth";
 
 // A wrapper for <Route> that redirects to the login
 // screen if you're not yet authenticated.
-export default function AuthRoute({ children, ...rest }) {
-  let auth = useAuth();
-  let location = useLocation();
-  let { from } = location.state || { from: { pathname: "/" } };
-  return (
-    <Route
-      {...rest}
+export default function AuthRoute({children, ...rest}) {
+    let auth = useAuth();
+    let location = useLocation();
+    let {from} = location.state || {from: {pathname: "/"}};
+    return (
+        <Route
+            {...rest}
       render={({ location }) =>
         !(auth.user || getUserIdentityObject()) ? (
           children

@@ -1,16 +1,13 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
 import firebase from "firebase/app";
 import "firebase/auth";
 
-import { authenticator } from "./authenticate";
-import {
-  addUserIdentityObject,
-  removeUserIdentityObject,
-} from "../utility/localStorageUtility";
+import {authenticator} from "../components/authenticate";
+import {addUserIdentityObject, removeUserIdentityObject,} from "../utility/localStorageUtility";
 
 function useProvideAuth() {
   const [user, setUser] = useState(null);
-  const [persistence, setPersistence] = useState(null);
+  const [persistence, setPersistence] = useState(false);
   const [error, setError] = useState(null);
 
   const setUserFromProvider = (user, callback) => {
@@ -38,7 +35,7 @@ function useProvideAuth() {
         removeUserIdentityObject();
       }
     });
-    return () => firebaseAuthListener(); // unsubscribing from the listener when the component is unmounting.
+    return () => firebaseAuthListener(); // unsubscribing from the listener when the component is un-mounting.
   }, [user, error]);
 
   const signInWithEmail = (email, password, callback, callBackError) => {
@@ -79,8 +76,9 @@ function useProvideAuth() {
     callbackError
   ) => {
     return authenticator.setFirebasePersistence(
-      () => setPersistenceFirebase(persistentType, callback),
-      (error) => setOnErrorFromProvider(error, callbackError)
+        persistentType,
+        () => setPersistenceFirebase(persistentType, callback),
+        (error) => setOnErrorFromProvider(error, callbackError)
     );
   };
 
@@ -88,8 +86,8 @@ function useProvideAuth() {
     return authenticator.passwordReset(emailAddress, callback, callbackError);
   };
 
-  const signout = (callback) => {
-    return authenticator.signout(() => {
+  const signOut = (callback) => {
+    return authenticator.signOut(() => {
       removeUserIdentityObject();
       setUser(null);
       callback();
@@ -103,7 +101,7 @@ function useProvideAuth() {
     signInWithEmail,
     signInWithGoogle,
     signInWithFacebook,
-    signout,
+    signOut,
     setPersistenceHelper,
     persistence,
     resetPassword,

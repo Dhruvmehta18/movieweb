@@ -1,17 +1,17 @@
-import React, { useState } from "react";
-import { useLocation, useHistory } from "react-router-dom";
+import React, {useState} from "react";
+import {useHistory, useLocation} from "react-router-dom";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
-import { LockRounded as LockIcon } from "@material-ui/icons";
+import {LockRounded as LockIcon} from "@material-ui/icons";
 import Link from "@material-ui/core/Link";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
-import { makeStyles } from "@material-ui/core/styles";
+import {makeStyles} from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import useAuth from "../components/useAuth";
-import { Card, CardContent, CardHeader } from "@material-ui/core";
+import useAuth from "../hooks/useAuth";
+import {Card, CardContent, CardHeader} from "@material-ui/core";
 import Copyright from "../components/Copyright";
-import { validateEmail } from "../utility/verificationUtility";
+import {validateEmail} from "../utility/verificationUtility";
 
 const useStyles = makeStyles((theme) => ({
   container: {

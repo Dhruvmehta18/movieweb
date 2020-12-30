@@ -3,7 +3,7 @@ import ReactPlayer from "react-player/lazy";
 import Box from "@material-ui/core/Box";
 import {Grid, IconButton, LinearProgress, makeStyles, Tooltip, Typography,} from "@material-ui/core";
 import {useHistory} from "react-router-dom"
-import usePreviousState from "../components/usePreviousState";
+import usePreviousState from "../hooks/usePreviousState";
 import PlayArrowRoundedIcon from "@material-ui/icons/PlayArrowRounded";
 import Forward10RoundedIcon from "@material-ui/icons/Forward10Rounded";
 import Replay10RoundedIcon from "@material-ui/icons/Replay10Rounded";

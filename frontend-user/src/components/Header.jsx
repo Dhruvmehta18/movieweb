@@ -1,7 +1,7 @@
 import React from "react";
-import { useLocation } from "react-router-dom";
+import {useLocation} from "react-router-dom";
 
-import Navbar from "./Navbar/Navbar";
+import NavBar from "./Navbar/NavBar";
 
 const Header = () => {
   const location = useLocation();
@@ -13,7 +13,7 @@ const Header = () => {
   const isNavbar = !noHeaderPathList.includes((pathname));
   return (
   <React.Fragment>
-    {isNavbar?<Navbar />: null}
+    {isNavbar ? <NavBar/> : null}
   </React.Fragment>
 )};
 

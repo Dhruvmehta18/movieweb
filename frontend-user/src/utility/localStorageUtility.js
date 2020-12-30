@@ -1,4 +1,4 @@
-import { USER_LOCALSTORAGE_KEY, REMEMBER_ME } from "../constants/constants";
+import {REMEMBER_ME, USER_LOCALSTORAGE_KEY} from "../constants/constants";
 
 const checkStorageAvailable = ()=>{
     return typeof(Storage) !== "undefined"
@@ -20,6 +20,7 @@ const removeUserIdentityObject = () => {
         } else {
             removeTempUserIdentityObject();
         }
+        removeRememberMeChoice()
     }
 }
 
@@ -66,7 +67,7 @@ const removeRememberMeChoice = () => {
 }
 
 const getRememberMeChoice = () => {
-    return checkStorageAvailable()&&!!(localStorage.getItem(REMEMBER_ME)==='true');
+    return checkStorageAvailable() && (localStorage.getItem(REMEMBER_ME) === 'true');
 }
 
 export {

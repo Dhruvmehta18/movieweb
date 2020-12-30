@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useLocation, useHistory } from "react-router-dom";
+import React, {useState} from "react";
+import {useHistory, useLocation} from "react-router-dom";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
@@ -7,22 +7,13 @@ import Checkbox from "@material-ui/core/Checkbox";
 import Link from "@material-ui/core/Link";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
-import { makeStyles } from "@material-ui/core/styles";
+import {makeStyles} from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import useAuth from "../components/useAuth";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  Grid,
-  LinearProgress,
-} from "@material-ui/core";
+import useAuth from "../hooks/useAuth";
+import {Card, CardContent, CardHeader, Grid, LinearProgress,} from "@material-ui/core";
 import Copyright from "../components/Copyright";
-import {
-  addRememberMeChoice,
-  getRememberMeChoice,
-} from "../utility/localStorageUtility";
-import { checkPassword, validateEmail } from "../utility/verificationUtility";
+import {addRememberMeChoice, getRememberMeChoice,} from "../utility/localStorageUtility";
+import {checkPassword, validateEmail} from "../utility/verificationUtility";
 import GoogleButton from "../components/googleButton";
 import FacebookButton from "../components/facebookButton";
 
