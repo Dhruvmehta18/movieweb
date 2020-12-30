@@ -1,14 +1,8 @@
-import React, { useCallback, useRef, useState } from "react";
+import React, {useCallback, useMemo, useRef, useState} from "react";
 import ReactPlayer from "react-player/lazy";
 import Box from "@material-ui/core/Box";
-import {
-  Grid,
-  IconButton,
-  LinearProgress,
-  makeStyles,
-  Tooltip,
-  Typography,
-} from "@material-ui/core";
+import {Grid, IconButton, LinearProgress, makeStyles, Tooltip, Typography,} from "@material-ui/core";
+import {useHistory} from "react-router-dom"
 import usePreviousState from "../components/usePreviousState";
 import PlayArrowRoundedIcon from "@material-ui/icons/PlayArrowRounded";
 import Forward10RoundedIcon from "@material-ui/icons/Forward10Rounded";
@@ -40,6 +34,7 @@ const useStyles = makeStyles((theme) => ({
 const MoviePlay = () => {
   const classes = useStyles();
   const playerRef = useRef(null);
+  const history = useHistory();
 
   const [url, setUrl] = useState(
     "https://fragmenttranscodedmovieoutput.s3.ap-south-1.amazonaws.com/movie/trailer_1080p.mpd"
@@ -168,19 +163,37 @@ const MoviePlay = () => {
     setIsFullscreen(false);
   }, []);
   console.log(played);
+
+  const onBackButtonClicked = () => {
+    history.goBack();
+  }
+
+  const getVideoFormattedTime = useMemo(() => {
+    const stageSeconds = Math.floor(duration);
+    const hours = `${Math.floor((stageSeconds / 3600))}`;
+    const minutes = `${Math.floor((stageSeconds % 3600) / 60)}`;
+    const seconds = `${Math.floor(stageSeconds % (3600 * 60))}`;
+    console.log(hours, minutes, seconds);
+    if (hours > 0) {
+      return `${hours.padStart(2, "0")}:${minutes.padStart(2, "0")}`;
+    } else {
+      return `${minutes.padStart(2, "0")}:${seconds.padStart(2, "0")}`;
+    }
+  }, [duration]);
+
   return (
-    <Box width="100%" height="100vh" position="relative">
-      <Grid container className={classes.matchParent}>
-        <Grid item className="mw-gradient-top" component={Box}></Grid>
-        <Grid
-          item
-          className={classes.topBox}
-          component={Box}
-          position="absolute"
+      <Box width="100%" height="100vh" position="relative">
+        <Grid container className={classes.matchParent}>
+          <Grid item className="mw-gradient-top" component={Box}></Grid>
+          <Grid
+              item
+              className={classes.topBox}
+              component={Box}
+              position="absolute"
         >
           <Tooltip title="back" aria-label="back">
-            <IconButton>
-              <ArrowBackRoundedIcon fontSize="large" />
+            <IconButton onClick={onBackButtonClicked}>
+              <ArrowBackRoundedIcon fontSize="large"/>
             </IconButton>
           </Tooltip>
         </Grid>
@@ -237,14 +250,14 @@ const MoviePlay = () => {
           <Grid item xs={12}>
           <Box display="flex" alignItems="center" flexWrap="nowrap" >
             <Box width="100%">
-            <LinearProgress
-              variant="buffer"
-              value={played * 100}
-              valueBuffer={loaded * 100}
-            />
+              <LinearProgress
+                  variant="buffer"
+                  value={played * 100}
+                  valueBuffer={loaded * 100}
+              />
             </Box>
             <Box display="inline">
-              <Typography component="span">{duration}</Typography>{}
+              <Typography component="span">{getVideoFormattedTime}</Typography>{}
             </Box>
             </Box>
           </Grid>
