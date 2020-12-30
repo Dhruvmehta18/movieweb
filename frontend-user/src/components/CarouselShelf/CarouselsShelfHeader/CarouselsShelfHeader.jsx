@@ -1,14 +1,14 @@
-import React, { memo } from "react";
+import React, {memo} from "react";
 import PropTypes from "prop-types";
-import { Box, Typography } from "@material-ui/core";
+import {Box, Typography} from "@material-ui/core";
 
 const CarouselsShelfHeader = memo((props) => {
   const { title } = props;
   return (
     <Box>
-      <Typography variant="h6" component="h6">
-        {title}
-      </Typography>
+        <Typography variant="h4" component="h4">
+            {title}
+        </Typography>
     </Box>
   );
 });
