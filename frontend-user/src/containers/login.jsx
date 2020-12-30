@@ -17,6 +17,7 @@ import {addRememberMeChoice, getRememberMeChoice,} from "../utility/localStorage
 import {checkPassword, validateEmail} from "../utility/verificationUtility";
 import GoogleButton from "../components/googleButton";
 import FacebookButton from "../components/facebookButton";
+import withHeader from "../hoc/withHeader";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -73,7 +74,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Login() {
+function Login() {
   let history = useHistory();
   let location = useLocation();
   let auth = useAuth();
@@ -307,9 +308,11 @@ export default function Login() {
               <Link href="registration">{" Sign Up"}</Link>
             </Typography>
           </Box>
-          <Copyright />
+          <Copyright/>
         </Box>
       </Card>
     </Container>
   );
 }
+
+export default withHeader(Login)

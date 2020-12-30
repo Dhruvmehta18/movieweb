@@ -157,7 +157,7 @@ const NavBar = (props) => {
   if (elevationAppBar !== 0) {
     appBarClassName.push(classes.offsetBackground);
   }
-  console.log(auth.user);
+
   const accountTitle = useMemo(() => {
     let title = "";
     if (auth.user) {

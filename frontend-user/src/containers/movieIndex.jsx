@@ -1,19 +1,20 @@
-import React, { useCallback, useEffect } from "react";
-import { Box } from "@material-ui/core";
+import React, {useCallback, useEffect} from "react";
+import {Box} from "@material-ui/core";
 import CarouselsShelf from "../components/CarouselShelf/CarouselsShelf";
 import AdvCarouselContainer from "../components/AdvCarousel/AdvCarousel";
-import { connect } from "react-redux";
-import { addCarouselShelfList } from "../redux/actions";
-import { getCarouselsShelfList } from "../redux/selectors";
-import { CAROUSEL_ITEM_VARIANT } from "../constants/constants";
+import {connect} from "react-redux";
+import {addCarouselShelfList} from "../redux/actions";
+import {getCarouselsShelfList} from "../redux/selectors";
+import {CAROUSEL_ITEM_VARIANT} from "../constants/constants";
+import withHeader from "../hoc/withHeader";
 
 const MovieIndex = (props) => {
-  const { getUserMovies, carouselsData } = props;
+  const {getUserMovies, carouselsData} = props;
 
-  var style = getComputedStyle(document.body);
+  const style = getComputedStyle(document.body);
 
   const movieCardBaseWidth = parseInt(
-    style.getPropertyValue("--movie-card-width")
+      style.getPropertyValue("--movie-card-width")
   );
 
   const movieCardBaseHeight = parseInt(
@@ -60,4 +61,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(MovieIndex);
+export default connect(mapStateToProps, mapDispatchToProps)(withHeader(MovieIndex));

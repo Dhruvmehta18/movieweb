@@ -1,7 +1,7 @@
 import React, {useCallback, useMemo, useRef, useState} from "react";
 import ReactPlayer from "react-player/lazy";
 import Box from "@material-ui/core/Box";
-import {Grid, IconButton, LinearProgress, makeStyles, Tooltip, Typography,} from "@material-ui/core";
+import {Grid, IconButton, LinearProgress, makeStyles, Tooltip, Typography} from "@material-ui/core";
 import {useHistory} from "react-router-dom"
 import usePreviousState from "../hooks/usePreviousState";
 import PlayArrowRoundedIcon from "@material-ui/icons/PlayArrowRounded";
@@ -126,7 +126,7 @@ const MoviePlay = () => {
   }, []);
 
   const handleSeekMouseUp = useCallback((e) => {
-    setPlayed(false);
+    setPlayed(0);
     playerRef.current.seekTo(parseFloat(e.target.value));
   }, []);
 
@@ -162,7 +162,7 @@ const MoviePlay = () => {
     screenfull.exit();
     setIsFullscreen(false);
   }, []);
-  console.log(played);
+  // console.log(played);
 
   const onBackButtonClicked = () => {
     history.goBack();
@@ -173,7 +173,7 @@ const MoviePlay = () => {
     const hours = `${Math.floor((stageSeconds / 3600))}`;
     const minutes = `${Math.floor((stageSeconds % 3600) / 60)}`;
     const seconds = `${Math.floor(stageSeconds % (3600 * 60))}`;
-    console.log(hours, minutes, seconds);
+    // console.log(hours, minutes, seconds);
     if (hours > 0) {
       return `${hours.padStart(2, "0")}:${minutes.padStart(2, "0")}`;
     } else {

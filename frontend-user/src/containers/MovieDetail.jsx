@@ -1,22 +1,17 @@
-import {
-  Box,
-  Button,
-  Grid,
-  makeStyles,
-  Modal,
-  Paper,
-  Typography,
-} from "@material-ui/core";
-import React, { useCallback, useState } from "react";
+import {Box, Button, Grid, makeStyles, Modal, Paper, Typography,} from "@material-ui/core";
+import React, {useCallback, useState} from "react";
+import {connect} from "react-redux";
 import ReadMoreReact from "read-more-react";
-import { connect } from "react-redux";
+import {useHistory, useParams} from "react-router-dom";
 import YouTube from "react-youtube";
 import PlayArrowRoundedIcon from "@material-ui/icons/PlayArrowRounded";
 import AddBoxRoundedIcon from "@material-ui/icons/AddBoxRounded";
 import "./MovieDetail.css";
 import ImdbLogo from "../img/imdb_logo.svg";
-import { CAROUSEL_ITEM_VARIANT, LOADED } from "../constants/constants";
+import {CAROUSEL_ITEM_VARIANT, LOADED} from "../constants/constants";
 import CarouselsShelf from "../components/CarouselShelf/CarouselsShelf";
+import withHeader from "../hoc/withHeader";
+
 const useStyles = makeStyles((theme) => ({
   movieCardImage: {
     borderRadius: theme.shape.borderRadius,
@@ -89,6 +84,8 @@ const ReadMoreText = () => {
 };
 
 const MovieDetail = () => {
+  const history = useHistory();
+  let {movie_id} = useParams();
   const [currentTrailerId, setCurrentTrailerId] = useState(null);
   const [open, setOpen] = React.useState(false);
 
@@ -103,7 +100,7 @@ const MovieDetail = () => {
   };
   const classes = useStyles();
 
-  var style = getComputedStyle(document.body);
+  const style = getComputedStyle(document.body);
 
   const movieCardBaseWidth = parseInt(
     style.getPropertyValue("--trailer-card-width")
@@ -114,7 +111,7 @@ const MovieDetail = () => {
   );
 
   const movieCardMarginEnd = parseInt(
-    style.getPropertyValue("--trailer-card-margin-end")
+      style.getPropertyValue("--trailer-card-margin-end")
   );
 
   const getTrailerCardId = useCallback((value) => {
@@ -123,6 +120,10 @@ const MovieDetail = () => {
 
   const onTrailerItemClick = useCallback((trailer_id) => {
     handleOpen(trailer_id);
+  }, []);
+
+  const onPlayButtonClicked = useCallback(() => {
+    history.push(`/play/${movie_id}`);
   }, []);
 
   const opts = {
@@ -144,6 +145,7 @@ const MovieDetail = () => {
     ],
     error: null,
   };
+
   const TrailerView = (
     <Paper className={classes.paperTrailer}>
       {currentTrailerId && (
@@ -225,10 +227,11 @@ const MovieDetail = () => {
               <Grid item>
                 <Box marginY={2}>
                   <Button
-                    variant="contained"
-                    color="primary"
-                    startIcon={<PlayArrowRoundedIcon />}
-                    classes={{ root: classes.actionButton }}
+                      variant="contained"
+                      color="primary"
+                      startIcon={<PlayArrowRoundedIcon />}
+                      classes={{root: classes.actionButton}}
+                      onClick={onPlayButtonClicked}
                   >
                     Watch
                   </Button>
@@ -291,4 +294,4 @@ const MovieDetail = () => {
   );
 };
 
-export default connect(mapStateToProps)(MovieDetail);
+export default connect(mapStateToProps)(withHeader(MovieDetail));

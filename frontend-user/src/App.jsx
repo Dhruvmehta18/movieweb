@@ -1,9 +1,9 @@
-import React, { lazy, Suspense } from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import React, {lazy, Suspense} from "react";
+import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
-import { Box, CssBaseline } from "@material-ui/core";
+import {createMuiTheme, ThemeProvider} from "@material-ui/core/styles";
+import {Box, CssBaseline} from "@material-ui/core";
 import ProvideAuth from "./components/ProvideAuth";
 import FullScreenLoader from "./components/FullScreenLoader";
 
@@ -50,21 +50,20 @@ function App() {
         <Router>
           <Box>
             <Suspense fallback={<FullScreenLoader />}>
-              <Header />
               <Switch>
                 <AuthRoute exact path="/login" children={<Login />} />
                 <AuthRoute path="/registration" children={<Registration />} />
                 <Route path="/reset-password" children={<PasswordReset />} />
                 <Switch>
                   <PrivateRoute exact path="/" children={<MovieIndex />} />
-                  <PrivateRoute path="/search" children={<SearchPage />} />
-                  <PrivateRoute path="/play" children={<MoviePlay />} />
+                  <PrivateRoute path="/search" children={<SearchPage/>}/>
+                  <PrivateRoute path="/play/:movie_id" children={<MoviePlay/>}/>
                 </Switch>
               </Switch>
               <Switch>
                 <Route
-                  path="/movie/:id"
-                  children={<MovieDetail></MovieDetail>}
+                    path="/movie/:movie_id"
+                    children={<MovieDetail/>}
                 />
               </Switch>
             </Suspense>

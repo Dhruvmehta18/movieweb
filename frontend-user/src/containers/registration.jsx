@@ -16,6 +16,7 @@ import {addRememberMeChoice, getRememberMeChoice,} from "../utility/localStorage
 import {checkPassword, validateEmail} from "../utility/verificationUtility";
 import GoogleButton from "../components/googleButton";
 import FacebookButton from "../components/facebookButton";
+import withHeader from "../hoc/withHeader";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -69,7 +70,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Registration() {
+function Registration() {
   let history = useHistory();
   let location = useLocation();
   let auth = useAuth();
@@ -330,12 +331,14 @@ export default function Registration() {
               className={classes.logInText}
             >
               Already a member?
-              <Link href="login">{" Log In"}</Link>
+              <Link href="/login">{" Log In"}</Link>
             </Typography>
           </Box>
-          <Copyright />
+          <Copyright/>
         </Box>
       </Card>
     </Container>
   );
 }
+
+export default withHeader(Registration);
