@@ -95,7 +95,7 @@ const DynamicImage = memo((props) => {
       }
     }, {});
 
-    errorImgMain && imageObserver.observe(imageRef.current);
+    canvasRef.current && errorImgMain && imageObserver.observe(imageRef.current);
   }, [
     errorImgMain,
     errorFallbackImage,
@@ -104,6 +104,7 @@ const DynamicImage = memo((props) => {
     width,
     height,
     dark,
+    canvasRef
   ]);
   const classes = useStyles({ width: width, height: height });
 

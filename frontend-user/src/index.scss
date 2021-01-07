@@ -23,14 +23,8 @@ code {
 
 .mwtitle-section {
   padding: 25px 5vw;
-  background: #fafafa;
+  background: #121212;
   max-width: 1600px;
   margin: 0 auto;
   position: relative;
-}
-
-@media screen and (prefers-color-scheme: dark){
-  .mwtitle-section{
-    background: #121212;
-  }
 }

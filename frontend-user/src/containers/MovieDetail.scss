@@ -2,7 +2,6 @@
     padding-left: 5vw;
     padding-right: 5vw;
     padding-bottom: 0;
-    padding-bottom: 0;
     margin-bottom: -32px;
     background-position: center right;
     line-height: 1.4;
@@ -44,7 +43,6 @@
         -moz-box-pack: center;
         -ms-flex-pack: center;
         justify-content: center;
-        width: 35%;
         min-width: 500px;
         max-width: 800px;
         padding: 16px 32px 64px 0;
@@ -88,7 +86,6 @@
         background-size: cover;
         background-repeat: no-repeat;
         background-position: center;
-        background-image: url("https://occ-0-2368-2164.1.nflxso.net/dnm/api/v6/6AYY37jfdO6hpXcMjf9Yu5cnmO0/AAAABbIg52b6HD3pf9F9xO4KgT7A8rAcoqdGcQYHWv1Zs7o6L4jrpgvAdnyxyhe4AMREZQbU1M50byJjpPH5Z36mNDb-vSB2.jpg?r=220");
         &:after {
             content: "";
             position: absolute;

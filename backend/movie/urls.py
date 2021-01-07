@@ -6,5 +6,6 @@ app_name = 'movie'
 
 urlpatterns = [
     path('', views.index, name='movie_index'),
-    path('req_carousels', views.req_carousels, name="req_carousels")
+    path('adv-carousels', views.req_carousels, name="req_carousels"),
+    path('predictions-home', views.req_predictions_home, name="req_predictions_home")
 ]

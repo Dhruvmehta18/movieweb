@@ -4,6 +4,7 @@ import React, {memo, useCallback, useMemo} from "react";
 import {useHistory} from "react-router-dom";
 import ImdbLogo from "../../img/imdb_logo.svg";
 import DynamicImage from "../DynamicImage/DynamicImage";
+import {convertMinutesToReadable} from "../../utility/conversionUtility";
 
 const useStyles = makeStyles(() => ({
   image: {
@@ -22,21 +23,7 @@ const SearchHit = (props) => {
   const classes = useStyles();
   const history = useHistory();
   const durationString = useMemo(() => {
-    const duration = hit.duration;
-    if (duration === 0) {
-      return ``;
-    }
-    const hour = Math.floor(duration / 60);
-    const minutes = Math.floor(duration % 60);
-    const hourString = hour > 1 ? `${hour} hours` : `${hour} hour`;
-    const minutesString = minutes > 1 ? `${minutes} minutes` : `${minutes} minute`;
-    if (hour === 0) {
-      return minutesString;
-    } else if (minutes === 0) {
-      return hourString;
-    } else {
-      return `${hourString} ${minutesString}`;
-    }
+    return convertMinutesToReadable(hit.duration);
   }, [hit.duration]);
   const src = `https://storage.googleapis.com/movieweb-ec15f.appspot.com/${hit.image_path}/small.jpg`;
 

@@ -14,10 +14,20 @@ def index(request):
     return render(request, 'movie/movieIndex.html', context)
 
 
+def req_predictions_home(request):
+    movies_carousels = get_movies_all()
+
+    carousels_movie = {
+        "carousel_list": [{"title": "Movies", "list": movies_carousels[:25]}, {"title": "Movies 2", "list": movies_carousels[25:]}]
+    }
+
+    return JsonResponse(carousels_movie)
+
+
 def req_carousels(request):
     carousels = get_carousels()
 
     carousels_dict = {
-        'movie_carousel': carousels,
+        'adv_carousel': carousels,
     }
     return JsonResponse(carousels_dict)

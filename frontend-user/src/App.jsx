@@ -1,7 +1,5 @@
 import React, {lazy, Suspense} from "react";
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
-
-import useMediaQuery from "@material-ui/core/useMediaQuery";
 import {createMuiTheme, ThemeProvider} from "@material-ui/core/styles";
 import {Box, CssBaseline} from "@material-ui/core";
 import ProvideAuth from "./components/ProvideAuth";
@@ -18,12 +16,11 @@ const SearchPage = lazy(() => import("./containers/SearchPage"));
 const MoviePlay = lazy(() => import("./containers/MoviePlay"));
 
 function App() {
-  const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
   const theme = React.useMemo(
     () =>
       createMuiTheme({
         palette: {
-          type: prefersDarkMode ? "dark" : "light",
+          type: "dark",
           primary: {
             main: "#FFAF29",
           },
@@ -31,15 +28,15 @@ function App() {
             main: "#8539BE",
           },
           background: {
-            paper: prefersDarkMode ? "#212121" : "#fff",
-            default: prefersDarkMode ? "#121212" : "#fafafa",
+            paper: "#212121",
+            default: "#121212"
           },
           error: {
             main: "#CF6679",
           },
         },
       }),
-    [prefersDarkMode]
+      []
   );
 
   return (

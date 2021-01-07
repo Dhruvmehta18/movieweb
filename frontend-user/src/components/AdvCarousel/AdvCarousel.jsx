@@ -20,6 +20,9 @@ const useStyles = makeStyles((theme) => ({
       marginTop: 64,
     },
   },
+  slideshowHeight: {
+    height: `calc(100vh - ${theme.mixins.toolbar.minHeight}px)`
+  }
 }));
 
 const Slide = React.memo((props) => {
@@ -37,6 +40,7 @@ const Slide = React.memo((props) => {
     title = "",
     description = "",
     imageLink = "",
+    genre = [],
     link = "",
   } = advCarousel;
   const [slideClass, slideOnAnimationEnd, titleClass] = useMemo(() => {
@@ -88,7 +92,8 @@ const Slide = React.memo((props) => {
             <Typography className={titleClass.join(" ")}>{title}</Typography>
           </Box>
           <Box>
-            <Typography variant="body1" component="p" className="advcarousel-text" gutterBottom>{description}</Typography>
+            <Typography variant="body1" component="p" className="advcarousel-text"
+                        gutterBottom>{genre.join(' ')}</Typography>
           </Box>
           <Box>
             <Button href={link} component={RouterLink} variant="contained" color="primary" to={link}>
@@ -98,7 +103,8 @@ const Slide = React.memo((props) => {
         </Box>
       </Box>
       <Box className="image-container">
-        <img src={imageLink} alt="d" className="image" />
+        <img src={advCarousel && advCarousel.cover_photos ? advCarousel.cover_photos[1].large.download_url : null}
+             alt="d" className="image"/>
       </Box>
     </Box>
   );
@@ -234,7 +240,7 @@ const AdvCarousel = (props) => {
     if (requestState === LOADED) {
       timer = setTimeout(() => {
         slideRight();
-      }, 800000);
+      }, 8000);
     }
     return () => {
       clearTimeout(timer);
@@ -315,10 +321,10 @@ const AdvCarouselContainer = (props) => {
   }, [getUserAdvCarousel]);
   return (
     <main className={["main-content", classes.captionMargin].join(" ")}>
-      <section className="slideshow">
+      <section className={["slideshow", classes.slideshowHeight].join(" ")}>
         <div className="slideshow-inner">
           <div className="slides">
-            <AdvCarousel advCarouselData={advCarouselData} />
+            <AdvCarousel advCarouselData={advCarouselData}/>
           </div>
         </div>
       </section>

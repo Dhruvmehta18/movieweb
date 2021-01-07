@@ -1,5 +1,5 @@
 import * as actionTypes from "./actionTypes";
-import { LOADED, LOADING, ERROR } from "../constants/constants";
+import {ERROR, LOADED, LOADING} from "../constants/constants";
 
 const initialState = {
   carouselShelf: {
@@ -12,6 +12,7 @@ const initialState = {
     data: [],
     error: null,
   },
+  movie_detail: []
 };
 
 function reducer(state = initialState, action) {
@@ -74,6 +75,32 @@ function reducer(state = initialState, action) {
           },
         },
       };
+    case actionTypes.ADD_MOVIE:
+      return {
+        ...state,
+        movie_detail: [
+          ...state.movie_detail,
+          {
+            requestState: LOADED,
+            data: {...action.movie},
+            error: null,
+          }
+        ]
+      };
+    case actionTypes.LOADING_MOVIE:
+      return {
+        ...state,
+        movie_detail: [
+          ...state.movie_detail,
+          {
+            requestState: ERROR,
+            data: {},
+            error: {
+              ...action.error,
+            },
+          }
+        ]
+      }
     default:
       return state;
   }

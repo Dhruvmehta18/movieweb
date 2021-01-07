@@ -63,8 +63,6 @@
   position: relative;
   width: 100%;
   max-width: 1600px;
-  height: 100vh;
-  max-height: 70vh;
   z-index: 1;
 
   .slideshow-inner {
@@ -123,24 +121,24 @@
         left: 0;
         z-index: -1;
         background: linear-gradient(
-          to right,
-          #fafafa 0,
-          rgba(250, 250, 250, 0.98) 20%,
-          rgba(250, 250, 250, 0.97) 25%,
-          rgba(250, 250, 250, 0.95) 35%,
-          rgba(250, 250, 250, 0.94) 40%,
-          rgba(250, 250, 250, 0.92) 45%,
-          rgba(250, 250, 250, 0.9) 50%,
-          rgba(250, 250, 250, 0.87) 55%,
-          rgba(250, 250, 250, 0.82) 60%,
-          rgba(250, 250, 250, 0.75) 65%,
-          rgba(250, 250, 250, 0.63) 70%,
-          rgba(250, 250, 250, 0.45) 75%,
-          rgba(250, 250, 250, 0.27) 80%,
-          rgba(250, 250, 250, 0.15) 85%,
-          rgba(250, 250, 250, 0.08) 90%,
-          rgba(250, 250, 250, 0.03) 95%,
-          rgba(250, 250, 250, 0) 100%
+                        to right,
+                        #121212 0,
+                        rgba(12, 12, 12, 0.98) 20%,
+                        rgba(12, 12, 12, 0.97) 25%,
+                        rgba(12, 12, 12, 0.95) 35%,
+                        rgba(12, 12, 12, 0.94) 40%,
+                        rgba(12, 12, 12, 0.92) 45%,
+                        rgba(12, 12, 12, 0.9) 50%,
+                        rgba(12, 12, 12, 0.87) 55%,
+                        rgba(12, 12, 12, 0.82) 60%,
+                        rgba(12, 12, 12, 0.75) 65%,
+                        rgba(12, 12, 12, 0.63) 70%,
+                        rgba(12, 12, 12, 0.45) 75%,
+                        rgba(12, 12, 12, 0.27) 80%,
+                        rgba(12, 12, 12, 0.15) 85%,
+                        rgba(12, 12, 12, 0.08) 90%,
+                        rgba(12, 12, 12, 0.03) 95%,
+                        rgba(12, 12, 12, 0) 100%
         );
       }
     }
@@ -162,30 +160,29 @@
         width: 100%;
         height: 100%;
         background: linear-gradient(
-          to top,
-          #fafafa 0,
-          rgba(250, 250, 250, 0.987) 1.62%,
-          rgba(250, 250, 250, 0.951) 3.1%,
-          rgba(250, 250, 250, 0.896) 4.5%,
-          rgba(250, 250, 250, 0.825) 5.8%,
-          rgba(250, 250, 250, 0.741) 7.06%,
-          rgba(250, 250, 250, 0.648) 8.24%,
-          rgba(250, 250, 250, 0.55) 9.42%,
-          rgba(250, 250, 250, 0.45) 10.58%,
-          rgba(250, 250, 250, 0.352) 11.76%,
-          rgba(250, 250, 250, 0.259) 12.94%,
-          rgba(250, 250, 250, 0.175) 14.2%,
-          rgba(250, 250, 250, 0.104) 15.5%,
-          rgba(250, 250, 250, 0.049) 16.9%,
-          rgba(250, 250, 250, 0.013) 18.38%,
-          rgba(250, 250, 250, 0) 20%
+                        to top,
+                        #121212 0,
+                        rgba(12, 12, 12, 0.987) 1.62%,
+                        rgba(12, 12, 12, 0.951) 3.1%,
+                        rgba(12, 12, 12, 0.896) 4.5%,
+                        rgba(12, 12, 12, 0.825) 5.8%,
+                        rgba(12, 12, 12, 0.741) 7.06%,
+                        rgba(12, 12, 12, 0.648) 8.24%,
+                        rgba(12, 12, 12, 0.55) 9.42%,
+                        rgba(12, 12, 12, 0.45) 10.58%,
+                        rgba(12, 12, 12, 0.352) 11.76%,
+                        rgba(12, 12, 12, 0.259) 12.94%,
+                        rgba(12, 12, 12, 0.175) 14.2%,
+                        rgba(12, 12, 12, 0.104) 15.5%,
+                        rgba(12, 12, 12, 0.049) 16.9%,
+                        rgba(12, 12, 12, 0.013) 18.38%,
+                        rgba(12, 12, 12, 0) 20%
         );
         transition: background 3s ease-out;
       }
     }
 
     .image {
-      width: 100%;
       width: 100%;
       object-fit: cover;
       height: 100%;
@@ -198,7 +195,6 @@
       width: 100vw;
       height: 100%;
       z-index: 2;
-      color: #121212;
       display: flex;
     }
 
@@ -229,10 +225,10 @@
   .slide.new-slide {
     display: block;
     z-index: 2;
-    width: 0%;
+    width: 0;
     animation-duration: 600ms;
     animation-timing-function: ease-out;
-    animation-delay: 0;
+    animation-delay: 0s;
     animation-iteration-count: 1;
 
     .image-container {
@@ -244,12 +240,12 @@
     left: auto;
     right: 0;
     animation-name: right-slide;
-    @extend .slide.new-slide;
+    @extend .slide, .new-slide;
   }
 
   @keyframes right-slide {
     from {
-      width: 0%;
+      width: 0;
     }
     to {
       width: 100%;
@@ -259,12 +255,12 @@
   .slide.new-left-slide {
     left: 0;
     animation-name: left-slide;
-    @extend .slide.new-slide;
+    @extend .slide, .new-slide;
   }
 
   @keyframes left-slide {
     from {
-      width: 0%;
+      width: 0;
     }
     to {
       width: 100%;
@@ -352,70 +348,8 @@
       left: 0;
       width: 14px;
       height: 26px;
-      fill: #373737;
+      fill: #fff;
       transition: left 0.2s ease;
-    }
-  }
-}
-
-@media screen and (prefers-color-scheme: dark) {
-  .slideshow {
-    .slide {
-      .caption {
-        &:after {
-          background: linear-gradient(
-            to right,
-            #121212 0,
-            rgba(12, 12, 12, 0.98) 20%,
-            rgba(12, 12, 12, 0.97) 25%,
-            rgba(12, 12, 12, 0.95) 35%,
-            rgba(12, 12, 12, 0.94) 40%,
-            rgba(12, 12, 12, 0.92) 45%,
-            rgba(12, 12, 12, 0.9) 50%,
-            rgba(12, 12, 12, 0.87) 55%,
-            rgba(12, 12, 12, 0.82) 60%,
-            rgba(12, 12, 12, 0.75) 65%,
-            rgba(12, 12, 12, 0.63) 70%,
-            rgba(12, 12, 12, 0.45) 75%,
-            rgba(12, 12, 12, 0.27) 80%,
-            rgba(12, 12, 12, 0.15) 85%,
-            rgba(12, 12, 12, 0.08) 90%,
-            rgba(12, 12, 12, 0.03) 95%,
-            rgba(12, 12, 12, 0) 100%
-          );
-        }
-      }
-      .image-container {
-        &:after {
-          background: linear-gradient(
-            to top,
-            #121212 0,
-            rgba(12, 12, 12, 0.987) 1.62%,
-            rgba(12, 12, 12, 0.951) 3.1%,
-            rgba(12, 12, 12, 0.896) 4.5%,
-            rgba(12, 12, 12, 0.825) 5.8%,
-            rgba(12, 12, 12, 0.741) 7.06%,
-            rgba(12, 12, 12, 0.648) 8.24%,
-            rgba(12, 12, 12, 0.55) 9.42%,
-            rgba(12, 12, 12, 0.45) 10.58%,
-            rgba(12, 12, 12, 0.352) 11.76%,
-            rgba(12, 12, 12, 0.259) 12.94%,
-            rgba(12, 12, 12, 0.175) 14.2%,
-            rgba(12, 12, 12, 0.104) 15.5%,
-            rgba(12, 12, 12, 0.049) 16.9%,
-            rgba(12, 12, 12, 0.013) 18.38%,
-            rgba(12, 12, 12, 0) 20%
-          );
-        }
-      }
-      &-content {
-        color: #fff;
-      }
-    }
-    .arrows {
-      .svg {
-        fill: #fff;
-      }
     }
   }
 }
