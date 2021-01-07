@@ -1,5 +1,6 @@
 import {Box, Button, makeStyles, Typography} from "@material-ui/core";
 import React, {memo, useCallback, useEffect, useMemo, useState} from "react";
+import date from 'date-and-time';
 import {addAdvCarouselList} from "../../redux/actions";
 import {getAdvCarouselList} from "../../redux/selectors";
 import "./advCarouselStyle.css";
@@ -9,6 +10,7 @@ import usePreviousState from "../../hooks/usePreviousState";
 import {Link as RouterLink} from "react-router-dom";
 import {LOADED} from "../../constants/constants";
 import {connect} from "react-redux";
+import {convertMinutesToReadable} from "../../utility/conversionUtility";
 
 const useStyles = makeStyles((theme) => ({
   captionMargin: {
@@ -38,10 +40,11 @@ const Slide = React.memo((props) => {
   } = props;
   const {
     title = "",
-    description = "",
     imageLink = "",
     genre = [],
     link = "",
+    duration,
+    year = 0
   } = advCarousel;
   const [slideClass, slideOnAnimationEnd, titleClass] = useMemo(() => {
     const slideClass = ["slide"];
@@ -75,7 +78,8 @@ const Slide = React.memo((props) => {
     slideRightOnAnimationEnd,
   ]);
 
-  useEffect(() => {}, [
+  useEffect(() => {
+  }, [
     slideClass,
     imageLink,
     loaded,
@@ -84,27 +88,66 @@ const Slide = React.memo((props) => {
     left,
     right,
   ]);
+
+  const secondaryText = useMemo(() => {
+    const secondaryTextTemp = [];
+    if (genre.length > 0) {
+      secondaryTextTemp.push(genre.join("/"))
+    }
+    if (year !== 0) {
+      secondaryTextTemp.push(year);
+    }
+    if (parseInt(duration) !== 0) {
+      secondaryTextTemp.push(convertMinutesToReadable(duration));
+    }
+    return secondaryTextTemp.join(" • ")
+  }, [genre, duration, year]);
+
   return (
-    <Box className={slideClass.join(" ")} onAnimationEnd={slideOnAnimationEnd}>
-      <Box className="slide-content">
-        <Box className={["caption"].join(" ")}>
-          <Box>
-            <Typography className={titleClass.join(" ")}>{title}</Typography>
-          </Box>
-          <Box>
-            <Typography variant="body1" component="p" className="advcarousel-text"
-                        gutterBottom>{genre.join(' ')}</Typography>
-          </Box>
-          <Box>
-            <Button href={link} component={RouterLink} variant="contained" color="primary" to={link}>
+      <Box className={slideClass.join(" ")} onAnimationEnd={slideOnAnimationEnd}>
+        <Box className="slide-content">
+          <Box className={["caption"].join(" ")}>
+            <Box>
+              <Typography variant="h3" component="h4" className={titleClass.join(" ")}>{title}</Typography>
+              <Typography
+                  variant="subtitle2"
+                  color="textSecondary"
+                  className="advcarousel-text"
+                  component="p"
+                  gutterBottom
+              >
+                {secondaryText}
+              </Typography>
+            </Box>
+            <Box mb={2}>
+              <Typography
+                  variant="h5"
+                  color="textSecondary"
+                  component="span"
+                  className="releasing-text"
+              >
+                Releasing on
+              </Typography>
+              <Typography
+                  variant="h6"
+                  component="span"
+                  className="releasing-text"
+              >
+                {duration === "0" && advCarousel.release_date && date.transform(advCarousel.release_date, 'YYYY-MM-DD', ' D MMMM')}
+              </Typography>
+
+            </Box>
+            <Box>
+              <Button href={link} component={RouterLink} variant="contained" color="primary" to={link}>
                 Watch now
-            </Button>
+              </Button>
+            </Box>
           </Box>
-        </Box>
       </Box>
       <Box className="image-container">
-        <img src={advCarousel && advCarousel.cover_photos ? advCarousel.cover_photos[1].large.download_url : null}
-             alt="d" className="image"/>
+        <img
+            src={advCarousel && advCarousel["cover_photos"] ? advCarousel["cover_photos"][1]["large"]["download_url"] : null}
+            alt="d" className="image"/>
       </Box>
     </Box>
   );
@@ -203,14 +246,14 @@ const SlideArrows = memo((props) => {
     <div className="arrows">
       <div className="arrow prev" onClick={onLeftArrowClicked}>
         <span className="svg svg-arrow-left">
-          <LeftArrow />
-          <span className="alt sr-only"></span>
+          <LeftArrow/>
+          <span className="alt sr-only"> </span>
         </span>
       </div>
       <div className="arrow next" onClick={onRightArrowClicked}>
         <span className="svg svg-arrow-right">
-          <RightArrow />
-          <span className="alt sr-only"></span>
+          <RightArrow/>
+          <span className="alt sr-only"> </span>
         </span>
       </div>
     </div>

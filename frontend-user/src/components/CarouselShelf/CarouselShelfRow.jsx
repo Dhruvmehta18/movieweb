@@ -51,9 +51,7 @@ const CarouselShelfRow = memo(({carousel, getCardID, cardBaseWidth, cardBaseHeig
         return cardPossible * movieCardWidth;
     }, [cardBaseWidth, cardMarginEnd]);
 
-    const maxScrolling = useMemo(() => {
-        return carouselContainerRef.current ? (carouselContainerRef.current.scrollWidth - carouselContainerRef.current.clientWidth) : 0;
-    }, [carouselContainerRef.current]);
+    const maxScrolling = carouselContainerRef.current ? (carouselContainerRef.current.scrollWidth - carouselContainerRef.current.clientWidth) : 0;
 
     const onPrevButtonClicked = useCallback(() => {
         if (carouselContainerRef) {
@@ -72,8 +70,6 @@ const CarouselShelfRow = memo(({carousel, getCardID, cardBaseWidth, cardBaseHeig
     useEffect(() => {
         setIsPrevButtonVisible(scrollLeft > 0);
         setIsNextButtonVisible(scrollLeft < maxScrolling);
-        console.log(scrollLeft);
-        console.log(maxScrolling)
     }, [scrollLeft, maxScrolling, setIsPrevButtonVisible, setIsNextButtonVisible]);
     return (
         <Box component="section" className="mwtitle-section">

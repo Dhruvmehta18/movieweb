@@ -141,6 +141,10 @@
                         rgba(12, 12, 12, 0) 100%
         );
       }
+
+      .releasing-text {
+        font-family: 'Goldman', cursive;
+      }
     }
 
     .image-container {
@@ -199,21 +203,14 @@
     }
 
     .advcarousel-title {
-      margin: 0 auto 15px;
       max-width: 1000px;
-      font: 300 50px/1.2 "Oswald", sans-serif;
-      letter-spacing: 0.35em;
     }
 
     .advcarousel-text {
-      margin: 0 auto;
       max-width: 1000px;
-      font-size: 18px;
-      line-height: 1.4;
     }
 
     .advcarousel-btn {
-      margin: 15px 0 0;
       border-color: #111;
 
       &::before {

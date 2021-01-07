@@ -9,17 +9,19 @@ const TrailerShelfItem = memo((props) => {
     const fallbackImageUrl = `https://i.ytimg.com/vi/${item}/default.jpg`
 
     return (
-        <Grid item component={Paper} className="trailer-card" elevation={4} onClick={() => onItemClick(item)}>
-        <DynamicImage
-          imgClassName="card-img-top"
-          alt={item}
-          dataSrc={src}
-        //   dataSrcset={srcset}
-          fallbackImageUrl={fallbackImageUrl}
-          isFallbackBlur
-          dark={dark}
-          width={width}
-          height={height}
+        <Grid item component={Paper} className="trailer-card" elevation={4} onClick={() => onItemClick(item)}
+              datafirst={props.isFirst.toString()}
+              datalast={props.isLast.toString()} ref={props.reference}>
+            <DynamicImage
+                imgClassName="card-img-top"
+                alt={item}
+                dataSrc={src}
+                //   dataSrcset={srcset}
+                fallbackImageUrl={fallbackImageUrl}
+                isFallbackBlur
+                dark={dark}
+                width={width}
+                height={height}
           draggable={false}
         />
     </Grid>

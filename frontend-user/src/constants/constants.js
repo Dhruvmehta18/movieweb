@@ -5,7 +5,8 @@ const LOADED = 'loaded'
 const ERROR = ' error'
 const CAROUSEL_ITEM_VARIANT = {
     MOVIE: 'movie',
-    TRAILER: 'trailer'
+    TRAILER: 'trailer',
+    COVER_PHOTO: 'movie_cover_photo'
 }
 export {
     USER_LOCALSTORAGE_KEY,

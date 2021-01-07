@@ -1,0 +1,31 @@
+.cover-card-shelf-item {
+  max-width: var(--cover-card-width);
+  min-width: var(--cover-card-width);
+  margin: var(--movie-card-margin-vertical) var(--trailer-card-margin-end) var(--movie-card-margin-vertical) 0;
+  height: var(--cover-card-height);
+  align-items: center;
+  overflow: hidden;
+  transition: ease-in all 0.1s;
+  cursor: pointer;
+
+  > a.text-reset {
+    height: inherit;
+  }
+
+  &:hover {
+    .card-img-overlay {
+      display: block;
+      background: linear-gradient(0deg, rgba(0, 0, 0, 0.8), transparent 60%);
+    }
+  }
+
+  .card-img-overlay {
+    display: none;
+  }
+
+  img.card-image {
+    height: 100%;
+    width: auto;
+    z-index: 1;
+  }
+}

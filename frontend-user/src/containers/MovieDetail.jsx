@@ -43,9 +43,6 @@ const useStyles = makeStyles((theme) => ({
     width: "32px",
     height: "auto",
   },
-  readMore: {
-    cursor: "pointer",
-  },
   actionButton: {
     marginRight: theme.spacing(2),
     textTransform: "none",
@@ -79,21 +76,6 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-const ReadMoreText = () => {
-  const classes = useStyles();
-  return (
-      <Typography
-          variant="subtitle2"
-          component="span"
-          color="secondary"
-          className={classes.readMore}
-      gutterBottom
-    >
-      Read More
-    </Typography>
-  );
-};
-
 const MovieInner = (props) => {
   const {
     fetchMovie, movieId, movie = {
@@ -107,7 +89,7 @@ const MovieInner = (props) => {
   const [open, setOpen] = React.useState(false);
 
   const {requestState, data, error} = movie;
-  const {title = "", description = "", trailer_id = "", rating = 0, genre = [], duration = 0, year = 0, cover_photos} = data;
+  const {title = "", description = "", trailer_id = "", rating = 0, genre = [], duration, year = 0, cover_photos} = data;
 
   const handleOpen = (trailer_id) => {
     setCurrentTrailerId(trailer_id);
@@ -138,6 +120,10 @@ const MovieInner = (props) => {
     return value;
   }, []);
 
+  const getCoverCardId = useCallback((value) => {
+    return value.download_url_path;
+  }, []);
+
   const onTrailerItemClick = useCallback((trailer_id) => {
     handleOpen(trailer_id);
   }, []);
@@ -166,15 +152,22 @@ const MovieInner = (props) => {
     error: error,
   };
 
-  const durationString = useMemo(() => {
-    return convertMinutesToReadable(duration);
-  }, [duration]);
+  const coverCarouselData = {
+    requestState: requestState,
+    data: [
+      {
+        title: "Some Scenes Photos",
+        list: Array.isArray(cover_photos) ? [...cover_photos] : [],
+      }
+    ],
+    error: error,
+  }
 
   useEffect(() => {
     if (!data.id) {
       fetchMovie(movieId);
     }
-  }, [data.id]);
+  }, [movieId, data.id, fetchMovie]);
   console.log(data);
   const TrailerView = (
       <Paper className={classes.paperTrailer}>
@@ -197,7 +190,19 @@ const MovieInner = (props) => {
         return error;
     }
   }, [requestState, cover_photos, error]);
-
+  const secondaryText = useMemo(() => {
+    const secondaryTextTemp = [];
+    if (genre.length > 0) {
+      secondaryTextTemp.push(genre.join("/"))
+    }
+    if (year !== 0) {
+      secondaryTextTemp.push(year);
+    }
+    if (parseInt(duration) !== 0) {
+      secondaryTextTemp.push(convertMinutesToReadable(duration));
+    }
+    return secondaryTextTemp.join(" • ")
+  }, [genre, duration, year]);
   return (
       <React.Fragment>
         <Box
@@ -216,7 +221,7 @@ const MovieInner = (props) => {
               className="hero-container"
           >
             <Box className="info-container">
-              {requestState === LOADED ? <Grid direction="column" item container xs={12} sm={8} md={8}>
+              {requestState === LOADED ? <Grid direction="column" item container xs justify="center">
                 <Grid item>
                   <Typography variant="h4" component="h4" gutterBottom>
                     {title}
@@ -229,7 +234,7 @@ const MovieInner = (props) => {
                         color="textSecondary"
                         gutterBottom
                     >
-                      {genre.join("/")} • {year} • {durationString}
+                      {secondaryText}
                     </Typography>
                     <Grid item>
                       <Box
@@ -255,15 +260,14 @@ const MovieInner = (props) => {
                 <Grid item>
                   <Typography
                       variant="subtitle1"
-                      color="textSecondary"
                       gutterBottom
                   >
                     {description && description !== "" && <ReadMoreReact
-                        min={100}
-                        ideal={120}
-                        max={140}
+                        min={120}
+                        ideal={140}
+                        max={200}
                         text={description}
-                        readMoreText={<ReadMoreText/>}
+                        readMoreText="read more"
                     />}
                   </Typography>
                 </Grid>
@@ -296,24 +300,6 @@ const MovieInner = (props) => {
             </Box>
           </Box>
         </Box>
-        <Box
-            display="inline-flex"
-            flexDirection="row"
-            className={[classes.coverShowImageContainer, classes.mwSection].join(
-                " "
-            )}
-            component="section"
-        >
-          <Box>
-            {/* <img
-            className={[classes.coverShowImage, classes.movieCardImage].join(
-              " "
-            )}
-            alt="model"
-            src="https://images.unsplash.com/photo-1605882008785-56f0cb47482c?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80"
-          /> */}
-          </Box>
-        </Box>
         <Box component="section" className={classes.mwSection}>
           <CarouselsShelf
               carouselsData={trailerCarouselData}
@@ -322,6 +308,17 @@ const MovieInner = (props) => {
               cardMarginEnd={movieCardMarginEnd}
               getCardID={getTrailerCardId}
               itemVariant={CAROUSEL_ITEM_VARIANT.TRAILER}
+              onItemClick={onTrailerItemClick}
+          />
+        </Box>
+        <Box component="section" className={classes.mwSection}>
+          <CarouselsShelf
+              carouselsData={coverCarouselData}
+              cardBaseWidth={movieCardBaseWidth}
+              cardBaseHeight={movieCardBaseHeight}
+              cardMarginEnd={movieCardMarginEnd}
+              getCardID={getCoverCardId}
+              itemVariant={CAROUSEL_ITEM_VARIANT.COVER_PHOTO}
               onItemClick={onTrailerItemClick}
           />
         </Box>

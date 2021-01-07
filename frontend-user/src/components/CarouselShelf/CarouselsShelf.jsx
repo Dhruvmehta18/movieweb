@@ -51,7 +51,7 @@ CarouselsShelf.propTypes = {
   cardBaseHeight: PropTypes.number.isRequired,
   cardMarginEnd: PropTypes.number.isRequired,
   getCardID: PropTypes.func.isRequired,
-  itemVariant: PropTypes.oneOf([CAROUSEL_ITEM_VARIANT.MOVIE, CAROUSEL_ITEM_VARIANT.TRAILER]).isRequired,
+  itemVariant: PropTypes.oneOf([CAROUSEL_ITEM_VARIANT.MOVIE, CAROUSEL_ITEM_VARIANT.TRAILER, CAROUSEL_ITEM_VARIANT.COVER_PHOTO]).isRequired,
   onItemClick: PropTypes.func
 };
 
