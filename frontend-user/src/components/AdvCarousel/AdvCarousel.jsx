@@ -293,22 +293,22 @@ const AdvCarousel = (props) => {
         <FallBackSlide slideClasses={slideClasses} />
       )}
       {requestState === LOADED ? (
-        <SlidesPagination
-          current={currentSlide}
-          length={advCarouselList.length}
-          onPageItemClicked={onPageItemClicked}
-        />
+          advCarouselList.length > 1 && <SlidesPagination
+              current={currentSlide}
+              length={advCarouselList.length}
+              onPageItemClicked={onPageItemClicked}
+          />
       ) : (
-        <SlidesPagination
-          current={0}
-          length={advCarouselList.length}
-          onPageItemClicked={null}
-        />
+          <SlidesPagination
+              current={0}
+              length={advCarouselList.length}
+              onPageItemClicked={null}
+          />
       )}
-      <SlideArrows
-        onLeftArrowClicked={onLeftArrowClicked}
-        onRightArrowClicked={onRightArrowClicked}
-      />
+      {advCarouselList.length > 1 && (<SlideArrows
+          onLeftArrowClicked={onLeftArrowClicked}
+          onRightArrowClicked={onRightArrowClicked}
+      />)}
     </React.Fragment>
   );
 };
