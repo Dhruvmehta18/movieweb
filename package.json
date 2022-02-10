@@ -24,7 +24,7 @@
   "homepage": "https://github.com/Dhruvmehta18/movieweb#readme",
   "dependencies": {
     "bootstrap": "^4.5.0",
-    "node-sass": "^4.14.1",
+    "node-sass": "^7.0.0",
     "videojs-contrib-quality-levels": "^2.0.9",
     "videojs-hls-quality-selector": "^1.1.1"
   }
