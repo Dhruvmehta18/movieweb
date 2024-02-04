@@ -1,0 +1,33 @@
+:root {
+  --movie-card-margin-vertical: 16px;
+  --movie-card-width: 200px;
+  --movie-card-height: 300px;
+  --icon-button-width: 42px;
+  --app-spacing: 112px;
+  --movie-card-margin-end: 32px;
+  --trailer-card-width: 300px;
+  --trailer-card-height: 180px;
+  --trailer-card-margin-end: 32px;
+  --cover-card-width: 300px;
+  --cover-card-height: 180px;
+  --cover-card-margin-end: 32px;
+  --carousels-shelf-content-base-width: calc(100vw - var(--app-spacing));
+  --carousels-shelf-content-width: calc(
+          var(--carousels-shelf-content-base-width)
+  );
+  --carousels-shelf-icons-position: calc(
+          (100% - var(--carousels-shelf-content-base-width)) / 2
+  );
+}
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+.mwtitle-section {
+  padding: 25px 5vw;
+  background: #121212;
+  max-width: 1600px;
+  margin: 0 auto;
+  position: relative;
+}

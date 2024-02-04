@@ -8,5 +8,3 @@
 
 
 https://github.com/Dhruvmehta18/movieweb/assets/39973939/fad60d84-041e-4245-ad8e-80bcdb28f544
-
-

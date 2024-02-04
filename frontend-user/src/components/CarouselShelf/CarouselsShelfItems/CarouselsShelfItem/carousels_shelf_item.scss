@@ -1,0 +1,62 @@
+.movie-card {
+  max-width: var(--movie-card-width);
+  min-width: var(--movie-card-width);
+  margin: 0;
+  margin-top: var(--movie-card-margin-vertical);
+  margin-bottom: var(--movie-card-margin-vertical);
+  margin-right: var(--movie-card-margin-end);
+  height: var(--movie-card-height);
+  align-items: center;
+  overflow: hidden;
+  transition: ease-in all 0.1s;
+  > a.text-reset {
+    height: inherit;
+  }
+  &:hover {
+    .card-img-overlay {
+      display: block;
+      background: linear-gradient(0deg, rgba(0, 0, 0, 0.8), transparent 60%);
+    }
+  }
+  .card-img-overlay {
+    display: none;
+  }
+  img.card-image {
+    height: 100%;
+    width: auto;
+    z-index: 1;
+  }
+}
+
+#carouselMovieCaptions {
+  background-color: #121212;
+}
+
+// @media screen and (min-width: 576px) {
+//   .carousel-item {
+//     .img-container {
+//       z-index: 1;
+//     }
+//     img {
+//       max-height: 70vh;
+//       width: auto !important;
+//       z-index: 1;
+//     }
+//     .blur-img-container {
+//       width: 100%;
+//       height: inherit;
+//       background-size: 100%;
+//       background-position: center;
+//       filter: blur(10px) brightness(0.5);
+//       position: absolute;
+//       top: 0;
+//       left: 0;
+//       z-index: 0;
+//     }
+//     .photoContainer {
+//       display: flex;
+//       justify-content: center;
+//       height: 100%;
+//     }
+//   }
+// }

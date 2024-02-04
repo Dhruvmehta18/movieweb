@@ -1,0 +1,140 @@
+.section-hero {
+    padding-left: 5vw;
+    padding-right: 5vw;
+    padding-bottom: 0;
+    margin-bottom: -32px;
+    background-position: center right;
+    line-height: 1.4;
+    overflow: hidden;
+
+    .hero-container {
+        position: relative;
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -moz-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-orient: horizontal;
+        -webkit-box-direction: normal;
+        -webkit-flex-direction: row;
+        -moz-box-orient: horizontal;
+        -moz-box-direction: normal;
+        -ms-flex-direction: row;
+        flex-direction: row;
+        width: 100%;
+        margin: 0 auto;
+    }
+
+    .info-container{
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -moz-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        -webkit-flex-direction: column;
+        -moz-box-orient: vertical;
+        -moz-box-direction: normal;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        -webkit-box-pack: center;
+        -webkit-justify-content: center;
+        -moz-box-pack: center;
+        -ms-flex-pack: center;
+        justify-content: center;
+        width: 35%;
+        min-width: 500px;
+        max-width: 800px;
+        padding: 16px 32px 64px 0;
+        z-index: 2;
+        position: relative;
+
+        &:after {
+            content: "";
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            right: -200px;
+            left: 0;
+            z-index: -1;
+            background: linear-gradient(to right,#121212 0,rgba(12,12,12,.98) 20%,rgba(12,12,12,.97) 25%,rgba(12,12,12,.95) 35%,rgba(12,12,12,.94) 40%,rgba(12,12,12,.92) 45%,rgba(12,12,12,.9) 50%,rgba(12,12,12,.87) 55%,rgba(12,12,12,.82) 60%,rgba(12,12,12,.75) 65%,rgba(12,12,12,.63) 70%,rgba(12,12,12,.45) 75%,rgba(12,12,12,.27) 80%,rgba(12,12,12,.15) 85%,rgba(12,12,12,.08) 90%,rgba(12,12,12,.03) 95%,rgba(12,12,12,0) 100%);
+        }
+    }
+
+    .hero-image-container {
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -moz-box;
+        display: -ms-flexbox;
+        display: flex;
+        flex: 1 1 auto;
+        -webkit-box-orient: horizontal;
+        -webkit-box-direction: normal;
+        -webkit-flex-direction: row;
+        -moz-box-orient: horizontal;
+        -moz-box-direction: normal;
+        -ms-flex-direction: row;
+        flex-direction: row;
+        z-index: 1;
+        height: 0;
+        padding-bottom: 55%;
+    }
+    .hero-image {
+        position: absolute;
+        right: -6%;
+        width: 103%;
+        height: 100%;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+
+        &:after {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            left: 0;
+            background: linear-gradient(to top, #121212 0, rgba(12, 12, 12, .987) 1.62%, rgba(12, 12, 12, .951) 3.1%, rgba(12, 12, 12, .896) 4.5%, rgba(12, 12, 12, .825) 5.8%, rgba(12, 12, 12, .741) 7.06%, rgba(12, 12, 12, .648) 8.24%, rgba(12, 12, 12, .55) 9.42%, rgba(12, 12, 12, .45) 10.58%, rgba(12, 12, 12, .352) 11.76%, rgba(12, 12, 12, .259) 12.94%, rgba(12, 12, 12, .175) 14.2%, rgba(12, 12, 12, .104) 15.5%, rgba(12, 12, 12, .049) 16.9%, rgba(12, 12, 12, .013) 18.38%, rgba(12, 12, 12, 0) 20%);
+        }
+    }
+}
+
+@media only screen and (max-width: 599px) {
+    .section-hero {
+        .hero-container {
+            -webkit-box-orient: vertical;
+            -webkit-box-direction: reverse;
+            -webkit-flex-direction: column-reverse;
+            -moz-box-orient: vertical;
+            -moz-box-direction: reverse;
+            -ms-flex-direction: column-reverse;
+            flex-direction: column-reverse;
+        }
+
+        .hero-image-container {
+            position: relative;
+            margin: 0;
+        }
+
+        .info-container {
+            width: inherit;
+            min-width: auto;
+
+            &:after {
+                background: none;
+            }
+        }
+
+        .hero-image {
+            height: 100%;
+            width: 112%;
+            left: -5vw;
+        }
+    }
+}
+
+.read-more-button {
+    color: #f13030;
+    cursor: pointer;
+}

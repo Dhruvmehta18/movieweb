@@ -1,0 +1,352 @@
+.main-content {
+  justify-content: center;
+  display: flex;
+}
+.advcarousel-btn {
+  display: inline-block;
+  padding: 13px 20px;
+  color: #fff;
+  text-decoration: none;
+  position: relative;
+  background: transparent;
+  border: 1px solid #e1e1e1;
+  font: 12px/1.2 "Oswald", sans-serif;
+  letter-spacing: 0.4em;
+  text-align: center;
+  text-indent: 2px;
+  text-transform: uppercase;
+  transition: color 0.1s linear 0.05s;
+
+  &::before {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: #e1e1e1;
+    z-index: 1;
+    opacity: 0;
+    transition: height 0.2s ease, top 0.2s ease, opacity 0s linear 0.2s;
+  }
+
+  &::after {
+    transition: border 0.1s linear 0.05s;
+  }
+
+  .btn-inner {
+    position: relative;
+    z-index: 2;
+  }
+
+  &:hover {
+    color: #373737;
+    transition: color 0.1s linear 0s;
+
+    &::before {
+      top: 0;
+      height: 100%;
+      opacity: 1;
+      transition: height 0.2s ease, top 0.2s ease, opacity 0s linear 0s;
+    }
+
+    &::after {
+      border-color: #373737;
+      transition: border 0.1s linear 0s;
+    }
+  }
+}
+
+.slideshow {
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  max-width: 1600px;
+  z-index: 1;
+
+  .slideshow-inner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .slides {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+  }
+
+  .slide {
+    display: none;
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+
+    &.is-active {
+      display: block;
+    }
+
+    &.is-loaded {
+      opacity: 1;
+    }
+
+    .caption {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      width: 35%;
+      min-width: 500px;
+      max-width: 800px;
+      padding: 16px 32px 64px 128px;
+      z-index: 2;
+      position: relative;
+      &:after {
+        content: "";
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: -200px;
+        left: 0;
+        z-index: -1;
+        background: linear-gradient(
+                        to right,
+                        #121212 0,
+                        rgba(12, 12, 12, 0.98) 20%,
+                        rgba(12, 12, 12, 0.97) 25%,
+                        rgba(12, 12, 12, 0.95) 35%,
+                        rgba(12, 12, 12, 0.94) 40%,
+                        rgba(12, 12, 12, 0.92) 45%,
+                        rgba(12, 12, 12, 0.9) 50%,
+                        rgba(12, 12, 12, 0.87) 55%,
+                        rgba(12, 12, 12, 0.82) 60%,
+                        rgba(12, 12, 12, 0.75) 65%,
+                        rgba(12, 12, 12, 0.63) 70%,
+                        rgba(12, 12, 12, 0.45) 75%,
+                        rgba(12, 12, 12, 0.27) 80%,
+                        rgba(12, 12, 12, 0.15) 85%,
+                        rgba(12, 12, 12, 0.08) 90%,
+                        rgba(12, 12, 12, 0.03) 95%,
+                        rgba(12, 12, 12, 0) 100%
+        );
+      }
+
+      .releasing-text {
+        font-family: 'Goldman', cursive;
+      }
+    }
+
+    .image-container {
+      position: absolute;
+      right: -6%;
+      width: 103%;
+      height: 100%;
+      z-index: 1;
+      image-rendering: optimizeQuality;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+      &:after {
+        content: "";
+        position: absolute;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+                        to top,
+                        #121212 0,
+                        rgba(12, 12, 12, 0.987) 1.62%,
+                        rgba(12, 12, 12, 0.951) 3.1%,
+                        rgba(12, 12, 12, 0.896) 4.5%,
+                        rgba(12, 12, 12, 0.825) 5.8%,
+                        rgba(12, 12, 12, 0.741) 7.06%,
+                        rgba(12, 12, 12, 0.648) 8.24%,
+                        rgba(12, 12, 12, 0.55) 9.42%,
+                        rgba(12, 12, 12, 0.45) 10.58%,
+                        rgba(12, 12, 12, 0.352) 11.76%,
+                        rgba(12, 12, 12, 0.259) 12.94%,
+                        rgba(12, 12, 12, 0.175) 14.2%,
+                        rgba(12, 12, 12, 0.104) 15.5%,
+                        rgba(12, 12, 12, 0.049) 16.9%,
+                        rgba(12, 12, 12, 0.013) 18.38%,
+                        rgba(12, 12, 12, 0) 20%
+        );
+        transition: background 3s ease-out;
+      }
+    }
+
+    .image {
+      width: 100%;
+      object-fit: cover;
+      height: 100%;
+    }
+
+    &-content {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100%;
+      z-index: 2;
+      display: flex;
+    }
+
+    .advcarousel-title {
+      max-width: 1000px;
+    }
+
+    .advcarousel-text {
+      max-width: 1000px;
+    }
+
+    .advcarousel-btn {
+      border-color: #111;
+
+      &::before {
+        background: #111;
+      }
+    }
+  }
+
+  .slide.new-slide {
+    display: block;
+    z-index: 2;
+    width: 0;
+    animation-duration: 600ms;
+    animation-timing-function: ease-out;
+    animation-delay: 0s;
+    animation-iteration-count: 1;
+
+    .image-container {
+      width: 100vw;
+    }
+  }
+
+  .slide.new-right-slide {
+    left: auto;
+    right: 0;
+    animation-name: right-slide;
+    @extend .slide, .new-slide;
+  }
+
+  @keyframes right-slide {
+    from {
+      width: 0;
+    }
+    to {
+      width: 100%;
+    }
+  }
+
+  .slide.new-left-slide {
+    left: 0;
+    animation-name: left-slide;
+    @extend .slide, .new-slide;
+  }
+
+  @keyframes left-slide {
+    from {
+      width: 0;
+    }
+    to {
+      width: 100%;
+    }
+  }
+
+  .pagination {
+    position: absolute;
+    bottom: 35px;
+    left: 0;
+    width: 100%;
+    height: 12px;
+    cursor: default;
+    z-index: 2;
+    text-align: center;
+
+    .item {
+      display: inline-block;
+      padding: 15px 5px;
+      position: relative;
+      width: 46px;
+      height: 32px;
+      cursor: pointer;
+      text-indent: -999em;
+      z-index: 1;
+
+      + .page {
+        margin-left: -2px;
+      }
+
+      &::before {
+        content: "";
+        display: block;
+        position: absolute;
+        top: 15px;
+        left: 5px;
+        width: 36px;
+        height: 2px;
+        background: rgba(255, 255, 255, 0.5);
+        transition: background 0.2s ease;
+      }
+
+      &::after {
+        width: 0;
+        background: #fff;
+        z-index: 2;
+        transition: width 0.2s ease;
+      }
+
+      &:hover::before,
+      &.is-active::before {
+        background-color: #fff;
+      }
+    }
+  }
+
+  .arrows {
+    .arrow {
+      margin: -33px 0 0;
+      padding: 20px;
+      position: absolute;
+      top: 50%;
+      cursor: pointer;
+      z-index: 3;
+    }
+
+    .prev {
+      left: 30px;
+
+      &:hover .svg {
+        left: -10px;
+      }
+    }
+
+    .next {
+      right: 30px;
+
+      &:hover .svg {
+        left: 10px;
+      }
+    }
+
+    .svg {
+      position: relative;
+      left: 0;
+      width: 14px;
+      height: 26px;
+      fill: #fff;
+      transition: left 0.2s ease;
+    }
+  }
+}

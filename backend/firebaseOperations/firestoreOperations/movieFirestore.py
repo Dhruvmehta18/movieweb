@@ -19,7 +19,7 @@ def get_movies_all():
     docs = db.collection(collection_name).stream()
     movie_list = []
     for doc in docs:
-        movie_list.append(Movie.from_dict(doc.to_dict(), doc.id))
+        movie_list.append((Movie.from_dict(doc.to_dict(), doc.id)).to_dict())
     return movie_list
 
 
