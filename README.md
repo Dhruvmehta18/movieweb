@@ -5,3 +5,8 @@
 - Integrated OpenCV library to optimize image and make three thumbnails of the image for the optimized deliveryofimages to webpage.
 - Implemented Web scrapper to get the data of various movies using Google search pages as the source.
 -  Utilized: Django, JavaScript, Firestore, Firebase storage
+
+
+
+https://github.com/Dhruvmehta18/movieweb/assets/39973939/e5e79a06-f4c0-4600-b7fa-3f7f13b742d3
+
