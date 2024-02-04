@@ -7,6 +7,6 @@
 -  Utilized: Django, JavaScript, Firestore, Firebase storage
 
 
+https://github.com/Dhruvmehta18/movieweb/assets/39973939/fad60d84-041e-4245-ad8e-80bcdb28f544
 
-https://github.com/Dhruvmehta18/movieweb/assets/39973939/e5e79a06-f4c0-4600-b7fa-3f7f13b742d3
 
